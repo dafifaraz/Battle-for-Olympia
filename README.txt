@@ -8,3 +8,10 @@ Dibuat oleh :
 - Maulana Akmal
 - Rifo Ahmad Genadi
 - Seldi Kurnia Trihardja  
+
+Log Act 
+Dafi	:
+Dion	: Buat ADT Unit
+Mol	:
+Rifo	:Buat ADT Peta
+Seldi	:
