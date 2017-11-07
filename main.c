@@ -171,6 +171,7 @@ void do_command(int code){
 int main(){
 	PETA MAIN_PETA;
 	PLAYER ONE,TWO;
+	int TURN; //Giliran
 	boolean new_game;
 	start_game(&new_game);
 
@@ -182,10 +183,21 @@ int main(){
 		NBrsEff(MAIN_PETA) = input_nbaris;
 		NKolEff(MAIN_PETA) = input_nkolom;
 		initAwal(&MAIN_PETA);
+		/*disini tambah setup player
+		  player perlu data di map
+		  currentUnit di set ke King, state awal
 
+		  kira-kira kaya gini
+
+		  ONE.currentUnit = MAIN_PETA.P[NBrsEff(*M)-2][1].unit;
+		  TWO.currentUnit = MAIN_PETA.P[1][NKolEff(*M)-2].unit;
+		*/
+		TURN = 1; //Pemain 1 mulai pertama
 	} else { /*** LOAD GAME ***/
 
 	}
+
+
 	
 	display_command();
 	boolean game_over = false;

@@ -3,7 +3,7 @@
 
 typedef struct{
     Unit* currentUnit;
-    List unit;
+    List* unit;
 } PLAYER;
 
 #endif
