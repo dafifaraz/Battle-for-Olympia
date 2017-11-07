@@ -32,12 +32,19 @@ typedef struct {
 #define Unit(M,i,j) (M).P[(i)][(j)].unit
 
 POINT pojokBawah(PETA M);
-/* M */
+/* Mengembalikan koordinat petak yang berada pada pojok kiri bawah peta */
 
 POINT pojokAtas(PETA M);
-/* M */
+/* Mengembalikan koordinat petak yang berada pada pojok kanan atas peta */
 
 void MAP(PETA M);
-/* ETA */
+/* Menampilkan peta permainan */
+
+void initAwal(PETA *M);
+//Menyetel state awal permainan
+
+void Move(PETA *M, Unit *U){
+
+}
 
 #endif
