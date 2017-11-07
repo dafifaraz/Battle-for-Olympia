@@ -31,7 +31,7 @@ typedef struct UnitProperty{
 	int attack;
 	int maxMovePts;
 	int movePts;
-	char* tipeSerangan;
+	char tipeSerangan; //'M' = Melee, 'R' = Ranged
 	boolean kesempatanSerangan;
 	Point lokasi;
 	int harga;
@@ -39,7 +39,7 @@ typedef struct UnitProperty{
 
 /****************************	TIPE BENTUKAN Unit 	**********************************/
 typedef struct Unit{
-	char UnitSymbol;
+	char jenis;
 	int whiteMageAbility;
 	boolean recruitable; 
 	UnitProperty SpecificProperty;
@@ -49,12 +49,14 @@ typedef struct Unit{
 #define Health(Unit) Unit.SpecificProperty.health
 #define MaxHealth(Unit) Unit.SpecificProperty.maxHealth
 #define MovePts(Unit) Unit.SpecificProperty.movePts
-#define Kesempatan(Unit) Unit.SpecificProperty.kesempatanSerangan
+#define KesempatanSerangan(Unit) Unit.SpecificProperty.kesempatanSerangan
 #define Lokasi(Unit) Unit.SpecificProperty.lokasi
 #define Attack(Unit) Unit.SpecificProperty.attack
 #define TipeSerangan(Unit) Unit.SpecificProperty.tipeSerangan
-#define Tipe(Unit) Unit.UnitSymbol
-
+#define Harga(Unit) Unit.SpecificProperty.harga
+#define MaxMovePts(Unit) Unit.SpecificProperty.maxMovePts
+#define Jenis(Unit) Unit.jenis
+#define WhiteMageAbility(Unit) Unit.whiteMageAbility
 
 /***************************	SETUP UNIT ******************************************/
 void setup_King(Unit *King, Player P, Peta Map);
