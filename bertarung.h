@@ -1,8 +1,11 @@
 #ifndef BERTARUNG_H
 #define BERTARUNG_H
 
-boolean canSerang(Unit X);
+boolean MEC_canAttack(Unit B, Unit B);
 
-void Serang(Unit *X, Unit *Y);
+boolean MEC_canRetaliates(Unit X, Unit Y);
+
+void MEC_attack(Unit *X, Unit *Y);
+
 
 #endif
