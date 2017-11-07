@@ -10,7 +10,7 @@
 
 /* *** DEFINISI PROTOTIPE PRIMITIF *** */
 /* *** Konstruktor membentuk POINT *** */
-POINT MakePOINT (float X, float Y){
+POINT MakePOINT (int X, int Y){
 	POINT P;
 
 	Absis(P) = X;
@@ -22,8 +22,8 @@ POINT MakePOINT (float X, float Y){
 
 /* *** KELOMPOK Interaksi dengan I/O device, BACA/TULIS  *** */                                                 
 void BacaPOINT (POINT * P){
-	float x,y;
-	scanf("%f %f", x, y);
+	int x,y;
+	scanf("%d %d", x, y);
 
 	*P = MakePOINT(x,y);
 } 
@@ -35,7 +35,7 @@ void BacaPOINT (POINT * P){
 /* I.S. Sembarang */
 /* F.S. P terdefinisi */
 void TulisPOINT (POINT P){
-	printf("(%.2f,%.2f)\n", Absis(P), Ordinat(P));
+	printf("(%d,%d)\n", Absis(P), Ordinat(P));
 }
 /* Nilai P ditulis ke layar dengan format "(X,Y)" 
    tanpa spasi, enter, atau karakter lain di depan, belakang, 
@@ -122,18 +122,18 @@ int Kuadran (POINT P){
 
 /* *** KELOMPOK OPERASI LAIN TERHADAP TYPE *** */                           
 POINT NextX (POINT P){
-	Absis(P) = Absis(P) + 1.0;
+	Absis(P) = Absis(P) + 1;
 
 	return P;
 }
 /* Mengirim salinan P dengan absis ditambah satu */              
 POINT NextY (POINT P){
-	Ordinat(P) = Ordinat(P) + 1.0;
+	Ordinat(P) = Ordinat(P) + 1;
 
 	return P;
 }
 /* Mengirim salinan P dengan ordinat ditambah satu */
-POINT PlusDelta (POINT P, float deltaX, float deltaY){
+POINT PlusDelta (POINT P, int deltaX, int deltaY){
 	Absis(P) = Absis(P) + deltaX;
 	Ordinat(P) = Ordinat(P) + deltaY;
 
@@ -142,10 +142,10 @@ POINT PlusDelta (POINT P, float deltaX, float deltaY){
 /* Mengirim salinan P yang absisnya adalah Absis(P) + deltaX dan ordinatnya adalah Ordinat(P) + deltaY */
 POINT MirrorOf (POINT P, boolean SbX){
 	if(SbX = true){
-		Ordinat(P) = Ordinat(P) * (-1.0);
+		Ordinat(P) = Ordinat(P) * -1;
 	}
 	else{
-		Absis(P) = Absis(P) * (-1.0);
+		Absis(P) = Absis(P) * -1;
 	}
 
 	return P;
@@ -180,7 +180,7 @@ float Panjang (POINT P1, POINT P2){
 /* Menghitung panjang garis yang dibentuk P1 dan P2 */
 /* Perhatikanlah bahwa di sini spec fungsi kurang baik sebab menyangkut ADT Garis. */
 /* Tuliskan spec fungsi yang lebih tepat. */
-void Geser (POINT *P, float deltaX, float deltaY){
+void Geser (POINT *P, int deltaX, int deltaY){
 	Absis(*P) = Absis(*P) + deltaX;
 	Ordinat(*P) = Ordinat(*P) + deltaY;
 }
