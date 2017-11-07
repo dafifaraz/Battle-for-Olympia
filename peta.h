@@ -15,7 +15,7 @@
 typedef struct {
   char jenis; //Normal, Castle, atau Village.
   int milik; //bernilai (0, 1, atau 2). Jika bernilai 0 maka petak tidak memiliki kepemilikan. Jika bernilai 1 maka ia milik pemain 1, dst.
-  Unit unit; //unit yang menempati petak tersebut
+  Unit* unit; //unit yang menempati petak tersebut
 } PETAK;
 typedef struct { 
 	PETAK P[BrsMax+1][KolMax+1];

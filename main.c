@@ -169,20 +169,24 @@ void do_command(int code){
 }
 
 int main(){
+	PETA MAIN_PETA;
+	PLAYER ONE,TWO;
 	boolean new_game;
 	start_game(&new_game);
 
 	// Aksi ketika new game
 	if (new_game){
+		//Baca Baris dan Kolom, setel kondisi awal
 		int input_nbaris, input_nkolom;
 		do_new_game(&input_nbaris, &input_nkolom);
-		/**create_peta()**/
+		NBrsEff(MAIN_PETA) = input_nbaris;
+		NKolEff(MAIN_PETA) = input_nkolom;
+		initAwal(&MAIN_PETA);
 
 	} else { /*** LOAD GAME ***/
 
 	}
-
-	//Menampilkan command yang tersedia
+	
 	display_command();
 	boolean game_over = false;
 	int command;
