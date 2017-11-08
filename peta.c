@@ -135,3 +135,24 @@ void initAwal(PETA *M) {
 		Jenis(*M,x,y) = 'V';
 	}
 }
+
+boolean isPetakKosong(PETA M, int i, int j){
+	if (Unit(M,i,j) == 'K' || Unit(M,i,j) == 'A' || Unit(M,i,j) == 'S' || Unit(M,i,j) == 'W')
+		return True;
+	else
+		return False
+}
+
+void Move(PETA *M, Unit *U){
+//Menggerakkan unit yang saat ini dipilih
+//U adalah unit yang saat ini dipilih
+//COMMAND 1
+	for (int i = 1; i <= MovePts(*U); ++i){
+		//Atas
+		if (isPetakKosong(*M) || Milik())
+
+		//Bawah
+	}
+
+
+}

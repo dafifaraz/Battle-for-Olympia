@@ -43,8 +43,13 @@ void MAP(PETA M);
 void initAwal(PETA *M);
 //Menyetel state awal permainan
 
-void Move(PETA *M, Unit *U){
+boolean isPetakKosong(PETA *M, int i, int j);
+//Mengecek apakah petak dengan koordinat i,j dihuni oleh unit atau tidak
+//Bernilai True bila kosong
+//Bernilai False jika terdapat unit pada petak tersebut
 
-}
 
+void Move(PETA *M, Unit *U);
+//Menggerakkan unit yang saat ini dipilih
+//COMMAND 1
 #endif
