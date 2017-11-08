@@ -9,7 +9,7 @@ void setup_King(Unit *King, Player P, Peta Map){
 	Health(*King) = MAX_HEALTH_KING;
 	*King.SpecificProperty.attack = ATTACK_KING;
 	*King.SpecificProperty.maxMovePts = MAX_MOVE_PTS_KING;
-	*King.SpecificProperty.tipeSerangan = "melee";
+	*King.SpecificProperty.tipeSerangan = "M";
 	Kesempatan(*King) = true;
 	
 	if (Name(P) == "Player 1") {
@@ -31,7 +31,7 @@ void setup_Archer(Unit *Archer, Player P){
 	Health(*Archer) = MAX_HEALTH_ARCHER;
 	*Archer.SpecificProperty.attack = ATTACK_ARCHER;
 	*Archer.SpecificProperty.maxMovePts = MAX_MOVE_PTS_ARCHER;
-	*Archer.SpecificProperty.tipeSerangan = "ranged";
+	*Archer.SpecificProperty.tipeSerangan = "R";
 	Kesempatan(*Archer) = true;
 	
 	//SETUP LOKASI ARCHER 
@@ -47,7 +47,7 @@ void setup_Swordsman(Unit *Swordsman, Player P){
 	Health(*Swordsman) = MAX_HEALTH_SWORDSMAN;
 	*Swordsman.SpecificProperty.attack = ATTACK_SWORDSMAN;
 	*Swordsman.SpecificProperty.maxMovePts = MAX_MOVE_PTS_SWORDSMAN;
-	*Swordsman.SpecificProperty.tipeSerangan = "melee";
+	*Swordsman.SpecificProperty.tipeSerangan = "M";
 	Kesempatan(*Swordsman) = true;
 	
 	//SETUP LOKASI SWORDSMAN
@@ -63,7 +63,7 @@ void setup_WhiteMag(Unit *WhiteMag, Player P){
 	Health(*WhiteMag) = MAX_HEALTH_WHITEMAG;
 	*WhiteMag.SpecificProperty.attack = ATTACK_WHITEMAG;
 	*WhiteMag.SpecificProperty.maxMovePts = MAX_MOVE_PTS_WHITEMAG;
-	*WhiteMag.SpecificProperty.tipeSerangan = "melee";
+	*WhiteMag.SpecificProperty.tipeSerangan = "M";
 	Kesempatan(*WhiteMag) = true;
 	
 	//SETUP LOKASI 
