@@ -16,6 +16,10 @@ typedef struct {
 #define NBrsEff(M) M.NBrsEff
 #define NKolEff(M) M.NKolEff
 
+// mengisi setiap elemen peta dengan empty petak
 void empty_peta(peta *M, int NBrsEff, int NKolEff);
 
+void bangun_kerajaan(peta *M);
+
+void init_peta(peta *M, int NBrsEff, int NKolEff);
 #endif

@@ -30,9 +30,10 @@ typedef struct{
 #define harga(U) U.harga
 #define simbol(U) U.simbol
 
-// 
-unit empty_unit();
+// unit di lokasi_u dengan jenis unit belum didefinisikan
+unit empty_unit(POINT lokasi_u);
 
+// ambil unit *u, lalu kasih propertinya
 void assign_unit(unit *u, char tipe); 
 
 boolean isequal_unit(unit u1, unit u2);
