@@ -1,70 +1,124 @@
 #ifndef UNIT_H
 #define UNIT_H
 
-/****************************	KONSTANTA UMUM	*************************************/
-#define MAX_HEALTH_KING 100
-#define MAX_MOVE_PTS_KING 1
-#define ATTACK_KING 10
-#define HARGA_KING -1
+#include "point.h"
+#include "boolean.h"
 
-#define MAX_HEALTH_ARCHER 50
-#define MAX_MOVE_PTS_ARCHER 2
-#define ATTACK_ARCHER 15
-#define HARGA_ARCHER 10
+/***********************	UNIT 	**************************/
 
-#define MAX_HEALTH_SWORDSMAN 75
-#define MAX_MOVE_PTS_SWORDSMAN 3 
-#define ATTACK_SWORDSMAN 10
-#define HARGA_SWORDSMAN 15
-
-#define MAX_HEALTH_WHITEMAG 50
-#define MAX_MOVE_PTS_WHITEMAG 2
-#define ATTACK_WHITEMAG 5
-#define HARGA_WHITEMAG 20
-
-#define HEAL_INCREASE 5
-
-/****************************	TIPE BENTUKAN UnitProperty 	*************************/
-typedef struct UnitProperty{
-	int maxHealth;
+typedef struct{
+	int max_health;
 	int health;
 	int attack;
-	int maxMovePts;
-	int movePts;
-	char tipeSerangan; //'M' = Melee, 'R' = Ranged
-	boolean kesempatanSerangan;
-	Point lokasi;
+	int max_move_point;
+	int move_point;
+	char tipe_serang;
+	boolean kesempatan_serang;
+	POINT lokasi;
 	int harga;
-};
+	char simbol;
+} unit;
 
-/****************************	TIPE BENTUKAN Unit 	**********************************/
-typedef struct Unit{
-	char jenis;
-	int whiteMageAbility;
-	boolean recruitable; 
-	UnitProperty SpecificProperty;
-};
+#define max_health(U) U.max_health
+#define health(U) U.health
+#define attack(U) U.attack
+#define max_move_point(U) U.max_move_point
+#define move_point(U) U.move_point
+#define tipe_serang(U) U.tipe_serang
+#define kesempatan_serang(U) U.kesempatan_serang
+#define lokasi_unit(U) U.lokasi
+#define harga(U) U.harga
+#define simbol(U) U.simbol
 
-/****************************	SETTER DAN GETTER UnitProperty 	*********************/
-#define Health(Unit) Unit.SpecificProperty.health
-#define MaxHealth(Unit) Unit.SpecificProperty.maxHealth
-#define MovePts(Unit) Unit.SpecificProperty.movePts
-#define KesempatanSerangan(Unit) Unit.SpecificProperty.kesempatanSerangan
-#define Lokasi(Unit) Unit.SpecificProperty.lokasi
-#define Attack(Unit) Unit.SpecificProperty.attack
-#define TipeSerangan(Unit) Unit.SpecificProperty.tipeSerangan
-#define Harga(Unit) Unit.SpecificProperty.harga
-#define MaxMovePts(Unit) Unit.SpecificProperty.maxMovePts
-#define Jenis(Unit) Unit.jenis
-#define WhiteMageAbility(Unit) Unit.whiteMageAbility
+// 
+unit empty_unit();
 
-/***************************	SETUP UNIT ******************************************/
-void setup_King(Unit *King, Player P, Peta Map);
+void assign_unit(unit *u, char tipe); 
 
-void setup_Archer(Unit *Archer, Player P);
+boolean isequal_unit(unit u1, unit u2);
 
-void setup_Swordsman(Unit *Swordsman, Player P);
+/***********************	LIST OF UNIT 	**************************/
 
-void setup_WhiteMag(Unit *WhiteMag, Player P);
+#define Nil NULL
+
+typedef unit infotype;
+typedef struct tElmtlist *adsress;
+typedef struct tElmtlist {
+	infotype info;
+	address next;
+} ElmtList;
+typedef struct {
+	address First;
+} listunit;
+
+#define Info(P) (P)->info
+#define Next(P) (P)->next
+#define First(L) (L).First
+
+boolean IsEmpty_listunit(listunit L);
+
+void CreateEmpty_listunit(listunit *L);
+
+address Alokasi_listunit(infotype X);
+
+void Dealokasi_listunit(adress *P);
+
+address Search_listunit(listunit l, infotype X);
+
+void InsVFirst_listunit (List *L, infotype X);
+/* I.S. L mungkin kosong */
+/* F.S. Melakukan alokasi sebuah elemen dan */
+/* menambahkan elemen pertama dengan nilai X jika alokasi berhasil */
+void InsVLast_listunit (listunit *L, infotype X);
+/* I.S. L mungkin kosong */
+/* F.S. Melakukan alokasi sebuah elemen dan */
+/* menambahkan elemen list di akhir: elemen terakhir yang baru */
+/* bernilai X jika alokasi berhasil. Jika alokasi gagal: I.S.= F.S. */
+
+/*** PENGHAPUSAN ELEMEN ***/
+void DelVFirst_listunit (listunit *L, infotype *X);
+/* I.S. List L tidak kosong  */
+/* F.S. Elemen pertama list dihapus: nilai info disimpan pada X */
+/*      dan alamat elemen pertama di-dealokasi */
+void DelVLast_listunit (listunit *L, infotype *X);
+/* I.S. list tidak kosong */
+/* F.S. Elemen terakhir list dihapus: nilai info disimpan pada X */
+/*      dan alamat elemen terakhir di-dealokasi */
+
+/****************** PRIMITIF BERDASARKAN ALAMAT ******************/
+/*** PENAMBAHAN ELEMEN BERDASARKAN ALAMAT ***/
+void InsertFirst_listunit (listunit *L, address P);
+/* I.S. Sembarang, P sudah dialokasi  */
+/* F.S. Menambahkan elemen ber-address P sebagai elemen pertama */
+void InsertAfter_listunit (listunit *L, address P, address Prec);
+/* I.S. Prec pastilah elemen list dan bukan elemen terakhir, */
+/*      P sudah dialokasi  */
+/* F.S. Insert P sebagai elemen sesudah elemen beralamat Prec */
+void InsertLast_listunit (listunit *L, address P);
+/* I.S. Sembarang, P sudah dialokasi  */
+/* F.S. P ditambahkan sebagai elemen terakhir yang baru */
+
+/*** PENGHAPUSAN SEBUAH ELEMEN ***/
+void DelFirst_listunit (listunit *L, address *P);
+/* I.S. List tidak kosong */
+/* F.S. P adalah alamat elemen pertama list sebelum penghapusan */
+/*      Elemen list berkurang satu (mungkin menjadi kosong) */
+/* First element yg baru adalah suksesor elemen pertama yang lama */
+void DelP_listunit (listunit *L, infotype X);
+/* I.S. Sembarang */
+/* F.S. Jika ada elemen list beraddress P, dengan Info(P)=X  */
+/* Maka P dihapus dari list dan di-dealokasi */
+/* Jika tidak ada elemen list dengan Info(P)=X, maka list tetap */
+/* List mungkin menjadi kosong karena penghapusan */
+void DelLast_listunit (listunit *L, address *P);
+/* I.S. List tidak kosong */
+/* F.S. P adalah alamat elemen terakhir list sebelum penghapusan  */
+/*      Elemen list berkurang satu (mungkin menjadi kosong) */
+/* Last element baru adalah predesesor elemen pertama yg lama, */
+/* jika ada */
+void DelAfter_listunit (listunit *L, address *Pdel, address Prec);
+/* I.S. List tidak kosong. Prec adalah anggota list  */
+/* F.S. Menghapus Next(Prec): */
+/*      Pdel adalah alamat elemen list yang dihapus  */
 
 #endif

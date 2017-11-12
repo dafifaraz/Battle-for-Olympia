@@ -6,6 +6,7 @@
 #define POINT_H
 
 #include "boolean.h"
+#include "point.h"
 
 typedef struct { 
 	int X; /* absis   */
@@ -30,5 +31,7 @@ void BacaPOINT (POINT * P);
    akan membentuk POINT <1,2> */
 /* I.S. Sembarang */
 /* F.S. P terdefinisi */
+
+boolean isequal_point(POINT P1, POINT P2);
 
 #endif

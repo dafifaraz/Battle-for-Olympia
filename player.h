@@ -1,9 +1,14 @@
-#ifndef BERTARUNG_H
-#define BERTARUNG_H
+#ifndef PLAYER_H
+#define PLAYER_H
 
-typedef struct{
-    Unit* currentUnit;
-    List* unit;
-} PLAYER;
+typedef struct {
+	int gold;
+	List list_unit;
+	List list_villages;
+	int income;
+	int upkeep;
+	char warna;
+} player;
+
 
 #endif
