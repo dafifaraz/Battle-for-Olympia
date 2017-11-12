@@ -11,11 +11,11 @@ typedef struct{
 	int income; // ada untuk villages
 } petak;
 
-#define lokasi_petak(p) p.unit.lokasi
-#define jenis_petak(p) p.jenis
-#define milik_petak(p) p.milik
-#define unit_petak(p) p.u
-#define income_petak(p) p.income
+#define lokasi_petak(p) (p).u.lokasi
+#define jenis_petak(p) (p).jenis
+#define milik_petak(p) (p).milik
+#define unit_petak(p) (p).u
+#define income_petak(p) (p).income
 
 // mengecek kesamaan petak
 boolean isequal_petak(petak p1, petak p2);
@@ -29,85 +29,84 @@ void assign_petak(petak *p, char jenis_p, int milik_p, unit unit_p);
 /***********************	LIST OF VILLAGES 	**************************/
 #define Nil NULL
 
-typedef petak infotype;
-typedef struct tElmtlist *address;
-typedef struct tElmtlist {
-	infotype info;
-	address next;
-} ElmtList;
+typedef struct t_petaklist *add_petak;
+typedef struct t_petaklist {
+	petak info;
+	add_petak next;
+} petaklist;
 typedef struct {
-	address First;
-} listvillages;
+	add_petak First;
+} listpetak;
 
 #define Info(P) (P)->info
 #define Next(P) (P)->next
 #define First(L) (L).First
 
-boolean IsEmpty_listvillages(listvillages L);
+boolean IsEmpty_listpetak(listpetak L);
 
-void CreateEmpty_listvillages(listvillages *L);
+void CreateEmpty_listpetak(listpetak *L);
 
-address Alokasi_listvillages(infotype X);
+add_petak Alokasi_listpetak(petak X);
 
-void Dealokasi_listvillages(adress *P);
+void Dealokasi_listpetak(add_petak *P);
 
-address Search_listvillages(listvillages l, infotype X);
+add_petak Search_listpetak(listpetak l, petak X);
 
-void InsVFirst_listvillages (List *L, infotype X);
+void InsVFirst_listpetak (listpetak *L, petak X);
 /* I.S. L mungkin kosong */
 /* F.S. Melakukan alokasi sebuah elemen dan */
 /* menambahkan elemen pertama dengan nilai X jika alokasi berhasil */
 
-void InsVLast_listvillages (listvillages *L, infotype X);
+void InsVLast_listpetak (listpetak *L, petak X);
 /* I.S. L mungkin kosong */
 /* F.S. Melakukan alokasi sebuah elemen dan */
 /* menambahkan elemen list di akhir: elemen terakhir yang baru */
 /* bernilai X jika alokasi berhasil. Jika alokasi gagal: I.S.= F.S. */
 
 /*** PENGHAPUSAN ELEMEN ***/
-void DelVFirst_listvillages (listvillages *L, infotype *X);
-/* I.S. List L tidak kosong  */
+void DelVFirst_listpetak (listpetak *L, petak *X);
+/* I.S. listpetak L tidak kosong  */
 /* F.S. Elemen pertama list dihapus: nilai info disimpan pada X */
 /*      dan alamat elemen pertama di-dealokasi */
 
-void DelVLast_listvillages (listvillages *L, infotype *X);
+void DelVLast_listpetak (listpetak *L, petak *X);
 /* I.S. list tidak kosong */
 /* F.S. Elemen terakhir list dihapus: nilai info disimpan pada X */
 /*      dan alamat elemen terakhir di-dealokasi */
 
 /****************** PRIMITIF BERDASARKAN ALAMAT ******************/
 /*** PENAMBAHAN ELEMEN BERDASARKAN ALAMAT ***/
-void InsertFirst_listvillages (listvillages *L, address P);
+void InsertFirst_listpetak (listpetak *L, add_petak P);
 /* I.S. Sembarang, P sudah dialokasi  */
-/* F.S. Menambahkan elemen ber-address P sebagai elemen pertama */
-void InsertAfter_listvillages (listvillages *L, address P, address Prec);
+/* F.S. Menambahkan elemen ber-add_petak P sebagai elemen pertama */
+void InsertAfter_listpetak (listpetak *L, add_petak P, add_petak Prec);
 /* I.S. Prec pastilah elemen list dan bukan elemen terakhir, */
 /*      P sudah dialokasi  */
 /* F.S. Insert P sebagai elemen sesudah elemen beralamat Prec */
-void InsertLast_listvillages (listvillages *L, address P);
+void InsertLast_listpetak (listpetak *L, add_petak P);
 /* I.S. Sembarang, P sudah dialokasi  */
 /* F.S. P ditambahkan sebagai elemen terakhir yang baru */
 
 /*** PENGHAPUSAN SEBUAH ELEMEN ***/
-void DelFirst_listvillages (listvillages *L, address *P);
-/* I.S. List tidak kosong */
+void DelFirst_listpetak (listpetak *L, add_petak *P);
+/* I.S. listpetak tidak kosong */
 /* F.S. P adalah alamat elemen pertama list sebelum penghapusan */
 /*      Elemen list berkurang satu (mungkin menjadi kosong) */
 /* First element yg baru adalah suksesor elemen pertama yang lama */
-void DelP_listvillages (listvillages *L, infotype X);
+void DelP_listpetak (listpetak *L, petak X);
 /* I.S. Sembarang */
-/* F.S. Jika ada elemen list beraddress P, dengan Info(P)=X  */
+/* F.S. Jika ada elemen list beradd_petak P, dengan Info(P)=X  */
 /* Maka P dihapus dari list dan di-dealokasi */
 /* Jika tidak ada elemen list dengan Info(P)=X, maka list tetap */
-/* List mungkin menjadi kosong karena penghapusan */
-void DelLast_listvillages (listvillages *L, address *P);
-/* I.S. List tidak kosong */
+/* listpetak mungkin menjadi kosong karena penghapusan */
+void DelLast_listpetak (listpetak *L, add_petak *P);
+/* I.S. listpetak tidak kosong */
 /* F.S. P adalah alamat elemen terakhir list sebelum penghapusan  */
 /*      Elemen list berkurang satu (mungkin menjadi kosong) */
 /* Last element baru adalah predesesor elemen pertama yg lama, */
 /* jika ada */
-void DelAfter_listvillages (listvillages *L, address *Pdel, address Prec);
-/* I.S. List tidak kosong. Prec adalah anggota list  */
+void DelAfter_listpetak (listpetak *L, add_petak *Pdel, add_petak Prec);
+/* I.S. listpetak tidak kosong. Prec adalah anggota list  */
 /* F.S. Menghapus Next(Prec): */
 /*      Pdel adalah alamat elemen list yang dihapus  */
 
