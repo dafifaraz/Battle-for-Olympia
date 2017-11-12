@@ -22,3 +22,12 @@ Pembagian Tugas
 3. Mol : mekanisme bertarung, command(5)
 4. Rifo : Peta, command(1,2,6)
 5. Seldi : village, command(7,8)
+
+PENTING!
+Untuk menyimpan waktu ketika save harus menggunakan ADT Jam
+Untuk menunjukkan posisi unit pada setiap waktu harus menggunakan ADT Point
+Untuk representasi peta harus menggunakan ADT Matriks
+Untuk membaca informasi dari file external, membaca command, dan membaca state dari game yang sudah disimpan harus menggunakan ADT Mesinkar dan Mesin Kata
+Untuk menentukan giliran pemain harus menggunakan ADT Queue
+Untuk command Undo harus menggunakan ADT Stack
+Untuk daftar pemain, daftar village, dan daftar unit harus menggunakan ADT List Liner (variasi apapun)
