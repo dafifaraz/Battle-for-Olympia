@@ -43,7 +43,7 @@ boolean isequal_unit(unit u1, unit u2);
 #define Nil NULL
 
 typedef unit infotype;
-typedef struct tElmtlist *adsress;
+typedef struct tElmtlist *address;
 typedef struct tElmtlist {
 	infotype info;
 	address next;
