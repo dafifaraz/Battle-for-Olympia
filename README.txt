@@ -30,4 +30,4 @@ Untuk representasi peta harus menggunakan ADT Matriks
 Untuk membaca informasi dari file external, membaca command, dan membaca state dari game yang sudah disimpan harus menggunakan ADT Mesinkar dan Mesin Kata
 Untuk menentukan giliran pemain harus menggunakan ADT Queue
 Untuk command Undo harus menggunakan ADT Stack
-Untuk daftar pemain, daftar village, dan daftar unit harus menggunakan ADT List Liner (variasi apapun)
+Untuk daftar pemain, daftar village, dan daftar unit harus menggunakan ADT List Linier (variasi apapun)
