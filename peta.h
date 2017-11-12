@@ -22,4 +22,8 @@ void empty_peta(peta *M, int NBrsEff, int NKolEff);
 void bangun_kerajaan(peta *M);
 
 void init_peta(peta *M, int NBrsEff, int NKolEff);
+
+void display_peta(peta *M);
+
+
 #endif

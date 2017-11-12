@@ -17,6 +17,9 @@ typedef struct{
 #define unit_petak(p) p.u
 #define income_petak(p) p.income
 
+// mengecek kesamaan petak
+boolean isequal_petak(petak p1, petak p2);
+
 // mengembalikan petak yang belum berisi bangunan, unit, dan pemilik
 petak empty_petak(POINT lokasi_p);
 

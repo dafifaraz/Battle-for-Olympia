@@ -2,29 +2,29 @@
 #include "boolean.h"
 #include "point.h"
 
-const int MH_KING 100;
-const int ATK_KING 10;
-const int MM_KING 1;
-const char TS_KING 'M';
-const int H_KING -1;
+#define MH_KING 100
+#define ATK_KING 10
+#define MM_KING 1
+#define TS_KING 'M'
+#define H_KING -1
 
-const int MH_ARCHER 50;
-const int ATK_ARCHER 15;
-const int MM_ARCHER 2;
-const char TS_ARCHER 'R';
-const int H_ARCHER 10;
+#define MH_ARCHER 50
+#define ATK_ARCHER 15
+#define MM_ARCHER 2
+#define TS_ARCHER 'R'
+#define H_ARCHER 10
 
-const int MH_SWORDSMAN 75;
-const int ATK_SWORDSMAN 10;
-const int MM_SWORDSMAN 3;
-const char TS_SWORDSMAN 'M';
-const int H_SWORDSMAN 15;
+#define MH_SWORDSMAN 75
+#define ATK_SWORDSMAN 10
+#define MM_SWORDSMAN 3
+#define TS_SWORDSMAN 'M'
+#define H_SWORDSMAN 15
 
-const int MH_WHITEMAGE 50;
-const int ATK_WHITEMAGE 5;
-const int MM_WHITEMAGE 2;
-const char TS_WHITEMAGE 'M';
-const int H_WHITEMAGE 20;
+#define MH_WHITEMAGE 50
+#define ATK_WHITEMAGE 5
+#define MM_WHITEMAGE 2
+#define TS_WHITEMAGE 'M'
+#define H_WHITEMAGE 20
 
 unit empty_unit(POINT lokasi_u){
 	unit u;
@@ -46,7 +46,6 @@ unit empty_unit(POINT lokasi_u){
 void assign_unit(unit *u, char tipe_unit){
 	move_point(*u) = 0;
 	kesempatan_serang(*u) = true;
-	lokasi_unit(*u) = lokasi_u;
 	simbol(*u) = tipe_unit;
 
 	if (tipe_unit == 'K'){
@@ -106,7 +105,7 @@ address Alokasi_listunit(infotype X){
 	return P;
 }
 
-void Dealokasi_listunit(adress *P){
+void Dealokasi_listunit(address *P){
 	free (*P);
 }
 
@@ -125,10 +124,10 @@ address Search_listunit(listunit L, infotype X){
 
 void InsVFirst_listunit (listunit *L, infotype X)
 /* I.S. L mungkin kosong */
-/* F.S. Melakukan alokasi sebuah elemen dan */
-/* menambahkan elemen pertama dengan nilai X jika alokasi berhasil */
+/* F.S. Melakukan Alokasi_listunit sebuah elemen dan */
+/* menambahkan elemen pertama dengan nilai X jika Alokasi_listunit berhasil */
 {
-	address P = Alokasi(X);
+	address P = Alokasi_listunit(X);
 	if (P!=Nil){
 		Next(P) = First(*L);
 		First(*L) = P;
@@ -136,13 +135,13 @@ void InsVFirst_listunit (listunit *L, infotype X)
 }
 void InsVLast_listunit (listunit *L, infotype X)
 /* I.S. L mungkin kosong */
-/* F.S. Melakukan alokasi sebuah elemen dan */
+/* F.S. Melakukan Alokasi_listunit sebuah elemen dan */
 /* menambahkan elemen list di akhir: elemen terakhir yang baru */
-/* bernilai X jika alokasi berhasil. Jika alokasi gagal: I.S.= F.S. */
+/* bernilai X jika Alokasi_listunit berhasil. Jika Alokasi_listunit gagal: I.S.= F.S. */
 {
-	address P = Alokasi(X);
+	address P = Alokasi_listunit(X);
 	if (P!=Nil) {
-		InsertLast(L,P);
+		InsertLast_listunit(L,P);
 	}
 }
 /*** PENGHAPUSAN ELEMEN ***/
@@ -154,13 +153,13 @@ void DelVFirst_listunit (listunit *L, infotype *X)
 	First(*L) = Next(First(*L));
 	Next(P) = Nil;
 	*X = Info(P);
-	Dealokasi(&P);
+	Dealokasi_listunit(&P);
 }
-/*      dan alamat elemen pertama di-dealokasi */
+/*      dan alamat elemen pertama di-Dealokasi_listunit */
 void DelVLast_listunit (listunit *L, infotype *X)
 /* I.S. list tidak kosong */
 /* F.S. Elemen terakhir list dihapus: nilai info disimpan pada X */
-/*      dan alamat elemen terakhir di-dealokasi */
+/*      dan alamat elemen terakhir di-Dealokasi_listunit */
 {
 	address Last = First(*L);
 	address PrecLast = Nil;
@@ -177,7 +176,7 @@ void DelVLast_listunit (listunit *L, infotype *X)
 }
 
 void InsertFirst_listunit (listunit *L, address P)
-/* I.S. Sembarang, P sudah dialokasi  */
+/* I.S. Sembarang, P sudah diAlokasi_listunit  */
 /* F.S. Menambahkan elemen ber-address P sebagai elemen pertama */
 {
 	Next(P) = First(*L);
@@ -186,7 +185,7 @@ void InsertFirst_listunit (listunit *L, address P)
 
 void InsertAfter_listunit (listunit *L, address P, address Prec)
 /* I.S. Prec pastilah elemen list dan bukan elemen terakhir, */
-/*      P sudah dialokasi  */
+/*      P sudah diAlokasi_listunit  */
 /* F.S. Insert P sebagai elemen sesudah elemen beralamat Prec */
 {
 	Next(P) = Next(Prec);
@@ -194,17 +193,17 @@ void InsertAfter_listunit (listunit *L, address P, address Prec)
 }
 
 void InsertLast_listunit (listunit *L, address P)
-/* I.S. Sembarang, P sudah dialokasi  */
+/* I.S. Sembarang, P sudah diAlokasi_listunit  */
 /* F.S. P ditambahkan sebagai elemen terakhir yang baru */
 {
-	if (IsEmpty(*L)){
-		InsertFirst(L,P); 
+	if (IsEmpty_listunit(*L)){
+		InsertFirst_listunit(L,P); 
 	} else {
 		address Last = First(*L);
 		while (Next(Last) != Nil) {
 			Last = Next(Last);
 		}
-		InsertAfter(L,P,Last);
+		InsertAfter_listunit(L,P,Last);
 	}
 }
 
@@ -223,21 +222,21 @@ void DelFirst_listunit (listunit *L, address *P)
 void DelP_listunit (listunit *L, infotype X)
 /* I.S. Sembarang */
 /* F.S. Jika ada elemen list beraddress P, dengan Info(P)=X  */
-/* Maka P dihapus dari list dan di-dealokasi */
+/* Maka P dihapus dari list dan di-Dealokasi_listunit */
 /* Jika tidak ada elemen list dengan Info(P)=X, maka list tetap */
 /* List mungkin menjadi kosong karena penghapusan */
 {
-	if (!IsEmpty(*L)){
-		address P = Search(*L,X);
+	if (!IsEmpty_listunit(*L)){
+		address P = Search_listunit(*L,X);
 		if (P!=Nil){
 			if (P==First(*L)){
-				DelFirst(L,&P);
+				DelFirst_listunit(L,&P);
 			} else {
 				address Prec = First(*L);
 				while (Next(Prec) != P) {
 					Prec = Next(Prec);
 				}
-				DelAfter(L,&P,Prec);
+				DelAfter_listunit(L,&P,Prec);
 			}
 		}
 	}
