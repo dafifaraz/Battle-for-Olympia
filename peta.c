@@ -4,11 +4,11 @@
 #include "player.h"
 #include "unit.h"
 
-void empty_peta(peta *M, int NBrsEff, int NKolEff){
-	NBrsEff(*M) = NBrsEff;
-	NKolEff(*M) = NKolEff;
-	for (int i=0; i<NBrsEff; i++){
-		for (int j=0; j<NKolEff; j++){
+void empty_peta(peta *M, int NB, int NK){
+	NBrsEff(*M) = NB;
+	NKolEff(*M) = NK;
+	for (int i=0; i<NB; i++){
+		for (int j=0; j<NK; j++){
 			petak(*M,i,j) = empty_petak(MakePOINT(i,j));
 		}
 	}
@@ -49,48 +49,54 @@ void bangun_kerajaan(peta *M){
 }
 
 void init_peta(peta *M, int NBrsEff, int NKolEff){
-	empty_peta(peta *M, int NBrsEff, int NKolEff);
-	bangun_kerajaan(*M);
+	empty_peta(M, NBrsEff, NKolEff);
+	bangun_kerajaan(M);
 }
 
 void display_peta(peta M){
+	printf("\n");
 	for (int i=0; i<NBrsEff(M); i++){
+		for (int j=0; j<4*NKolEff(M)+1; j++){
+			printf("*");
+		}
 		for (int j=0; j<4; j++){
-			for (int k=0; k<NKolEff(M) - 1; k++){
+			for (int k=0; k<NKolEff(M); k++){
 				for (int l=0; l<4; l++){
-					if (l == 0){
-						printf("*");
-					} else if (l == 2){
-						if (j == 0){
+					if (j!=0){
+						if (l == 0){
 							printf("*");
-						} else if (j==1){
-							if (isequal_petak(petak(M,i,k),empty_petak(MakePOINT(i,k)))){
-								printf(" ");
+						} else if (l == 2){
+							if (j == 0){
+								printf("");
+							} else if (j==1){
+								if (isequal_petak(petak(M,i,k),empty_petak(MakePOINT(i,k)))){
+									printf(" ");
+								} else {
+									printf("%c",jenis_petak(petak(M,i,k)));
+								}
+							} else if (j==2){
+								if (isequal_unit(unit_petak(petak(M,i,k)),empty_unit(MakePOINT(i,k)))){
+									printf(" ");
+								} else {
+									printf("%c",simbol(unit_petak(petak(M,i,k))));
+								}
 							} else {
-								printf("%c",jenis_petak(petak(M,i,k)));
-							}
-						} else if (j==2){
-							if (isequal_unit(unit_petak(petak(M,i,k)),empty_unit(MakePOINT(i,k)))){
 								printf(" ");
-							} else {
-								printf("%c",simbol(unit_petak(petak(M,i,k))));
 							}
 						} else {
 							printf(" ");
 						}
-					} else {
-						printf(" ");
 					}
 				}	
-				if (l == NKolEff(M) - 1){
+				if (k == NKolEff(M) - 1 && j!=0){
 					printf("*");
 				}
 			}
-		}
-		if (i == NBrsEff(M) - 1){
-			printf("*");
+			printf("\n");
 		}
 	}
+	for (int i=0; i<4*NKolEff(M)+1; i++) printf("*");
+	printf("\n");
 }
 
 
