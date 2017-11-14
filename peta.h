@@ -48,8 +48,4 @@ boolean isPetakKosong(PETA *M, int i, int j);
 //Bernilai True bila kosong
 //Bernilai False jika terdapat unit pada petak tersebut
 
-
-void Move(PETA *M, Unit *U);
-//Menggerakkan unit yang saat ini dipilih
-//COMMAND 1
 #endif
