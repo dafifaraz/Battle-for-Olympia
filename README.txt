@@ -9,12 +9,12 @@ Dibuat oleh :
 - Rifo Ahmad Genadi
 - Seldi Kurnia Trihardja  
 
-Log Act 
+Done 
 Dafi	:
-Dion	: Buat ADT Unit
-Mol	:
-Rifo	:Buat ADT Peta
-Seldi	:
+Dion	: Buat ADT Unit, revisi peta
+Mol	: Mekanisme bertarung
+Rifo	: Buat ADT Peta, revisi peta
+Seldi	: Buat Village
 
 Pembagian Tugas
 1. Dion : Menu utama, unit, command (3,4)

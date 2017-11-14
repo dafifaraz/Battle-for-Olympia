@@ -2,7 +2,7 @@
 #include "unit.h"
 #include "point.h"
 
-#define income_p 10;
+#define income_p 12;
 
 boolean isequal_petak(petak p1, petak p2){
 	boolean b1 = isequal_unit(unit_petak(p1), unit_petak(p2));

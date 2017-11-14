@@ -8,7 +8,7 @@ typedef struct{
 	char jenis;
 	int milik;
 	unit u;
-	int income; // ada untuk villages
+	int income; //Ada untuk villages
 } petak;
 
 #define lokasi_petak(p) (p).u.lokasi
@@ -17,13 +17,14 @@ typedef struct{
 #define unit_petak(p) (p).u
 #define income_petak(p) (p).income
 
-// mengecek kesamaan petak
+
 boolean isequal_petak(petak p1, petak p2);
+//Mengecek kesamaan petak
 
-// mengembalikan petak yang belum berisi bangunan, unit, dan pemilik
 petak empty_petak(POINT lokasi_p);
+//Mengembalikan petak yang belum berisi bangunan, unit, dan pemilik
 
-// mengisi petak *p yang sudah memiliki lokasi dengan jenis, milik, dan unitnya
 void assign_petak(petak *p, char jenis_p, int milik_p, unit unit_p);
+//Mengisi petak *p yang sudah memiliki lokasi dengan jenis, milik, dan unitnya
 
 #endif
