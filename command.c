@@ -87,5 +87,21 @@ void COMAND_INFO(){
     printf("Owned by Player %d\n",Milik(PETA[coordinate.X][coordinate.Y]));
     printf("== Unit Info==");
     printUnitName(Unit(PETA[coordinate.X][coordinate.Y])); //selektor uniit //segera di ganti
+}
+
+
+boolean checkOcc(POINT P){
+    return peta[Absis(P)][Ordinat(P)]
+}
+
+void COMAND_RECRUIT(){
+    POINT newP;
+    printf("Enter​ ​ coordinate​ ​ of​ ​ empty​ ​ castle: ");
+    BacaPOINT(&newP);
+    while(){
+        printf("Enter​ ​ coordinate​ ​ of​ ​ empty​ ​ castle: ");
+        BacaPOINT(&newP);
+    }
+
 
 }
