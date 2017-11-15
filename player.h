@@ -196,4 +196,5 @@ typedef struct {
 #define simbol_player(P) (P).simbol;
 #define selected(P) (P).selected;
 
+void init_player(player *pchar wrn, char smb);
 #endif

@@ -378,3 +378,17 @@ void DelAfter_listpetak (listpetak *L, add_petak *Pdel, add_petak Prec)
 	Next_petak(Prec) = Next_petak(Next_petak(Prec));
 	Next_petak(*Pdel) = Nil;
 }
+
+// PLAYER
+
+#define INIT_GOLD 100
+
+void init_player(player *p, char wrn, char smb){
+// setting awal player
+	gold(*p) = INIT_GOLD;
+	CreateEmpty_listunit(&list_unit(*p));
+	CreateEmpty_listpetak(&list_petak(*p));
+	warna(*p) = wrn;
+	simbol_player(*p) = smb;
+}
+
