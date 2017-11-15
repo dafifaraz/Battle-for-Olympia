@@ -1,14 +1,31 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include "boolean.h"
 #include "pcolor.h"
 #include "peta.h"
 #include "player.h"
 
-#define MAX_BARIS_PETA 100
-#define MAX_KOLOM_PETA 100
+#define MAX_BARIS_peta 100
+#define MAX_KOLOM_peta 100
 #define PANJANG_PAGAR 70
+
+int strlen(char* str){
+	int i=1;
+	while (str[i-1] != '\n') i++;
+	return i;
+}
+
+boolean isequal_str(char* str1, char* str2){
+	if (strlen(str1) != strlen(str2)){
+		return false;
+	} else {
+		int i=0;
+		while (i<strlen(str1) && str1[i]==str2[i]){
+			i++;
+		}
+		return str1[i] == str2[i];
+	}
+}
 
 void print_text(char c, char* text){
 	int rest = PANJANG_PAGAR - strlen(text);
@@ -67,25 +84,28 @@ void start_game(boolean *new_game){
 	} while (start_option < 1 || start_option > 2);
 }
 
-void do_new_game(int *input_nbaris, int *input_nkolom){
+void do_new_game(peta *M){
 	boolean valid_peta;
+	int input_nbaris, input_nkolom;
 	do {
 		printf(">> Length of map row :\n");
-		printf("<< "); scanf("%d",input_nbaris);
+		printf("<< "); scanf("%d",&input_nbaris);
 		printf(">> Length of map column :\n");
-		printf("<< "); scanf("%d",input_nkolom);
+		printf("<< "); scanf("%d",&input_nkolom);
 		
-		if (*input_nbaris < 8 || *input_nkolom < 8 || *input_nbaris > MAX_BARIS_PETA || *input_nkolom > MAX_KOLOM_PETA){
+		if (input_nbaris < 8 || input_nkolom < 8 || input_nbaris > MAX_BARIS_peta || input_nkolom > MAX_KOLOM_peta){
 			valid_peta = false;
 		} else {
 			valid_peta = true;
 		}
 
 		if (!valid_peta){
-			printf("\n>> The minimum map area is 8x8 and maximum map area is %dx%d\n",MAX_BARIS_PETA,MAX_KOLOM_PETA);
+			printf("\n>> The minimum map area is 8x8 and maximum map area is %dx%d\n",MAX_BARIS_peta,MAX_KOLOM_peta);
 			printf("\n");
 		}
 	} while (!valid_peta);
+
+	init_peta(M, input_nbaris, input_nkolom);
 }
 
 void display_command(){
@@ -97,7 +117,7 @@ void display_command(){
 	printf("\n>> 5.  ATTACK");
 	printf("\n>> 6.  MAP");
 	printf("\n>> 7.  INFO");
-	printf("\n>> 8.  END_TURN");
+	printf("\n>> 8.  END_turn");
 	printf("\n>> 9.  SAVE");
 	printf("\n>> 10. EXIT");
 	printf("\n>> 11. DISPLAY_COMMAND\n");
@@ -106,27 +126,27 @@ void display_command(){
 int command_code(char* str){
 	int code;
 	
-	if (!strcmp(str,"MOVE")){
+	if (isequal_str(str,"MOVE")){
 		code = 1;
-	} else if (!strcmp(str,"UNDO")){
+	} else if (isequal_str(str,"UNDO")){
 		code = 2;
-	} else if (!strcmp(str,"CHANGE_UNIT")){
+	} else if (isequal_str(str,"CHANGE_UNIT")){
 		code = 3;
-	} else if (!strcmp(str,"RECRUIT")){
+	} else if (isequal_str(str,"RECRUIT")){
 		code = 4;
-	} else if (!strcmp(str,"ATTACK")){
+	} else if (isequal_str(str,"ATTACK")){
 		code = 5;
-	} else if (!strcmp(str,"MAP")){
+	} else if (isequal_str(str,"MAP")){
 		code = 6;
-	} else if (!strcmp(str,"INFO")){
+	} else if (isequal_str(str,"INFO")){
 		code = 7;
-	} else if (!strcmp(str,"END_TURN")){
+	} else if (isequal_str(str,"END_turn")){
 		code = 8;
-	} else if (!strcmp(str,"SAVE")){
+	} else if (isequal_str(str,"SAVE")){
 		code = 9;
-	} else if (!strcmp(str,"EXIT")){
+	} else if (isequal_str(str,"EXIT")){
 		code = 10;
-	} else if (!strcmp(str,"DISPLAY_COMMAND")){
+	} else if (isequal_str(str,"DISPLAY_COMMAND")){
 		code = 11;
 	} else {
 		code = 0;
@@ -134,8 +154,12 @@ int command_code(char* str){
 	return code;
 }
 
-void receive_command(char* str_command, int *code){
-	scanf("%s",str_command);
+void receive_command(int *code){
+	printf("\n>> Your input : ");
+	printf("\n<< ");
+	char* str_command;
+	scanf("%s",&str_command);
+	printf("%s",str_command);
 	*code = command_code(str_command);
 	if (*code == 0){
 		printf("\n>> Command %s is not available\n",str_command);
@@ -143,27 +167,29 @@ void receive_command(char* str_command, int *code){
 }
 
 
-void call_MOVE(){}
+void call_MOVE(){
+	printf("TEST\n");
+}
 void call_UNDO(){}
 void call_CHANGE_UNIT(){}
 void call_RECRUIT(){}
 void call_ATTACK(){}
 void call_MAP(){}
 void call_INFO(){}
-void call_END_TURN(){}
+void call_END_turn(){}
 void call_SAVE(){}
 void call_EXIT(){}
 
 void do_command(int code){
 	switch (code) {
-		case 1 : call_MOVE(); printf("TEST\n"); break;
+		case 1 : call_MOVE(); break;
 		case 2 : call_UNDO(); break;
 		case 3 : call_CHANGE_UNIT(); break;
 		case 4 : call_RECRUIT(); break;
 		case 5 : call_ATTACK(); break;
 		case 6 : call_MAP(); break;
 		case 7 : call_INFO(); break;
-		case 8 : call_END_TURN(); break;
+		case 8 : call_END_turn(); break;
 		case 9 : call_SAVE(); break;
 		case 10 : call_EXIT(); break;
 		default : break;
@@ -171,9 +197,15 @@ void do_command(int code){
 }
 
 int main(){
+<<<<<<< HEAD
+	peta main_peta;
+	player p1,p2;
+	int turn; //Giliran
+=======
 	peta PETA;
 	player ONE,TWO;
 	int TURN; //Giliran
+>>>>>>> f33af170014253d49df24dc381c1613b336f8704
 	boolean new_game;
 	start_game(&new_game);
 
@@ -181,6 +213,19 @@ int main(){
 	if (new_game){
 		//Baca Baris dan Kolom, setel kondisi awal
 		int input_nbaris, input_nkolom;
+<<<<<<< HEAD
+		do_new_game(&main_peta);
+		/*disini tambah setup player
+		  player perlu data di map
+		  currentUnit di set ke King, state awal
+
+		  kira-kira kaya gini
+
+		  ONE.currentUnit = main_peta.P[NBrsEff(*M)-2][1].unit;
+		  TWO.currentUnit = main_peta.P[1][NKolEff(*M)-2].unit;
+		*/
+		turn = 1; //Pemain 1 mulai pertama
+=======
 		do_new_game(&input_nbaris, &input_nkolom);
 		CreateEmpty_listunit(&list_unit(one));
 		CreateEmpty_listunit(&list_unit(two));
@@ -194,6 +239,7 @@ int main(){
 		InsVFirst_listunit(&list_unit(two), king_p2);
 		init_peta(&PETA, input_nbaris, input_nkolom);
 		TURN = 1; //Pemain 1 mulai pertama
+>>>>>>> f33af170014253d49df24dc381c1613b336f8704
 	} else { /*** LOAD GAME ***/
 
 	}
@@ -202,10 +248,10 @@ int main(){
 	
 	display_command();
 	boolean game_over = false;
-	int command;
 	do{
-		char* str_command; int code;
-		receive_command(str_command, &code);
+		int code;
+		receive_command(&code);
+		printf("%d\n",code);
 		do_command(code);
 		if (code == 0) game_over = true;
 	} while (!game_over); 
