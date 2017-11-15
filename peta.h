@@ -2,6 +2,7 @@
 #define PETA_H
 
 #include "petak.h"
+#include "player.h"
 
 #define NBrsMax 100
 #define NKolMax 100
@@ -37,5 +38,9 @@ int RNGbatas(int min, int maks);
 void PasangDesa(int jumlah_village, peta *M);
 //Memasang Village di Peta yang telah terdefinisi ukurannya
 //Village dipasang secara random, setengah jumlahnya dipasang di bagian kiri peta, dan sisanya di bagian kanan peta.
+
+void MOVE(player P, peta *M);
+
+boolean NoEnemy(POINT loc, int i, int k, peta M, int p);
 
 #endif
