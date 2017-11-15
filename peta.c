@@ -4,6 +4,7 @@
 #include "player.h"
 #include "unit.h"
 #include <time.h>
+#include <math.h>
 
 void empty_peta(peta *M, int NB, int NK){
 	NBrsEff(*M) = NB;
@@ -22,8 +23,8 @@ void bangun_kerajaan(peta *M){
 	unit king_p1 = unit_petak(petak(*M,Absis(lokasi_p1),Ordinat(lokasi_p1)));
 	unit king_p2 = unit_petak(petak(*M,Absis(lokasi_p2),Ordinat(lokasi_p2)));
 	
-	assign_unit(&king_p1, 'K');
-	assign_unit(&king_p2, 'K');
+	assign_unit(&king_p1, 'K', 1);
+	assign_unit(&king_p2, 'K', 2);
 
 	assign_petak(&(petak(*M,Absis(lokasi_p1),Ordinat(lokasi_p1))), 'T', 1, king_p1);
 	assign_petak(&(petak(*M,Absis(lokasi_p2),Ordinat(lokasi_p2))), 'T', 2, king_p2);
@@ -141,3 +142,58 @@ void PasangDesa(int jumlah_village, peta *M){
         }
     }
 }
+
+void MOVE(player P, peta *M){
+	POINT loc = P.selected.lokasi;
+	unit slc = unit_petak(petak(*M,Absis(loc), Ordinat(loc))); //unit yang sedang dipilih
+	//Tampilkan Peta dan koordinat petak yang dapat dijangkau
+	printf("\n");
+	for (int i=0; i<NBrsEff(*M); i++){
+		for (int j=0; j<4*NKolEff(*M)+1; j++){
+			printf("*");
+		}
+		for (int j=0; j<4; j++){
+			for (int k=0; k<NKolEff(*M); k++){
+				for (int l=0; l<4; l++){
+					if (j!=0){
+						if (l == 0){
+							printf("*");
+						} else if (l == 2){
+							if (j == 0){
+								printf("");
+							} else if (j==1){
+								if (isequal_petak(petak(*M,i,k),empty_petak(MakePOINT(i,k)))){
+									printf(" ");
+								} else {
+									printf("%c",jenis_petak(petak(*M,i,k)));
+								}
+							} else if (j==2){
+								if (isequal_unit(unit_petak(petak(*M,i,k)),empty_unit(MakePOINT(i,k))) && ((abs(i-Absis(loc)) + abs(k-Ordinat(loc))) <= max_move_point(slc))){
+									printf("#");
+								} 
+								else if (isequal_unit(unit_petak(petak(*M,i,k)),empty_unit(MakePOINT(i,k)))){
+									printf(" ");
+								}
+								else {
+									printf("%c",simbol(unit_petak(petak(*M,i,k))));
+								}
+							} else {
+								printf(" ");
+							}
+						} else {
+							printf(" ");
+						}
+					}
+				}	
+				if (k == NKolEff(*M) - 1 && j!=0){
+					printf("*");
+				}
+			}
+			printf("\n");
+		}
+	}
+	for (int i=0; i<4*NKolEff(*M)+1; i++) printf("*");
+	printf("\n");
+}
+
+

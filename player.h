@@ -184,15 +184,16 @@ typedef struct {
 	int upkeep;
 	char warna;
 	char simbol;
+	unit selected;
 } player;
 
-#define gold(p) p.gold;
-#define list_unit(p) p.list_unit;
-#define list_villages(p) p.list_villages;
-#define income(p) p.income;
-#define upkeep(p) p.upkeep;
-#define warna(p) p.warna;
-#define simbol_player(p) p.simbol;
-
+#define gold(P) (P).gold;
+#define list_unit(P) (P).list_unit;
+#define list_villages(P) (P).list_villages;
+#define income(P) (P).income;
+#define upkeep(P) (P).upkeep;
+#define warna(P) (P).warna;
+#define simbol_player(P) (P).simbol;
+#define selected(P) (P).selected;
 
 #endif

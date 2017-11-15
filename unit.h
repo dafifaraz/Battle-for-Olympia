@@ -17,6 +17,7 @@ typedef struct{
 	POINT lokasi;
 	int harga;
 	char simbol;
+	int pemilik; //menunjukkan pemilik unit, jika bernilai 1 maka milik player 1, jika bernilai 2 maka milik player 2, jika 0 maka ia adalah "empty unit"
 } unit;
 
 #define max_health(U) (U).max_health
@@ -29,13 +30,24 @@ typedef struct{
 #define lokasi_unit(U) (U).lokasi
 #define harga(U) (U).harga
 #define simbol(U) (U).simbol
+#define pemilik(U) (U).pemilik
 
-// unit di lokasi_u dengan jenis unit belum didefinisikan
+
 unit empty_unit(POINT lokasi_u);
+//Mengembalikan unit yang tipe dan kepemilikannya belum terdefinisi di lokasi_u
 
-// ambil unit *u, lalu kasih propertinya
-void assign_unit(unit *u, char tipe); 
+
+void assign_unit(unit *u, char tipe_unit, int pemilik_unit); 
+//Mengisi unit *u dengan properti sesuai tipe dan pemiliknya.
 
 boolean isequal_unit(unit u1, unit u2);
+//Mengembalikan true apabila u1 = u2
+
+void swap_unit(unit *u1, unit *u2);
+//I.S : u1 dan u2 terdefinisi
+//F.s : u1 menjadi u2, u2 menjadi u1
+//Prosedur ini dimanfaatkan untuk command MOVE.
+
+
 
 #endif
