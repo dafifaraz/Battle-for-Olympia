@@ -4,7 +4,7 @@
 
 #define MH_KING 100
 #define ATK_KING 10
-#define MM_KING 1
+#define MM_KING 2
 #define TS_KING 'M'
 #define H_KING -1
 
@@ -39,14 +39,16 @@ unit empty_unit(POINT lokasi_u){
 	kesempatan_serang(u) = false;
 	lokasi_unit(u) = lokasi_u;
 	simbol(u) = ' ';
+	pemilik(u) = 0;
 
 	return u;
 }
 
-void assign_unit(unit *u, char tipe_unit){
+void assign_unit(unit *u, char tipe_unit, int pemilik_unit){
 	move_point(*u) = 0;
 	kesempatan_serang(*u) = true;
 	simbol(*u) = tipe_unit;
+	pemilik(*u) = pemilik_unit;
 
 	if (tipe_unit == 'K'){
 		max_health(*u) = MH_KING;
@@ -88,3 +90,8 @@ boolean isequal_unit(unit u1, unit u2){
 	return (b1 && b2 && b3 && b4 && b5);
 }
 
+void swap_unit(unit *u1, unit *u2){
+	unit temp = *u1;
+	*u1 = *u2;
+	*u2 = temp;
+}

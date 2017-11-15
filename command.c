@@ -89,12 +89,3 @@ void COMAND_INFO(){
     printUnitName(Unit(PETA[coordinate.X][coordinate.Y])); //selektor uniit //segera di ganti
 
 }
-
-Enter the coordinate of the cell: 3​ ​5
-== Cell Info ==
-Village
-Owned by Player 1
-== Unit Info ==
-Swordsman
-Owned by Player 1
-Health 7/20 | ATK 3 | DEF 2
