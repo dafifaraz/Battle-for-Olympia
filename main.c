@@ -3,6 +3,8 @@
 #include <string.h>
 #include "boolean.h"
 #include "pcolor.h"
+#include "peta.h"
+#include "player.h"
 
 #define MAX_BARIS_PETA 100
 #define MAX_KOLOM_PETA 100
@@ -169,8 +171,8 @@ void do_command(int code){
 }
 
 int main(){
-	PETA MAIN_PETA;
-	PLAYER ONE,TWO;
+	peta PETA;
+	player ONE,TWO;
 	int TURN; //Giliran
 	boolean new_game;
 	start_game(&new_game);
@@ -180,9 +182,9 @@ int main(){
 		//Baca Baris dan Kolom, setel kondisi awal
 		int input_nbaris, input_nkolom;
 		do_new_game(&input_nbaris, &input_nkolom);
-		NBrsEff(MAIN_PETA) = input_nbaris;
-		NKolEff(MAIN_PETA) = input_nkolom;
-		initAwal(&MAIN_PETA);
+		NBrsEff(PETA) = input_nbaris;
+		NKolEff(PETA) = input_nkolom;
+		initAwal(&PETA);
 		/*disini tambah setup player
 		  player perlu data di map
 		  currentUnit di set ke King, state awal
