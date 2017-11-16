@@ -198,6 +198,8 @@ void call_EXIT() //incomplete
             printf("Input tidak valid, silakan coba lagi");
         }
     }
+	printf("Exiting the game...");
+	exit();
 }
 
 void do_command(int code){
