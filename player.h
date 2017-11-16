@@ -21,8 +21,8 @@ typedef struct {
 	add_unit First_unit;
 } listunit;
 
-#define Info_unit(P) (P)->info_unit
-#define Next_unit(P) (P)->next_unit
+#define Info_unit(CU) (CU)->info_unit
+#define Next_unit(CU) (CU)->next_unit
 #define First_unit(L) (L).First_unit
 
 boolean IsEmpty_listunit(listunit L);

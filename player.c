@@ -392,3 +392,74 @@ void init_player(player *p, char wrn, char smb){
 	simbol_player(*p) = smb;
 }
 
+void change_unit(player *P){
+	printf(">> List of Units \n");
+
+	// tampilkan seluruh unit
+	add_unit CU = First_unit(list_unit(*P));
+	int cnt = 1;
+	while (add_unit != Nil){
+		printf(">> %d. ", cnt);
+		switch (simbol(Info_unit(CU))){
+			case 'K' : printf("King "); break;
+			case 'A' : printf("Archer "); break;
+			case 'S' : printf("Swordsman "); break;
+			case 'W' : printf("White Mage "); break;
+			default  : printf("No unit found");
+		}
+		tulis_point(lokasi_unit(Info_unit(CU)));
+		printf(" | Health ");
+		printf("%d",health(Info_unit(CU)));
+		printf(" | ATK ");
+		printf("%d",attack(Info_unit(CU)));
+		printf(" | Move_pts ");
+		printf("%d",move_point(Info_unit(CU)));
+		printf(" | ATK_type ");
+		switch (tipe_serang(Info_unit(CU))){
+			case 'M' : printf("Melee "); break;
+			case 'R' : printf("Range "); break;
+			default  : printf("No unit found");
+		}
+		printf(" | ATK_chance ");
+		if(kesempatan_serang(Info_unit(CU))){
+			printf("Yes ");
+		} else {
+			printf("No ");
+		}
+		printf(" | Price ");
+		printf("%d",harga(Info_unit(CU)));
+		CU = Next_unit(CU);
+		cnt++;
+	}
+
+	printf(">> Enter the number of unit you want to select : \n");
+	printf("<< \n");
+	int num_slc;
+	do {
+		scanf("%d",&num_slc);
+		if (num_slc < 1 || num_slc >= cnt){
+			printf(">> Invalid input. Try again\n");
+		}
+	} while (num_slc < 1 || num_slc >= cnt);
+
+	// searching unit bernomor num_slc
+	CU = First_unit(list_unit(*P));
+	int cnt1 = 1;
+	while (cnt1 < cnt){
+		CU = Next_unit(CU);
+		cnt1++;
+	}
+	
+	// mengganti unit yang dipilih P menjadi CU
+	selected(*P) = CU;
+	printf(">> You have select ");
+	switch (simbol(Info_unit(CU))){
+		case 'K' : printf("King "); break;
+		case 'A' : printf("Archer "); break;
+		case 'S' : printf("Swordsman "); break;
+		case 'W' : printf("White Mage "); break;
+		default  : printf("No unit found");
+	}
+	tulis_point(lokasi_unit(Info_unit(CU)));
+	printf("\n");
+}

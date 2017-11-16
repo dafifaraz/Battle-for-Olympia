@@ -31,10 +31,6 @@ boolean isequal_point(POINT P1, POINT P2){
 	return (Absis(P1) == Absis(P2) && Ordinat(P1) == Ordinat(P2));
 }
 
-/* Membaca nilai absis dan ordinat dari keyboard dan membentuk 
-   POINT P berdasarkan dari nilai absis dan ordinat tersebut */
-/* Komponen X dan Y dibaca dalam 1 baris, dipisahkan 1 buah spasi */
-/* Contoh: 1 2 
-   akan membentuk POINT <1,2> */
-/* I.S. Sembarang */
-/* F.S. P terdefinisi */
+void tulis_point (POINT X){
+	printf("(%d,%d)",Absis(X),Ordinat(X));
+}
