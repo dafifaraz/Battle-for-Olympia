@@ -114,7 +114,7 @@ add_petak Alokasi_listpetak(petak X);
 
 void Dealokasi_listpetak(add_petak *P);
 
-add_petak Search_listpetak(listpetak l, petak X);
+add_petak Search_listpetak(listpetak L, petak X);
 
 void InsVFirst_listpetak (listpetak *L, petak X);
 /* I.S. L mungkin kosong */
@@ -185,6 +185,12 @@ typedef struct {
 	char warna;
 	char simbol;
 	unit selected;
+	// berguna buat recruit karena nggak bisa akses peta dari player
+	petak loc_tower; 
+	petak c1;
+	petak c2;
+	petak c3;
+	petak c4;
 } player;
 
 #define gold(P) (P).gold;
@@ -195,6 +201,14 @@ typedef struct {
 #define warna(P) (P).warna;
 #define simbol_player(P) (P).simbol;
 #define selected(P) (P).selected;
+#define petak_tower(P) (P).loc_tower;
+#define petak_c1(P) (P).c1;
+#define petak_c2(P) (P).c2;
+#define petak_c3(P) (P).c3;
+#define petak_c4(P) (P).c4;
 
-void init_player(player *pchar wrn, char smb);
+
+void init_player(player *p, char wrn, char smb);
+
+void change_unit(player *p);
 #endif

@@ -393,9 +393,9 @@ void init_player(player *p, char wrn, char smb){
 }
 
 void change_unit(player *P){
-	printf(">> List of Units \n");
 
 	// tampilkan seluruh unit
+	printf(">> List of Units \n");
 	add_unit CU = First_unit(list_unit(*P));
 	int cnt = 1;
 	while (add_unit != Nil){
@@ -462,4 +462,53 @@ void change_unit(player *P){
 	}
 	tulis_point(lokasi_unit(Info_unit(CU)));
 	printf("\n");
+}
+
+void display_recruitable(player *P){
+	int cnt = 1;
+	if (gold(*P) >= H_ARCHER){
+		printf(">> %d. Archer | Health | ATK | ATK_type | Price \n", );
+	}
+}
+
+void recruit(player *P){
+	int id_p = (int)simbol_player(*P) - 48; 
+	if (simbol(unit_petak(petak_tower(*P))) == 'K' && pemilik(unit_petak(petak_tower(*P))) == id_p){
+	
+		boolean b1 = simbol(unit_petak(petak_c1(*P))) == ' ';
+		boolean b2 = simbol(unit_petak(petak_c2(*P))) == ' ';
+		boolean b3 = simbol(unit_petak(petak_c3(*P))) == ' ';
+		boolean b4 = simbol(unit_petak(petak_c4(*P))) == ' ';
+
+		if (b1 || b2 || b3 || b4){
+			int x = Absis(lokasi_petak(petak_tower(*P)));
+			int y = Ordinat(lokasi_petak(petak_tower(*P)));
+			do{
+				printf(">> Enter coordinat x y of your castle\n");
+				printf("<< \n");
+				int x1, y1;
+				scanf("%d %d",&x1,&y1);
+				if (abs(x-x1) + abs(y-y1) != 1){
+					printf(">> This cell is not your castle\n");
+				} else {
+					POINT slc = MakePOINT(x1,y1);
+					if (isequal_point(lokasi_petak(petak_c1(*P)), slc) && b1){
+
+					} else if (isequal_point(lokasi_petak(petak_c2(*P)), slc) && b2){
+
+					} else if (isequal_point(lokasi_petak(petak_c3(*P)), slc) && b3){
+
+					} else if (isequal_point(lokasi_petak(petak_c4(*P)), slc) && b4){
+
+					} else {
+						printf(">> Your selected castle is occupied\n");
+					}
+				}				
+			}
+		} else {
+			printf(">> Recruit failed. Your castles are full\n");
+		}
+	} else {
+		printf(">> Recruit failed. Your king is not in tower\n");
+	}
 }

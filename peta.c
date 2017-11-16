@@ -34,9 +34,11 @@ void bangun_kerajaan(peta *M, player *p1, player *p2){
 	assign_unit(&king_p2, 'K', 2);
 	InsVFirst_listunit(&list_unit(*p2),king_p2);	
 
-	//Tower Castle tidak perlu ditaruh ke listpetak, karena tempatnya konstan
 	assign_petak(&(petak(*M,Absis(lokasi_p1),Ordinat(lokasi_p1))), 'T', 1, king_p1);
+	petak_tower(*p1) = petak(*M,Absis(lokasi_p1),Ordinat(lokasi_p1));
+
 	assign_petak(&(petak(*M,Absis(lokasi_p2),Ordinat(lokasi_p2))), 'T', 2, king_p2);
+	petak_tower(*p2) = petak(*M,Absis(lokasi_p2),Ordinat(lokasi_p2));	
 
 	POINT lokasi_CL_P1 = MakePOINT(Absis(lokasi_p1),Ordinat(lokasi_p1) - 1);
 	POINT lokasi_CU_P1 = MakePOINT(Absis(lokasi_p1) - 1,Ordinat(lokasi_p1));
@@ -49,15 +51,28 @@ void bangun_kerajaan(peta *M, player *p1, player *p2){
 	POINT lokasi_CD_P2 = MakePOINT(Absis(lokasi_p2) + 1,Ordinat(lokasi_p2));
 
 	assign_petak(&(petak(*M,Absis(lokasi_CL_P1),Ordinat(lokasi_CL_P1))), 'C', 1, empty_unit(lokasi_CL_P1));		
+	petak_c1(*p1) = petak(*M,Absis(lokasi_CL_P1),Ordinat(lokasi_CL_P1));
+
 	assign_petak(&(petak(*M,Absis(lokasi_CU_P1),Ordinat(lokasi_CU_P1))), 'C', 1, empty_unit(lokasi_CU_P1));
+	petak_c2(*p1) = petak(*M,Absis(lokasi_CU_P1),Ordinat(lokasi_CU_P1));
+
 	assign_petak(&(petak(*M,Absis(lokasi_CR_P1),Ordinat(lokasi_CR_P1))), 'C', 1, empty_unit(lokasi_CR_P1));
+	petak_c3(*p1) = petak(*M,Absis(lokasi_CR_P1),Ordinat(lokasi_CR_P1));
+
 	assign_petak(&(petak(*M,Absis(lokasi_CD_P1),Ordinat(lokasi_CD_P1))), 'C', 1, empty_unit(lokasi_CD_P1));
+	petak_c4(*p1) = petak(*M,Absis(lokasi_CD_P1),Ordinat(lokasi_CD_P1));
 
 	assign_petak(&(petak(*M,Absis(lokasi_CL_P2),Ordinat(lokasi_CL_P2))), 'C', 1, empty_unit(lokasi_CL_P2));
-	assign_petak(&(petak(*M,Absis(lokasi_CU_P2),Ordinat(lokasi_CU_P2))), 'C', 1, empty_unit(lokasi_CU_P2));
-	assign_petak(&(petak(*M,Absis(lokasi_CR_P2),Ordinat(lokasi_CR_P2))), 'C', 1, empty_unit(lokasi_CR_P2));
-	assign_petak(&(petak(*M,Absis(lokasi_CD_P2),Ordinat(lokasi_CD_P2))), 'C', 1, empty_unit(lokasi_CD_P2));
+	petak_c1(*p2) = petak(*M,Absis(lokasi_CL_P2),Ordinat(lokasi_CL_P2));
 
+	assign_petak(&(petak(*M,Absis(lokasi_CU_P2),Ordinat(lokasi_CU_P2))), 'C', 1, empty_unit(lokasi_CU_P2));
+	petak_c2(*p2) = petak(*M,Absis(lokasi_CU_P2),Ordinat(lokasi_CU_P2));
+
+	assign_petak(&(petak(*M,Absis(lokasi_CR_P2),Ordinat(lokasi_CR_P2))), 'C', 1, empty_unit(lokasi_CR_P2));
+	petak_c2(*p2) = petak(*M,Absis(lokasi_CR_P2),Ordinat(lokasi_CR_P2));
+
+	assign_petak(&(petak(*M,Absis(lokasi_CD_P2),Ordinat(lokasi_CD_P2))), 'C', 1, empty_unit(lokasi_CD_P2));
+	petak_c2(*p2) = petak(*M,Absis(lokasi_CD_P2),Ordinat(lokasi_CD_P2));
 }
 
 void init_peta(peta *M, int NBrsEff, int NKolEff){

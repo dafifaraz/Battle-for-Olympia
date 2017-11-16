@@ -13,7 +13,7 @@ typedef struct{
 	int max_move_point;
 	int move_point;
 	char tipe_serang;
-	boolean kesempatan_serang;
+	boolean kesempatan_serang;ssi
 	POINT lokasi;
 	int harga;
 	char simbol;
@@ -32,6 +32,29 @@ typedef struct{
 #define simbol(U) (U).simbol
 #define pemilik(U) (U).pemilik
 
+#define MH_KING 100
+#define ATK_KING 10
+#define MM_KING 7
+#define TS_KING 'M'
+#define H_KING -1
+
+#define MH_ARCHER 50
+#define ATK_ARCHER 15
+#define MM_ARCHER 7
+#define TS_ARCHER 'R'
+#define H_ARCHER 10
+
+#define MH_SWORDSMAN 75
+#define ATK_SWORDSMAN 10
+#define MM_SWORDSMAN 8
+#define TS_SWORDSMAN 'M'
+#define H_SWORDSMAN 15
+
+#define MH_WHITEMAGE 50
+#define ATK_WHITEMAGE 5
+#define MM_WHITEMAGE 7
+#define TS_WHITEMAGE 'M'
+#define H_WHITEMAGE 20
 
 unit empty_unit(POINT lokasi_u);
 //Mengembalikan unit yang tipe dan kepemilikannya belum terdefinisi di lokasi_u
@@ -47,7 +70,4 @@ void swap_unit(unit *u1, unit *u2);
 //I.S : u1 dan u2 terdefinisi
 //F.s : u1 menjadi u2, u2 menjadi u1
 //Prosedur ini dimanfaatkan untuk command MOVE.
-
-
-
 #endif
