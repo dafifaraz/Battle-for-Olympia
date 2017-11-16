@@ -178,7 +178,27 @@ void call_MAP(){}
 void call_INFO(){}
 void call_END_turn(){}
 void call_SAVE(){}
-void call_EXIT(){}
+void call_EXIT() //incomplete
+{
+    /* Kamus */
+    char savegame = 'x';
+    while (savegame != 'n' || savegame != 'y')
+    {
+        printf("Would you like to save the game? (Y/N)\n");
+        scanf("%c",savegame);
+        if (savegame == 'y')
+        {
+            call_SAVE();
+        } else if (savegame == 'n')
+        {
+            /* reset state semua file eksternal menjadi semula*/
+            /* Balik ke main menu */
+        } else
+        {
+            printf("Input tidak valid, silakan coba lagi");
+        }
+    }
+}
 
 void do_command(int code){
 	switch (code) {
