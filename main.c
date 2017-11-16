@@ -29,24 +29,24 @@ boolean isequal_str(char* str1, char* str2){
 
 void print_text(char c, char* text){
 	int rest = PANJANG_PAGAR - strlen(text);
-	int awal = rest/2; 
+	int awal = rest/2;
 	int akhir = rest - awal;
-	
+
 	for (int i=0; i<=awal; i++) printf("%c",c);
-	
+
 	if (strlen(text)>0){
-		printf("   ");	
+		printf("   ");
 	} else {
-		for (int i=0; i<3; i++) printf("%c",c); 
+		for (int i=0; i<3; i++) printf("%c",c);
 	}
 
 	int cnt = 0;
 	for (int i=0; i<strlen(text); i++) printf("%c",text[i]);
 
 	if (strlen(text)>0){
-		printf("   ");	
+		printf("   ");
 	} else {
-		for (int i=0; i<3; i++) printf("%c",c); 
+		for (int i=0; i<3; i++) printf("%c",c);
 	}
 
 	for (int i=0; i<=akhir; i++) printf("%c",c);
@@ -70,12 +70,12 @@ void start_game(boolean *new_game){
 		printf("<< "); scanf("%d",&start_option);
 		if (start_option == 1){
 			printf("\n");
-			print_text('*',"NEW GAME"); 
+			print_text('*',"NEW GAME");
 			printf("\n");
 			*new_game = true;
 		} else if (start_option == 2){
 			printf("\n");
-			print_text('*',"LOAD GAME"); 
+			print_text('*',"LOAD GAME");
 			printf("\n");
 			*new_game = false;
 		} else {
@@ -92,7 +92,7 @@ void do_new_game(peta *M){
 		printf("<< "); scanf("%d",&input_nbaris);
 		printf(">> Length of map column :\n");
 		printf("<< "); scanf("%d",&input_nkolom);
-		
+
 		if (input_nbaris < 8 || input_nkolom < 8 || input_nbaris > MAX_BARIS_peta || input_nkolom > MAX_KOLOM_peta){
 			valid_peta = false;
 		} else {
@@ -125,7 +125,7 @@ void display_command(){
 
 int command_code(char* str){
 	int code;
-	
+
 	if (isequal_str(str,"MOVE")){
 		code = 1;
 	} else if (isequal_str(str,"UNDO")){
@@ -199,7 +199,7 @@ void call_EXIT() //incomplete
         }
     }
 	printf("Exiting the game...");
-	exit();
+	exit(0);
 }
 
 void do_command(int code){
@@ -267,7 +267,7 @@ int main(){
 	}
 
 
-	
+
 	display_command();
 	boolean game_over = false;
 	do{
@@ -276,6 +276,6 @@ int main(){
 		printf("%d\n",code);
 		do_command(code);
 		if (code == 0) game_over = true;
-	} while (!game_over); 
+	} while (!game_over);
 
 }
