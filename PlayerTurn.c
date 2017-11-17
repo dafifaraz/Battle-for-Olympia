@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "queue.c"
+#include "queue.h"
 
 /*pakai dengan menggunakan & ex.NextTurnQueue(&Q)*/
 
