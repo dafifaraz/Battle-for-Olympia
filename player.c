@@ -465,17 +465,6 @@ void change_unit(player *P){
 }
 
 void display_recruitable(player *P){															
-	int cnt = 1;
-	if (gold(*P) >= H_ARCHER){
-		printf(">> %d. Archer | Health %d | ATK %d | ATK_type %c | Price %dG\n", cnt,MH_ARCHER,ATK_ARCHER,TS_ARCHER,H_ARCHER);
-		cnt++;
-	} else if (gold(*P) >= H_SWORDSMAN){
-		printf(">> %d. Archer | Health %d | ATK %d | ATK_type %c | Price %dG\n", cnt,MH_SWORDSMAN,ATK_SWORDSMAN,TS_SWORDSMAN,H_SWORDSMAN);
-		cnt++;
-	} else { // gold(P) >= H_WHITEMAGE
-		printf(">> %d. Archer | Health %d | ATK %d | ATK_type %c | Price %dG\n", cnt,MH_WHITEMAGE,ATK_WHITEMAGE,TS_WHITEMAGE,H_WHITEMAGE);
-		cnt++;
-	}
 }
 
 void recruit(player *P){
@@ -499,18 +488,26 @@ void recruit(player *P){
 					printf(">> This cell is not your castle\n");
 				} else {
 					POINT slc = MakePOINT(x1,y1);
-					if (isequal_point(lokasi_petak(petak_c1(*P)), slc) && b1){
-						display_recruitable(P);
+					boolean b5 = 	isequal_point(lokasi_petak(petak_c1(*P)), slc) && b1 ||
+									isequal_point(lokasi_petak(petak_c2(*P)), slc) && b2 ||
+									isequal_point(lokasi_petak(petak_c3(*P)), slc) && b3 ||
+									isequal_point(lokasi_petak(petak_c4(*P)), slc) && b4 ;
+					if (b5){
+						int cnt = 1;
+						if (gold(*P) >= H_ARCHER){
+							printf(">> %d. Archer | Health %d | ATK %d | ATK_type %c | Price %dG\n", cnt,MH_ARCHER,ATK_ARCHER,TS_ARCHER,H_ARCHER);
+							cnt++;
+						} else if (gold(*P) >= H_SWORDSMAN){
+							printf(">> %d. Archer | Health %d | ATK %d | ATK_type %c | Price %dG\n", cnt,MH_SWORDSMAN,ATK_SWORDSMAN,TS_SWORDSMAN,H_SWORDSMAN);
+							cnt++;
+						} else { // gold(P) >= H_WHITEMAGE
+							printf(">> %d. Archer | Health %d | ATK %d | ATK_type %c | Price %dG\n", cnt,MH_WHITEMAGE,ATK_WHITEMAGE,TS_WHITEMAGE,H_WHITEMAGE);
+							cnt++;
+						}
 						
-					} else if (isequal_point(lokasi_petak(petak_c2(*P)), slc) && b2){
-						display_recruitable(P);						
-					} else if (isequal_point(lokasi_petak(petak_c3(*P)), slc) && b3){
-						display_recruitable(P);
-					} else if (isequal_point(lokasi_petak(petak_c4(*P)), slc) && b4){
-						display_recruitable(P);
 					} else {
 						printf(">> Your selected castle is occupied\n");
-					}
+					}	
 				}				
 			}
 		} else {
