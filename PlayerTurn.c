@@ -23,10 +23,12 @@ if(InfoHead(Q)==1)
     {
         printf("Giliran player 1!!!");
         COMMAND DI TURN PLAYER 1
+        NextTurnQueue(&Q);
     }
 else if(InfoHead(Q)==2)
     {
         printf("Giliran player 2!!!");
         COMMAND DI TURN PLAYER 2
+        NextTurnQueue(&Q);
     }
 }*/
