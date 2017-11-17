@@ -1,15 +1,3 @@
-/*** IDENTITAS ***/
-/*
-   Nama     : Dion Saputra
-   NIM      : 13516045
-   Tanggal  : 31 Agustus 2017
-   Topik    : Abstract Data Type 
-   Deskripsi : Membuat ADT Point dan Jam
-*/
-
-/* File: jam.c */
-/* Tanggal: 28 Agustus 2016 */
-
 #include "boolean.h"
 #include "jam.h"
 #include <stdio.h>
@@ -27,7 +15,6 @@ boolean IsJAMValid (int H, int M, int S)
    // Valid M dan S : 0 <= M,S <= 59
    return (H>=0 && H<=23 && M>=0 && M<=59 && S>=0 && S<=59);
 }
-
 /* *** Konstruktor: Membentuk sebuah JAM dari komponen-komponennya *** */
 JAM MakeJAM (int HH, int MM, int SS)
 /* Membentuk sebuah JAM dari komponen-komponennya yang valid */
@@ -39,7 +26,6 @@ JAM MakeJAM (int HH, int MM, int SS)
    Second(J) = SS;
    return J;
 }
-
 /* ***************************************************************** */
 /* KELOMPOK BACA/TULIS                                               */
 /* ***************************************************************** */
@@ -69,7 +55,6 @@ void BacaJAM (JAM * J)
    // Membentuk J dari komponen HH,MM,SS
    *J = MakeJAM(HH,MM,SS);
 }
-
 void TulisJAM (JAM J)
 /* I.S. : J sembarang */
 /* F.S. :   Nilai J ditulis dg format HH:MM:SS */
@@ -79,7 +64,6 @@ void TulisJAM (JAM J)
    // Asumsi untuk 00:00:00, maka 0:0:0
    printf("%d:%d:%d",Hour(J),Minute(J),Second(J));
 }
-
 /* ***************************************************************** */
 /* KELOMPOK KONVERSI TERHADAP TYPE                                   */
 /* ***************************************************************** */
@@ -90,7 +74,6 @@ long JAMToDetik (JAM J)
 {
    return (3600*Hour(J) + 60*Minute(J) + Second(J));
 }
-
 JAM DetikToJAM (long N) 
 /* Mengirim  konversi detik ke JAM */
 /* Catatan: Jika N >= 86400, maka harus dikonversi dulu menjadi jumlah detik yang 
@@ -108,7 +91,6 @@ JAM DetikToJAM (long N)
    SS = N % 60;
    return (MakeJAM(HH,MM,SS));
 }
-
 /* ***************************************************************** */
 /* KELOMPOK OPERASI TERHADAP TYPE                                    */
 /* ***************************************************************** */
@@ -119,39 +101,33 @@ boolean JEQ (JAM J1, JAM J2)
    // Setiap komponennya harus sama
    return (Hour(J1)==Hour(J2) && Minute(J1)==Minute(J2) && Second(J1)==Second(J2));
 }
-
 boolean JNEQ (JAM J1, JAM J2)
 /* Mengirimkan true jika J1 tidak sama dengan J2 */
 {
    return (Hour(J1)!=Hour(J2) || (Minute(J1)!=Minute(J2)) || Second(J1)!=Second(J2));
 }
-
 boolean JLT (JAM J1, JAM J2)
 /* Mengirimkan true jika J1<J2, false jika tidak */
 {
    return (JAMToDetik(J1) < JAMToDetik(J2));
 }
-
 boolean JGT (JAM J1, JAM J2)
 /* Mengirimkan true jika J1>J2, false jika tidak */
 {
    return (JAMToDetik(J1) > JAMToDetik(J2));
 }
-
 /* *** Operator aritmatika JAM *** */
 JAM NextDetik (JAM J)
 /* Mengirim 1 detik setelah J dalam bentuk JAM */
 {
    return DetikToJAM(JAMToDetik(J) + 1);
 }
-
 JAM NextNDetik (JAM J, int N)
 /* Mengirim N detik setelah J dalam bentuk JAM */
 {
    N = N % 86400; // Antisipasi N > 86400
    return (DetikToJAM(JAMToDetik(J) + N));
 }
-
 JAM PrevDetik (JAM J)
 /* Mengirim 1 detik sebelum J dalam bentuk JAM */
 {
@@ -161,7 +137,6 @@ JAM PrevDetik (JAM J)
       return (DetikToJAM(JAMToDetik(J) - 1));
    }
 }
-
 JAM PrevNDetik (JAM J, int N)
 /* Mengirim N detik sebelum J dalam bentuk JAM */
 {
@@ -172,7 +147,6 @@ JAM PrevNDetik (JAM J, int N)
       return (DetikToJAM(JAMToDetik(J) - N));   
    }
 }
-
 /* *** Kelompok Operator Aritmetika *** */
 long Durasi (JAM JAw, JAM JAkh)
 /* Mengirim JAkh-JAw dlm Detik, dengan kalkulasi */
