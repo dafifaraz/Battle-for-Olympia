@@ -460,11 +460,11 @@ void change_unit(player *P){
 		case 'W' : printf("White Mage "); break;
 		default  : printf("No unit found");
 	}
-	tulis_point(lokasi_unit(Info_unit(CU)));
+	tulis_point(lokasi_unit(Info_unit(CU)));	
 	printf("\n");
 }
 
-void display_recruitable(player *P){
+void display_recruitable(player *P){															
 	int cnt = 1;
 	if (gold(*P) >= H_ARCHER){
 		printf(">> %d. Archer | Health | ATK | ATK_type | Price \n", );
