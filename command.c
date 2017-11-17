@@ -1,3 +1,5 @@
+
+
 void printUnitName(Unit U){
     if(Tipe(U) == 'A'){
         printf("Archer ");
@@ -12,7 +14,8 @@ void printUnitName(Unit U){
         printf("White Mage ");
     }
 }
-void printPetakName(PETAK P){
+
+/*void printPetakName(PETAK P){
     if(Jenis(P) == 'C'){
         printf("Castle ");
     }else
@@ -22,46 +25,46 @@ void printPetakName(PETAK P){
     if(Jenis(P) == 'N'){
         printf("Normal ");
     }
-}
+}*/
 
-void COMAND_ATTACK(Player ONE, Player TWO){
+void COMAND_ATTACK(player one, player two){
     TabAddress canAttack;
     MakeEmpty(&canAttack);
     printf("Please select enemy you want to attack:\n");
-    address P = First(TWO.unit);
+    add_unit P = First_unit(list_unit(two));
     int cntUnit=0;
     while (P != Nil){
-        if(canSerang(ONE.currentUnit, Info(P))){
-            printUnitName(Info(P))
-            printf("(%d,%d) | Health ",Lokasi(Info(P)).X, Lokasi(Info(P)).Y);
-            printf("%d/%d", Health(Info(P)), MaxHealth(Info(P)));
-            if(((TipeSerangan(ONE.currentUnit) == TipeSerangan(Info(P))) || (Tipe(Info(P))=='K')) && (Attack(ONE.currentUnit)<Health(Info(P)))){
+        if(canSerang(selected(one), Info_unit(P))){
+            printUnitName(Info_unit(P))
+            printf("(%d,%d) | Health ",Lokasi(Info_unit(P)).X, Lokasi(Info_unit(P)).Y);
+            printf("%d/%d", Health(Info_unit(P)), MaxHealth(Info_unit(P)));
+            if(((TipeSerangan(selected(one)) == TipeSerangan(Info_unit(P))) || (Tipe(Info_unit(P))=='K')) && (Attack(ONE.currentUnit)<Health(Info(P)))){
                 printf(" (Retaliates)\n");
             }else{
                 printf("\n");
             }
-            Elmt(canAttack,cntUnit) = P;
+            Elmt(canAttack,cntUnit++) = P;
             Neff(canAttack)++;
         }
-        P = Next(P);
+        P = Next_unit(P);
     }
 
     printf("Select enemy you want to attack: ");
     int unitYangAkanDiserang;
     scanf("%d", &unitYangAkanDiserang);
 
-    Serang(&ONE.currentUnit, &Info(Elmt(canAttack,unitYangAkanDiserang)));
+    Serang(&selected(one), &Info_unit(Elmt(canAttack,unitYangAkanDiserang)));
     printf("Enemy\'s ");
-    printUnitName(Info(Elmt(canAttack,unitYangAkanDiserang)));
-    printf("is damaged by %d.\n",Attack(ONE.currentUnit));
+    printUnitName(Info_unit(Elmt(canAttack,unitYangAkanDiserang)));
+    printf("is damaged by %d.\n",Attack(selected(one)));
     
-    if(Health(Info(Elmt(canAttack,unitYangAkanDiserang)))<=0){
+    if(Health(Info_unit(Elmt(canAttack,unitYangAkanDiserang)))<=0){
         printf("Enemy\'s ");
-        printUnitName(Info(Elmt(canAttack,unitYangAkanDiserang)));
+        printUnitName(Info_unit(Elmt(canAttack,unitYangAkanDiserang)));
         printf("is dead.\n");
     }
 
-    if(((TipeSerangan(ONE.currentUnit) == TipeSerangan(Info(P))) || (Tipe(Info(P))=='K')) && Health(Elmt(canAttack,unitYangAkanDiserang))>0){
+    if(((TipeSerangan(selected(one)) == TipeSerangan(Info_unit(P))) || (Tipe(Info(P))=='K')) && Health(Elmt(canAttack,unitYangAkanDiserang))>0){
         printf("Enemy\'s ");
         printUnitName(Info(Elmt(canAttack,unitYangAkanDiserang)));
         printf("retaliates.\n");
@@ -77,7 +80,7 @@ void COMAND_ATTACK(Player ONE, Player TWO){
     }
 }
 
-void COMAND_INFO(){
+/*void COMAND_INFO(){
     POINT coordinate;
     printf("Enter the coordinate of the cell: ");
     BacaPOINT(&coordinate);
@@ -93,15 +96,4 @@ void COMAND_INFO(){
 boolean checkOcc(POINT P){
     return peta[Absis(P)][Ordinat(P)]
 }
-
-void COMAND_RECRUIT(){
-    POINT newP;
-    printf("Enter​ ​ coordinate​ ​ of​ ​ empty​ ​ castle: ");
-    BacaPOINT(&newP);
-    while(){
-        printf("Enter​ ​ coordinate​ ​ of​ ​ empty​ ​ castle: ");
-        BacaPOINT(&newP);
-    }
-
-
-}
+*/
