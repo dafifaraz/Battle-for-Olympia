@@ -464,7 +464,38 @@ void change_unit(player *P){
 	printf("\n");
 }
 
-void display_recruitable(player *P){															
+void do_recruit(player *P, POINT loc_new){
+	printf(">> List of recruits\n");
+	int cnt = 1;
+	if (gold(*P) >= H_ARCHER){
+		printf(">> %d. Archer | Health %d | ATK %d | ATK_type %c | Price %dG\n", cnt,MH_ARCHER,ATK_ARCHER,TS_ARCHER,H_ARCHER);
+		cnt++;
+	} else if (gold(*P) >= H_SWORDSMAN){
+		printf(">> %d. Archer | Health %d | ATK %d | ATK_type %c | Price %dG\n", cnt,MH_SWORDSMAN,ATK_SWORDSMAN,TS_SWORDSMAN,H_SWORDSMAN);
+		cnt++;
+	} else { // gold(P) >= H_WHITEMAGE
+		printf(">> %d. Archer | Health %d | ATK %d | ATK_type %c | Price %dG\n", cnt,MH_WHITEMAGE,ATK_WHITEMAGE,TS_WHITEMAGE,H_WHITEMAGE);
+		cnt++;
+	}
+	
+	int no_rec;
+	do {
+		printf(">> Enter no unit you want to recruit\n");
+		printf("<< ");
+		scanf("%d",&no_rec);
+		if (no_rec < 1 || no_rec > 3){
+			printf("Invalid input\n");
+		}	
+	} while (no_rec < 1 || no_rec > 3);					
+		
+	if (no_rec == 1){
+		
+	} else if (no_rec == 2){
+
+	} else {
+
+	}
+												
 }
 
 void recruit(player *P){
@@ -481,32 +512,23 @@ void recruit(player *P){
 			int y = Ordinat(lokasi_petak(petak_tower(*P)));
 			do{
 				printf(">> Enter coordinat x y of your castle\n");
-				printf("<< \n");
+				printf("<< ");
 				int x1, y1;
 				scanf("%d %d",&x1,&y1);
 				if (abs(x-x1) + abs(y-y1) != 1){
 					printf(">> This cell is not your castle\n");
 				} else {
 					POINT slc = MakePOINT(x1,y1);
-					boolean b5 = 	isequal_point(lokasi_petak(petak_c1(*P)), slc) && b1 ||
-									isequal_point(lokasi_petak(petak_c2(*P)), slc) && b2 ||
-									isequal_point(lokasi_petak(petak_c3(*P)), slc) && b3 ||
-									isequal_point(lokasi_petak(petak_c4(*P)), slc) && b4 ;
-					if (b5){
-						int cnt = 1;
-						if (gold(*P) >= H_ARCHER){
-							printf(">> %d. Archer | Health %d | ATK %d | ATK_type %c | Price %dG\n", cnt,MH_ARCHER,ATK_ARCHER,TS_ARCHER,H_ARCHER);
-							cnt++;
-						} else if (gold(*P) >= H_SWORDSMAN){
-							printf(">> %d. Archer | Health %d | ATK %d | ATK_type %c | Price %dG\n", cnt,MH_SWORDSMAN,ATK_SWORDSMAN,TS_SWORDSMAN,H_SWORDSMAN);
-							cnt++;
-						} else { // gold(P) >= H_WHITEMAGE
-							printf(">> %d. Archer | Health %d | ATK %d | ATK_type %c | Price %dG\n", cnt,MH_WHITEMAGE,ATK_WHITEMAGE,TS_WHITEMAGE,H_WHITEMAGE);
-							cnt++;
-						}
-						
+					if (isequal_point(lokasi_petak(petak_c1(*P)), slc) && b1){
+
+					} else if (isequal_point(lokasi_petak(petak_c2(*P)), slc) && b2){
+
+					} else if (isequal_point(lokasi_petak(petak_c3(*P)), slc) && b3){
+
+					} else if (isequal_point(lokasi_petak(petak_c4(*P)), slc) && b4){
+
 					} else {
-						printf(">> Your selected castle is occupied\n");
+						printf(">> Your selected castle is occupied\n");						
 					}	
 				}				
 			}
