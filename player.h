@@ -21,8 +21,8 @@ typedef struct {
 	add_unit First_unit;
 } listunit;
 
-#define Info_unit(P) (P)->info_unit
-#define Next_unit(P) (P)->next_unit
+#define Info_unit(CU) (CU)->info_unit
+#define Next_unit(CU) (CU)->next_unit
 #define First_unit(L) (L).First_unit
 
 boolean IsEmpty_listunit(listunit L);
@@ -114,7 +114,7 @@ add_petak Alokasi_listpetak(petak X);
 
 void Dealokasi_listpetak(add_petak *P);
 
-add_petak Search_listpetak(listpetak l, petak X);
+add_petak Search_listpetak(listpetak L, petak X);
 
 void InsVFirst_listpetak (listpetak *L, petak X);
 /* I.S. L mungkin kosong */
@@ -185,6 +185,8 @@ typedef struct {
 	char warna;
 	char simbol;
 	unit selected;
+	// berguna buat recruit karena nggak bisa akses peta dari player
+	petak petak_khusus[6]; //petak[0] simpan tower, 4 lagi simpan castle 
 } player;
 
 #define gold(P) (P).gold;
@@ -195,6 +197,9 @@ typedef struct {
 #define warna(P) (P).warna;
 #define simbol_player(P) (P).simbol;
 #define selected(P) (P).selected;
+#define petak_khusus(P,i) (P).petak_khusus[i]; 
 
-void init_player(player *pchar wrn, char smb);
+void init_player(player *p, char wrn, char smb);
+
+void change_unit(player *p);
 #endif

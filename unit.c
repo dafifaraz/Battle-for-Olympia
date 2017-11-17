@@ -2,30 +2,6 @@
 #include "boolean.h"
 #include "point.h"
 
-#define MH_KING 100
-#define ATK_KING 10
-#define MM_KING 2
-#define TS_KING 'M'
-#define H_KING -1
-
-#define MH_ARCHER 50
-#define ATK_ARCHER 15
-#define MM_ARCHER 2
-#define TS_ARCHER 'R'
-#define H_ARCHER 10
-
-#define MH_SWORDSMAN 75
-#define ATK_SWORDSMAN 10
-#define MM_SWORDSMAN 3
-#define TS_SWORDSMAN 'M'
-#define H_SWORDSMAN 15
-
-#define MH_WHITEMAGE 50
-#define ATK_WHITEMAGE 5
-#define MM_WHITEMAGE 2
-#define TS_WHITEMAGE 'M'
-#define H_WHITEMAGE 20
-
 unit empty_unit(POINT lokasi_u){
 	unit u;
 	

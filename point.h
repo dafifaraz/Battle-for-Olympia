@@ -34,4 +34,5 @@ void BacaPOINT (POINT * P);
 
 boolean isequal_point(POINT P1, POINT P2);
 
+void tulis_point(POINT X);
 #endif

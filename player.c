@@ -392,3 +392,150 @@ void init_player(player *p, char wrn, char smb){
 	simbol_player(*p) = smb;
 }
 
+void change_unit(player *P){
+
+	// tampilkan seluruh unit
+	printf(">> List of Units \n");
+	add_unit CU = First_unit(list_unit(*P));
+	int cnt = 1;
+	while (add_unit != Nil){
+		printf(">> %d. ", cnt);
+		switch (simbol(Info_unit(CU))){
+			case 'K' : printf("King "); break;
+			case 'A' : printf("Archer "); break;
+			case 'S' : printf("Swordsman "); break;
+			case 'W' : printf("White Mage "); break;
+			default  : printf("No unit found");
+		}
+		tulis_point(lokasi_unit(Info_unit(CU)));
+		printf(" | Health ");
+		printf("%d",health(Info_unit(CU)));
+		printf(" | ATK ");
+		printf("%d",attack(Info_unit(CU)));
+		printf(" | Move_pts ");
+		printf("%d",move_point(Info_unit(CU)));
+		printf(" | ATK_type ");
+		switch (tipe_serang(Info_unit(CU))){
+			case 'M' : printf("Melee "); break;
+			case 'R' : printf("Range "); break;
+			default  : printf("No unit found");
+		}
+		printf(" | ATK_chance ");
+		if(kesempatan_serang(Info_unit(CU))){
+			printf("Yes ");
+		} else {
+			printf("No ");
+		}
+		printf(" | Price ");
+		printf("%d",harga(Info_unit(CU)));
+		CU = Next_unit(CU);
+		cnt++;
+	}
+
+	printf(">> Enter the number of unit you want to select : \n");
+	printf("<< \n");
+	int num_slc;
+	do {
+		scanf("%d",&num_slc);
+		if (num_slc < 1 || num_slc >= cnt){
+			printf(">> Invalid input. Try again\n");
+		}
+	} while (num_slc < 1 || num_slc >= cnt);
+
+	// searching unit bernomor num_slc
+	CU = First_unit(list_unit(*P));
+	int cnt1 = 1;
+	while (cnt1 < cnt){
+		CU = Next_unit(CU);
+		cnt1++;
+	}
+	
+	// mengganti unit yang dipilih P menjadi CU
+	selected(*P) = CU;
+	printf(">> You have select ");
+	switch (simbol(Info_unit(CU))){
+		case 'K' : printf("King "); break;
+		case 'A' : printf("Archer "); break;
+		case 'S' : printf("Swordsman "); break;
+		case 'W' : printf("White Mage "); break;
+		default  : printf("No unit found");
+	}
+	tulis_point(lokasi_unit(Info_unit(CU)));	
+	printf("\n");
+}
+
+void do_recruit(player *P, POINT loc_new){
+	printf(">> List of recruits\n");
+	int cnt = 1;
+	if (gold(*P) >= H_ARCHER){
+		printf(">> %d. Archer | Health %d | ATK %d | ATK_type %c | Price %dG\n", cnt,MH_ARCHER,ATK_ARCHER,TS_ARCHER,H_ARCHER);
+		cnt++;
+	} else if (gold(*P) >= H_SWORDSMAN){
+		printf(">> %d. Archer | Health %d | ATK %d | ATK_type %c | Price %dG\n", cnt,MH_SWORDSMAN,ATK_SWORDSMAN,TS_SWORDSMAN,H_SWORDSMAN);
+		cnt++;
+	} else { // gold(P) >= H_WHITEMAGE
+		printf(">> %d. Archer | Health %d | ATK %d | ATK_type %c | Price %dG\n", cnt,MH_WHITEMAGE,ATK_WHITEMAGE,TS_WHITEMAGE,H_WHITEMAGE);
+		cnt++;
+	}
+	
+	int no_rec;
+	do {
+		printf(">> Enter no unit you want to recruit\n");
+		printf("<< ");
+		scanf("%d",&no_rec);
+		if (no_rec < 1 || no_rec > 3){
+			printf("Invalid input\n");
+		}	
+	} while (no_rec < 1 || no_rec > 3);					
+		
+	if (no_rec == 1){
+		
+	} else if (no_rec == 2){
+
+	} else {
+
+	}
+												
+}
+
+void recruit(player *P){
+	int id_p = (int)simbol_player(*P) - 48; 
+	if (simbol(unit_petak(petak_tower(*P))) == 'K' && pemilik(unit_petak(petak_tower(*P))) == id_p){
+	
+		boolean b1 = simbol(unit_petak(petak_c1(*P))) == ' ';
+		boolean b2 = simbol(unit_petak(petak_c2(*P))) == ' ';
+		boolean b3 = simbol(unit_petak(petak_c3(*P))) == ' ';
+		boolean b4 = simbol(unit_petak(petak_c4(*P))) == ' ';
+
+		if (b1 || b2 || b3 || b4){
+			int x = Absis(lokasi_petak(petak_tower(*P)));
+			int y = Ordinat(lokasi_petak(petak_tower(*P)));
+			do{
+				printf(">> Enter coordinat x y of your castle\n");
+				printf("<< ");
+				int x1, y1;
+				scanf("%d %d",&x1,&y1);
+				if (abs(x-x1) + abs(y-y1) != 1){
+					printf(">> This cell is not your castle\n");
+				} else {
+					POINT slc = MakePOINT(x1,y1);
+					if (isequal_point(lokasi_petak(petak_c1(*P)), slc) && b1){
+
+					} else if (isequal_point(lokasi_petak(petak_c2(*P)), slc) && b2){
+
+					} else if (isequal_point(lokasi_petak(petak_c3(*P)), slc) && b3){
+
+					} else if (isequal_point(lokasi_petak(petak_c4(*P)), slc) && b4){
+
+					} else {
+						printf(">> Your selected castle is occupied\n");						
+					}	
+				}				
+			}
+		} else {
+			printf(">> Recruit failed. Your castles are full\n");
+		}
+	} else {
+		printf(">> Recruit failed. Your king is not in tower\n");
+	}
+}
