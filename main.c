@@ -4,6 +4,7 @@
 #include "pcolor.h"
 #include "peta.h"
 #include "player.h"
+#include "stackt.h"
 
 #define MAX_BARIS_peta 100
 #define MAX_KOLOM_peta 100
@@ -197,23 +198,20 @@ void do_command(int code){
 }
 
 int main(){
-<<<<<<< HEAD
 	peta main_peta;
 	player p1,p2;
 	int turn; //Giliran
-=======
 	peta PETA;
 	player ONE,TWO;
 	int TURN; //Giliran
->>>>>>> f33af170014253d49df24dc381c1613b336f8704
 	boolean new_game;
 	start_game(&new_game);
-
+	Stack state;
+	CreateEmpty(&state);
 	// Aksi ketika new game
 	if (new_game){
 		//Baca Baris dan Kolom, setel kondisi awal
 		int input_nbaris, input_nkolom;
-<<<<<<< HEAD
 		do_new_game(&main_peta);
 		/*disini tambah setup player
 		  player perlu data di map
@@ -225,7 +223,6 @@ int main(){
 		  TWO.currentUnit = main_peta.P[1][NKolEff(*M)-2].unit;
 		*/
 		turn = 1; //Pemain 1 mulai pertama
-=======
 		do_new_game(&input_nbaris, &input_nkolom);
 		CreateEmpty_listunit(&list_unit(one));
 		CreateEmpty_listunit(&list_unit(two));
@@ -239,7 +236,6 @@ int main(){
 		InsVFirst_listunit(&list_unit(two), king_p2);
 		init_peta(&PETA, input_nbaris, input_nkolom);
 		TURN = 1; //Pemain 1 mulai pertama
->>>>>>> f33af170014253d49df24dc381c1613b336f8704
 	} else { /*** LOAD GAME ***/
 
 	}

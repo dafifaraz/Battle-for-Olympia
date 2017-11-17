@@ -5,6 +5,7 @@
 #include "unit.h"
 #include <time.h>
 #include <math.h>
+#include "stackt.h"
 
 void empty_peta(peta *M, int NB, int NK, player *p1, player *p2){
 //Terbentuk peta yang kosong yang diisi oleh 2 player yang kosong
@@ -157,11 +158,57 @@ int manhattan_dist(POINT x1, POINT x2){
 	return abs(Absis(x1) - Absis(x2)) + abs(Ordinat(x1) - Ordinat(x2));
 }
 
+boolean isAdaMusuh(POINT P1, POINT P2, peta M){
+	int a;
+	//Cek Horizontalnya (doang)
+	if (Ordinat(P1) == Ordinat(P2)){
+		if (Absis(P1) > Absis(P2)){
+			Absis(P2) += 1;
+			while (Absis(P1) != Absis(P2)){
+				if((pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 2) && (pemilik(unit_petak(petak(M,Absis(P1),Ordinat(P1)))) == 1) || (pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 1) && (pemilik(unit_petak(petak(M,Absis(P1),Ordinat(P1)))) == 2))
+					return True;
+				Absis(P2) += 1;
+			}
+		}
+		else if (Absis(P1) < Absis(P2)){
+			Absis(P1) += 1;
+			while (Absis(P1) != Absis(P2)){
+				if((pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 2) && (pemilik(unit_petak(petak(M,Absis(P1),Ordinat(P1)))) == 1) || (pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 1) && (pemilik(unit_petak(petak(M,Absis(P1),Ordinat(P1)))) == 2))
+					return True;
+				Absis(P1) += 1;
+			}
+		}
+	}
+
+	//Cek Vertikalnya (doang)
+	if (Absis(P1) == Absis(P2)){
+		if (Ordinat(P1) > Ordinat(P2)){
+			Ordinat(P2) += 1;
+			while (Ordinat(P1) != Ordinat(P2)){
+				if((pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 2) && (pemilik(unit_petak(petak(M,Absis(P1),Ordinat(P1)))) == 1) || (pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 1) && (pemilik(unit_petak(petak(M,Absis(P1),Ordinat(P1)))) == 2))
+					return True;
+				Ordinat(P2) += 1;
+			}
+		}
+		else if (Ordinat(P1) < Ordinat(P2)){
+			Ordinat(P1) += 1;
+			while (Ordinat(P1) != Ordinat(P2)){
+				if((pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 2) && (pemilik(unit_petak(petak(M,Absis(P1),Ordinat(P1)))) == 1) || (pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 1) && (pemilik(unit_petak(petak(M,Absis(P1),Ordinat(P1)))) == 2))
+					return True;
+				Ordinat(P1) += 1;
+			}
+		}
+	}
+
+	//Cek Diagonalnya
+	
+}
+
 void MOVE(player P, peta *M){
 	POINT loc = P.selected.lokasi;
 	unit slc = unit_petak(petak(*M,Absis(loc), Ordinat(loc))); //unit yang sedang dipilih
 
-	add_unit address_slc_in_list = Search_listunit(list_unit(P),slc); //search unit slc di listunit player p;
+	add_unit address_slc_in_list = Search_listunit(list_unit(P),slc); //search unit slc di listunit player p
 
 	//Tampilkan Peta dan koordinat petak yang dapat dijangkau
 	printf("\n");
@@ -171,6 +218,7 @@ void MOVE(player P, peta *M){
 		}
 		for (int j=0; j<4; j++){
 			for (int k=0; k<NKolEff(*M); k++){
+				POINT Current = MakePOINT(i,k);
 				for (int l=0; l<4; l++){
 					if (j!=0){
 						if (l == 0){
@@ -187,7 +235,7 @@ void MOVE(player P, peta *M){
 							} else if (j==2){
 
 								//BELUM DICEK KALAU ADA UNIT PLAYER LAIN DIANTARANYA
-								if (isequal_unit(unit_petak(petak(*M,i,k)),empty_unit(MakePOINT(i,k))) && (manhattan_dist(MakePOINT(i,k), loc) <= max_move_point(slc))){
+								if (isequal_unit(unit_petak(petak(*M,i,k)),empty_unit(MakePOINT(i,k))) && (manhattan_dist(Current, loc) <= max_move_point(slc))){
 									printf("#");
 								} 
 								else if (isequal_unit(unit_petak(petak(*M,i,k)),empty_unit(MakePOINT(i,k)))){
@@ -220,11 +268,11 @@ void MOVE(player P, peta *M){
 		int x,y; 
 		scanf("%d %d",&x,&y);
 		//invalid jika jarak lebih dari max_move_point atau ada unit lain disana 
-		//BALUM DICEK KALAU ADA UNIT PLAYER LAIN DIANTARANYA
+		//BELUM DICEK KALAU ADA UNIT PLAYER LAIN DIANTARANYA
 		if (manhattan_dist(MakePOINT(x,y),loc) > max_move_point(slc) || !isequal_unit(unit_petak(petak(*M,x,y)),empty_petak(MakePOINT(x,y)))) {
 			printf(">> Sorry. You can't move there\n");
 		} else {
-			unit_petak(petak(*M,x,y)) = 
+			swap_unit(&unit_petak(petak(*M,x,y)), &unit_petak(petak(*M,Absis(loc), Ordinat(loc))));
 			printf(">> Your selected unit has been moved to (%d,%d)\n",x,y);
 		}
 	} while (manhattan_dist(MakePOINT(x,y),loc) > max_move_point(slc));
