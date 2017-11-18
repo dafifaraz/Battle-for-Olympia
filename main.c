@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "boolean.h"
 #include "pcolor.h"
 #include "peta.h"
 #include "player.h"
-#include "time.h"
 #include "jam.h"
 
 #define MAX_BARIS_peta 100
@@ -181,6 +181,16 @@ void call_INFO(){}
 void call_END_turn(){}
 void call_SAVE() //incomplete
 {
+	FILE *fp;
+	fp = fopen("save_game.txt", "w");
+	if (fp == NULL)
+	{
+		printf("Save game failed, please try again later\n");
+		break;
+	} else
+	{
+		/*masukkan state menggunakan fputs() ke file external*/
+	}
 	/* Simpan state game ke file eksternal*/
 	/* NOTE: Hal2 yg perlu disimpen
 			Besar map
@@ -194,7 +204,7 @@ void call_SAVE() //incomplete
 	JAM tstart = DetikToJAM(time_start);
 	JAM tend = DetikToJAM(time_end);
 	long durasi = Durasi(tstart, tend);
-	printf("Your game have been saved, you have played for %ld minutes this session", durasi);
+	printf("Your game have been saved, you have played for %ld minutes this session\n", durasi);
 
 }
 void call_EXIT() //incomplete
