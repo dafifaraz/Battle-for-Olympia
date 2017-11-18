@@ -3,7 +3,7 @@
 int main(){
 	peta M;
 	int NB = 8;
-	int NK = 8;
+	int NK = 15;
 	init_peta(&M,NB,NK);
 	player p1;
 	p1.selected = unit_petak(petak(M,6,1));
