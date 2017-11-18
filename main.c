@@ -207,6 +207,7 @@ void call_EXIT() //incomplete
         if (savegame == 'y')
         {
             call_SAVE();
+			break;
         } else if (savegame == 'n')
         {
             break;
