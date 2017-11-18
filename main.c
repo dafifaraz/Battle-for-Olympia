@@ -4,12 +4,8 @@
 #include "pcolor.h"
 #include "peta.h"
 #include "player.h"
-<<<<<<< HEAD
 #include "time.h"
 #include "jam.h"
-=======
-#include "stackt.h"
->>>>>>> 3ee3b59340b1102984166a6d0219ac13b3ac040e
 
 #define MAX_BARIS_peta 100
 #define MAX_KOLOM_peta 100
@@ -183,17 +179,26 @@ void call_ATTACK(){}
 void call_MAP(){}
 void call_INFO(){}
 void call_END_turn(){}
-void call_SAVE()
+void call_SAVE() //incomplete
 {
 	/* Simpan state game ke file eksternal*/
-	time_t time_end = time(NULL);
-	int durasi = Durasi()
-	printf("Your game have been saved, you have played for %ld minutes this session",);
+	/* NOTE: Hal2 yg perlu disimpen
+			Besar map
+			State petak
+			State Player 1 dan 2 (gold, income, upkeep, warna)
+			Turn siapa
+			State semua unit
+		// Kalo ada yang perlu ditambahin ketik disini yaa!!
+	*/
+	long time_end = time(NULL);
+	JAM tstart = DetikToJAM(time_start);
+	JAM tend = DetikToJAM(time_end);
+	long durasi = Durasi(tstart, tend);
+	printf("Your game have been saved, you have played for %ld minutes this session", durasi);
 
 }
 void call_EXIT() //incomplete
 {
-    /* Kamus */
     char savegame = 'x';
     while (savegame != 'n' || savegame != 'y')
     {
@@ -204,8 +209,7 @@ void call_EXIT() //incomplete
             call_SAVE();
         } else if (savegame == 'n')
         {
-            /* reset state semua file eksternal menjadi semula*/
-            /* Balik ke main menu */
+            break;
         } else
         {
             printf("Input tidak valid, silakan coba lagi");
@@ -232,21 +236,24 @@ void do_command(int code){
 }
 
 int main(){
+<<<<<<< HEAD
 	peta main_peta;
 	player p1,p2;
 	int turn; //Giliran
+=======
 	peta PETA;
 	player ONE,TWO;
 	int TURN; //Giliran
+>>>>>>> f33af170014253d49df24dc381c1613b336f8704
 	boolean new_game;
 	time_t start_time = time(NULL);
 	start_game(&new_game);
-	Stack state;
-	CreateEmpty(&state);
+
 	// Aksi ketika new game
 	if (new_game){
 		//Baca Baris dan Kolom, setel kondisi awal
 		int input_nbaris, input_nkolom;
+<<<<<<< HEAD
 		do_new_game(&main_peta);
 		/*disini tambah setup player
 		  player perlu data di map
@@ -258,6 +265,7 @@ int main(){
 		  TWO.currentUnit = main_peta.P[1][NKolEff(*M)-2].unit;
 		*/
 		turn = 1; //Pemain 1 mulai pertama
+=======
 		do_new_game(&input_nbaris, &input_nkolom);
 		CreateEmpty_listunit(&list_unit(one));
 		CreateEmpty_listunit(&list_unit(two));
@@ -271,11 +279,11 @@ int main(){
 		InsVFirst_listunit(&list_unit(two), king_p2);
 		init_peta(&PETA, input_nbaris, input_nkolom);
 		TURN = 1; //Pemain 1 mulai pertama
-	} else { /*** LOAD GAME ***/
-
+>>>>>>> f33af170014253d49df24dc381c1613b336f8704
+	} else {
+		/*LOAD FILE EXTERNAL DAN ASSIGN KE VARIABEL*/
+		/*PANGGIL SEMUA PROSEDUR UNTUK INIT STATE DARI FILE EXT*/
 	}
-
-
 
 	display_command();
 	boolean game_over = false;
