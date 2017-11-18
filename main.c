@@ -179,7 +179,7 @@ void call_ATTACK(){}
 void call_MAP(){}
 void call_INFO(){}
 void call_END_turn(){}
-void call_SAVE() //incomplete
+void call_SAVE(peta *M, int TURN) //incomplete
 {
 	FILE *fp;
 	fp = fopen("save_game.txt", "w");
@@ -189,17 +189,21 @@ void call_SAVE() //incomplete
 		break;
 	} else
 	{
-		/*masukkan state menggunakan fputs() ke file external*/
+		fprintf("%d %d", NBrsEff(M), NKolEff(M)); // Besar Map
+		fprintf("%d", TURN);					  // Turn siapa
+
+		/*masukkan state menggunakan fprintf() ke file external*/
 	}
-	/* Simpan state game ke file eksternal*/
+
 	/* NOTE: Hal2 yg perlu disimpen
 			Besar map
+			Turn siapa
 			State petak
 			State Player 1 dan 2 (gold, income, upkeep, warna)
-			Turn siapa
 			State semua unit
 		// Kalo ada yang perlu ditambahin ketik disini yaa!!
 	*/
+
 	long time_end = time(NULL);
 	JAM tstart = DetikToJAM(time_start);
 	JAM tend = DetikToJAM(time_end);
@@ -294,6 +298,26 @@ int main(){
 	} else {
 		/*LOAD FILE EXTERNAL DAN ASSIGN KE VARIABEL*/
 		/*PANGGIL SEMUA PROSEDUR UNTUK INIT STATE DARI FILE EXT*/
+		FILE *fp;
+		int input_nbaris, input_nkolom;
+		fp = fopen("save_game.txt", "r");
+		if (fp == NULL)
+		{
+			printf("Load game failed\n");
+			break;
+		} else
+		{
+			
+			fscanf(fp, "%d", &input_nbaris);
+			fscanf(fp, "%d", &input_nkolom);
+			fscanf(fp, "%d", &TURN);
+			//incomplete
+		}
+		/* INFO ISI FILE EKSTERNAL: 
+		baris 1: ukuran peta
+		baris 2: 
+		*/
+	
 	}
 
 	display_command();
