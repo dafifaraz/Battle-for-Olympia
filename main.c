@@ -4,6 +4,8 @@
 #include "pcolor.h"
 #include "peta.h"
 #include "player.h"
+#include "time.h"
+#include "jam.h"
 
 #define MAX_BARIS_peta 100
 #define MAX_KOLOM_peta 100
@@ -177,7 +179,14 @@ void call_ATTACK(){}
 void call_MAP(){}
 void call_INFO(){}
 void call_END_turn(){}
-void call_SAVE(){}
+void call_SAVE()
+{
+	/* Simpan state game ke file eksternal*/
+	time_t time_end = time(NULL);
+	int durasi = Durasi()
+	printf("Your game have been saved, you have played for %ld minutes this session",);
+
+}
 void call_EXIT() //incomplete
 {
     /* Kamus */
@@ -229,6 +238,7 @@ int main(){
 	int TURN; //Giliran
 >>>>>>> f33af170014253d49df24dc381c1613b336f8704
 	boolean new_game;
+	time_t start_time = time(NULL);
 	start_game(&new_game);
 
 	// Aksi ketika new game
