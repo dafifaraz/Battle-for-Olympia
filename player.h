@@ -189,15 +189,15 @@ typedef struct {
 	petak petak_khusus[6]; //petak[0] simpan tower, 4 lagi simpan castle 
 } player;
 
-#define gold(P) (P).gold;
-#define list_unit(P) (P).list_unit;
-#define list_villages(P) (P).list_villages;
-#define income(P) (P).income;
-#define upkeep(P) (P).upkeep;
-#define warna(P) (P).warna;
-#define simbol_player(P) (P).simbol;
-#define selected(P) (P).selected;
-#define petak_khusus(P,i) (P).petak_khusus[i]; 
+#define gold(P) (P).gold
+#define list_unit(P) (P).list_unit
+#define list_petak(P) (P).list_petak
+#define income(P) (P).income
+#define upkeep(P) (P).upkeep
+#define warna(P) (P).warna
+#define simbol_player(P) (P).simbol
+#define selected(P) (P).selected
+#define petak_khusus(P,i) (P).petak_khusus[i]
 
 void init_player(player *p, char wrn, char smb);
 

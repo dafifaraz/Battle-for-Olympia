@@ -13,7 +13,7 @@ typedef struct{
 	int max_move_point;
 	int move_point;
 	char tipe_serang;
-	boolean kesempatan_serang;ssi
+	boolean kesempatan_serang;
 	POINT lokasi;
 	int harga;
 	char simbol;

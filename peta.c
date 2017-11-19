@@ -3,9 +3,10 @@
 #include "petak.h"
 #include "player.h"
 #include "unit.h"
+#include "boolean.h"
 #include <time.h>
 #include <math.h>
-#include "stackt.h"
+//#include "stackt.h"
 
 void empty_peta(peta *M, int NB, int NK, player *p1, player *p2){
 //Terbentuk peta yang kosong yang diisi oleh 2 player yang kosong
@@ -76,9 +77,9 @@ void bangun_kerajaan(peta *M, player *p1, player *p2){
 	petak_khusus(*p2,4) = petak(*M,Absis(lokasi_CD_P2),Ordinat(lokasi_CD_P2));
 }
 
-void init_peta(peta *M, int NBrsEff, int NKolEff){
-	empty_peta(M, NBrsEff, NKolEff);
-	bangun_kerajaan(M);
+void init_peta(peta *M, int NBrsEff, int NKolEff, player *p1, player *p2){
+	empty_peta(M, NBrsEff, NKolEff, p1, p2);
+	bangun_kerajaan(M,p1,p2);
 	PasangDesa(NBrsEff*NKolEff/20, M);
 }
 
@@ -181,7 +182,7 @@ boolean isAdaMusuh(POINT P1, POINT P2, peta M){
 			Absis(P2) += 1;
 			while (Absis(P1) != Absis(P2)){
 				if((pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 2) && (pemilik(unit_petak(petak(M,Absis(P1),Ordinat(P1)))) == 1) || (pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 1) && (pemilik(unit_petak(petak(M,Absis(P1),Ordinat(P1)))) == 2))
-					return True;
+					return true;
 				Absis(P2) += 1;
 			}
 		}
@@ -189,7 +190,7 @@ boolean isAdaMusuh(POINT P1, POINT P2, peta M){
 			Absis(P1) += 1;
 			while (Absis(P1) != Absis(P2)){
 				if((pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 2) && (pemilik(unit_petak(petak(M,Absis(P1),Ordinat(P1)))) == 1) || (pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 1) && (pemilik(unit_petak(petak(M,Absis(P1),Ordinat(P1)))) == 2))
-					return True;
+					return true;
 				Absis(P1) += 1;
 			}
 		}
@@ -201,7 +202,7 @@ boolean isAdaMusuh(POINT P1, POINT P2, peta M){
 			Ordinat(P2) += 1;
 			while (Ordinat(P1) != Ordinat(P2)){
 				if((pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 2) && (pemilik(unit_petak(petak(M,Absis(P1),Ordinat(P1)))) == 1) || (pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 1) && (pemilik(unit_petak(petak(M,Absis(P1),Ordinat(P1)))) == 2))
-					return True;
+					return true;
 				Ordinat(P2) += 1;
 			}
 		}
@@ -209,7 +210,7 @@ boolean isAdaMusuh(POINT P1, POINT P2, peta M){
 			Ordinat(P1) += 1;
 			while (Ordinat(P1) != Ordinat(P2)){
 				if((pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 2) && (pemilik(unit_petak(petak(M,Absis(P1),Ordinat(P1)))) == 1) || (pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 1) && (pemilik(unit_petak(petak(M,Absis(P1),Ordinat(P1)))) == 2))
-					return True;
+					return true;
 				Ordinat(P1) += 1;
 			}
 		}
@@ -276,15 +277,15 @@ void MOVE(player P, peta *M){
 	}
 	for (int i=0; i<4*NKolEff(*M)+1; i++) printf("*");
 	printf("\n");
-
+	
+	int x,y; 
 	do{
 		printf(">> Please enter cell's coordinate x y : \n");
 		printf("<< \n");
-		int x,y; 
 		scanf("%d %d",&x,&y);
 		//invalid jika jarak lebih dari max_move_point atau ada unit lain disana 
 		//BELUM DICEK KALAU ADA UNIT PLAYER LAIN DIANTARANYA
-		if (manhattan_dist(MakePOINT(x,y),loc) > max_move_point(slc) || !isequal_unit(unit_petak(petak(*M,x,y)),empty_petak(MakePOINT(x,y)))) {
+		if (manhattan_dist(MakePOINT(x,y),loc) > max_move_point(slc) || !isequal_unit(unit_petak(petak(*M,x,y)),empty_unit(MakePOINT(x,y)))) {
 			printf(">> Sorry. You can't move there\n");
 		} else {
 			swap_unit(&unit_petak(petak(*M,x,y)), &unit_petak(petak(*M,Absis(loc), Ordinat(loc))));
@@ -340,38 +341,38 @@ void do_recruit(player *P, POINT loc_new, peta *M){
 
 void recruit(player *P, peta *M){
 	int id_p = (int)simbol_player(*P) - 48; 
-	if (simbol(unit_petak(petak_tower(*P))) == 'K' && pemilik(unit_petak(petak_tower(*P))) == id_p){
+	if (simbol(unit_petak(petak_khusus(*P,0))) == 'K' && pemilik(unit_petak(petak_khusus(*P,0))) == id_p){
 	
-		boolean b1 = simbol(unit_petak(petak_c1(*P))) == ' ';
-		boolean b2 = simbol(unit_petak(petak_c2(*P))) == ' ';
-		boolean b3 = simbol(unit_petak(petak_c3(*P))) == ' ';
-		boolean b4 = simbol(unit_petak(petak_c4(*P))) == ' ';
+		boolean b1 = simbol(unit_petak(petak_khusus(*P,1))) == ' ';
+		boolean b2 = simbol(unit_petak(petak_khusus(*P,2))) == ' ';
+		boolean b3 = simbol(unit_petak(petak_khusus(*P,3))) == ' ';
+		boolean b4 = simbol(unit_petak(petak_khusus(*P,4))) == ' ';
 
 		if (b1 || b2 || b3 || b4){
-			int x = Absis(lokasi_petak(petak_tower(*P)));
-			int y = Ordinat(lokasi_petak(petak_tower(*P)));
+			int x = Absis(lokasi_petak(petak_khusus(*P,0)));
+			int y = Ordinat(lokasi_petak(petak_khusus(*P,0)));
+			int x1, y1;
 			do{
 				printf(">> Enter coordinat x y of your castle\n");
 				printf("<< ");
-				int x1, y1;
 				scanf("%d %d",&x1,&y1);
 				if (abs(x-x1) + abs(y-y1) != 1){
 					printf(">> This cell is not your castle\n");
 				} else {
 					POINT slc = MakePOINT(x1,y1);
-					if (isequal_point(lokasi_petak(petak_c1(*P)), slc) && b1){
-						do_recruit(*P,slc,*M);
-					} else if (isequal_point(lokasi_petak(petak_c2(*P)), slc) && b2){
-						do_recruit(*P,slc,*M);
-					} else if (isequal_point(lokasi_petak(petak_c3(*P)), slc) && b3){
-						do_recruit(*P,slc,*M);
-					} else if (isequal_point(lokasi_petak(petak_c4(*P)), slc) && b4){
-						do_recruit(*P,slc,*M);
+					if (isequal_point(lokasi_petak(petak_khusus(*P,1)), slc) && b1){
+						do_recruit(P,slc,M);
+					} else if (isequal_point(lokasi_petak(petak_khusus(*P,2)), slc) && b2){
+						do_recruit(P,slc,M);
+					} else if (isequal_point(lokasi_petak(petak_khusus(*P,3)), slc) && b3){
+						do_recruit(P,slc,M);
+					} else if (isequal_point(lokasi_petak(petak_khusus(*P,4)), slc) && b4){
+						do_recruit(P,slc,M);
 					} else {
 						printf(">> Your selected castle is occupied\n");						
 					}	
 				}				
-			}
+			} while (abs(x-x1) + abs(y-y1) != 1);
 		} else {
 			printf(">> Recruit failed. Your castles are full\n");
 		}

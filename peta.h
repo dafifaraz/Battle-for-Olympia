@@ -18,14 +18,14 @@ typedef struct {
 #define NBrsEff(M) (M).NBrsEff
 #define NKolEff(M) (M).NKolEff
 
-void empty_peta(peta *M, int NBrsEff, int NKolEff);
+void empty_peta(peta *M, int NBrsEff, int NKolEff, player *p1, player *p2);
 //Mengisi setiap petak pada peta dengan petak kosong.
 //Petak kosong : petak yang belum berisi bangunan, unit, dan pemilik
 
-void bangun_kerajaan(peta *M);
+void bangun_kerajaan(peta *M, player *p1, player *p2);
 //Menginisiasi bangunan kerajaan dan King kedua pemain pada awal permainan.
 
-void init_peta(peta *M, int NBrsEff, int NKolEff);
+void init_peta(peta *M, int NBrsEff, int NKolEff, player *p1, player *p2);
 //Menginisiasi state awal peta pada awal permainan.
 //Proses : Membuat peta kosong sebesar NBRsEff * NKolEff, 
 

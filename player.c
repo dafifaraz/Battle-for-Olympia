@@ -393,12 +393,11 @@ void init_player(player *p, char wrn, char smb){
 }
 
 void change_unit(player *P){
-
 	// tampilkan seluruh unit
 	printf(">> List of Units \n");
 	add_unit CU = First_unit(list_unit(*P));
 	int cnt = 1;
-	while (add_unit != Nil){
+	while (CU != Nil){
 		printf(">> %d. ", cnt);
 		switch (simbol(Info_unit(CU))){
 			case 'K' : printf("King "); break;
@@ -451,7 +450,7 @@ void change_unit(player *P){
 	}
 	
 	// mengganti unit yang dipilih P menjadi CU
-	selected(*P) = CU;
+	selected(*P) = Info_unit(CU);
 	printf(">> You have select ");
 	switch (simbol(Info_unit(CU))){
 		case 'K' : printf("King "); break;
