@@ -47,5 +47,10 @@ void MOVE(player P, peta *M);
 //Menggerakkan unit yang sedang dipilih oleh player P ke petak yang dituju (sesuai input user)
 //Proses : Memanfaatkan swap_unit
 
+void do_recruit(player *P, POINT loc_new, peta *M);
+// sub task dari recruit
+
+void recruit(player *P, peta *M);
+// melakukan recruit unit baru
 
 #endif
