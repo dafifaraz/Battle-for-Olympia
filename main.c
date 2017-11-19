@@ -5,6 +5,7 @@
 #include "pcolor.h"
 #include "peta.h"
 #include "player.h"
+#include "kata.h"
 //#include "jam.h"
 
 //konstanta game
@@ -12,23 +13,49 @@
 #define MAX_KOLOM_peta 100
 #define PANJANG_PAGAR 70
 
+
+void start_game(boolean *new_game){
+	printf("\n");
+	printf("WELCOME TO THE BATTLE FOR OLYMPIA\n"); 
+	printf("\n");
+
+	printf("START\n");
+	printf("1. New Game\n");
+	printf("2. Load Game\n");
+	printf("\n");
+	// Terima input new game atau load game hingga valid
+	int start_option;
+	do {
+		printf("Your Input : "); scanf("%d",&start_option); 
+		printf("\n");
+		if (start_option == 1){
+			*new_game = true;
+		} else if (start_option == 2){
+			*new_game = false;
+		} else {
+			printf("Invalid input. Try again\n");
+			printf("\n");
+		}
+	} while (start_option < 1 || start_option > 2);
+}
+
 void do_new_game(peta *M, player *p1, player *p2){
 //state awal : boolean new_game = true
 //state akhir : init peta M
 	boolean valid_peta;
 	int input_nbaris, input_nkolom;
 	do {
-		printf(">> Length of map row :\n");
-		printf("<< "); scanf("%d",&input_nbaris);
-		printf(">> Length of map column :\n");
-		printf("<< "); scanf("%d",&input_nkolom);
+		printf("Length of map row : "); scanf("%d",&input_nbaris);
+		printf("\n");
+		printf("Length of map column : "); scanf("%d",&input_nkolom);
+		printf("\n");
 		if (input_nbaris < 8 || input_nkolom < 8 || input_nbaris > MAX_BARIS_peta || input_nkolom > MAX_KOLOM_peta){
 			valid_peta = false;
 		} else {
 			valid_peta = true;
 		}
 		if (!valid_peta){
-			printf("\n>> The minimum map area is 8x8 and maximum map area is %dx%d\n",MAX_BARIS_peta,MAX_KOLOM_peta);
+			printf("The minimum map area is 8x8 and maximum map area is %dx%d\n",MAX_BARIS_peta,MAX_KOLOM_peta);
 			printf("\n");
 		}
 	} while (!valid_peta);
@@ -37,46 +64,25 @@ void do_new_game(peta *M, player *p1, player *p2){
 
 void display_command(){
 //menampilkan daftar command yang tersedia dalam games
-	printf("\n>> Available command : ");
-	printf("\n>> 1.  MOVE");
-	printf("\n>> 2.  UNDO");
-	printf("\n>> 3.  CHANGE_UNIT");
-	printf("\n>> 4.  RECRUIT");
-	printf("\n>> 5.  ATTACK");
-	printf("\n>> 6.  MAP");
-	printf("\n>> 7.  INFO");
-	printf("\n>> 8.  END_turn");
-	printf("\n>> 9.  SAVE");
-	printf("\n>> 10. EXIT");
-	printf("\n>> 11. DISPLAY_COMMAND\n");
-}
-
-
-int strlen(char* str){
-//mengembalikan panjang string str
-	int i=1;
-	while (str[i-1] != '\n') i++;
-	return i;
-}
-
-boolean isequal_str(char* str1, char* str2){
-//true jika dan hanya jika str1 = str2
-	if (strlen(str1) != strlen(str2)){
-		return false;
-	} else {
-		int i=0;
-		while (i<strlen(str1) && str1[i]==str2[i]){
-			i++;
-		}
-		return str1[i] == str2[i];
-	}
+	printf("Available Command\n");
+	printf("1.  MOVE\n");
+	printf("2.  UNDO\n");
+	printf("3.  CHANGE_UNIT\n");
+	printf("4.  RECRUIT\n");
+	printf("5.  ATTACK\n");
+	printf("6.  MAP\n");
+	printf("7.  INFO\n");
+	printf("8.  END_TURN\n");
+	printf("9.  SAVE\n");
+	printf("10. EXIT\n");
+	printf("11. DISPLAY_COMMAND\n");
+	printf("\n");
 }
 
 int command_code(char* str){
 //menerima str sebagai command dan mengembalikan integer nomor urut command tsb
 	int code;
-
-	if (isequal_str(str,"MOVE\n")){
+	if (isequal_str(str,"MOVE")){
 		code = 1;
 	} else if (isequal_str(str,"UNDO")){
 		code = 2;
@@ -90,7 +96,7 @@ int command_code(char* str){
 		code = 6;
 	} else if (isequal_str(str,"INFO")){
 		code = 7;
-	} else if (isequal_str(str,"END_turn")){
+	} else if (isequal_str(str,"END_TURN")){
 		code = 8;
 	} else if (isequal_str(str,"SAVE")){
 		code = 9;
@@ -107,39 +113,35 @@ int command_code(char* str){
 void receive_command(int *code){
 //state awal : sembarang
 //state akhir : diberikan kode yang merupakan nomor urut command
+	char str_command[100];
 	do{
-		printf("\n>> Your input : ");
-		printf("\n<< ");
-		char str_command[100];
-		scanf("%s",str_command);
+		printf("Your input : "); scanf("%s",str_command);
 		*code = command_code(str_command);
 		if (*code == 0){
-			printf("\n>> Command %s is not available\n",str_command);
+			printf("Command %s is not available\n",str_command);
+			printf("\n");
 		}
 	} while (*code == 0);
 }
 
-void start_game(boolean *new_game){
-	printf("\n");
-	printf("WELCOME TO THE BATTLE FOR OLYMPIA\n");
-	printf("\n");
-
-	printf(">> START\n");
-	printf(">> 1. New Game\n");
-	printf(">> 2. Load Game\n");
-
-	// Terima input new game atau load game hingga valid
-	int start_option;
-	do {
-		printf("<< "); scanf("%d",&start_option);
-		if (start_option == 1){
-			*new_game = true;
-		} else if (start_option == 2){
-			*new_game = false;
-		} else {
-			printf("\n>> Invalid input. Try again\n");
-		}
-	} while (start_option < 1 || start_option > 2);
+void do_command(int code, player *p){
+	switch (code) {
+		case 1 :  break;
+		case 2 :  break;
+		case 3 :  change_unit(p); break;
+		case 4 :  break;
+		case 5 :  break;
+		case 6 :  break;
+		case 7 :  break;
+		case 8 :  break;
+		case 9 :  break;
+		case 10 :  break;
+		case 11 : display_command(); break;
+		default : 
+			printf("ERROR\n"); 
+			printf("\n"); 
+			break;
+	}
 }
 
 int main(){
@@ -160,18 +162,18 @@ int main(){
 	}
 
 	display_command();
-	int code = 0;
+	int code;
 	boolean game_over = false;
-	do{
+	do{	
 		if (turn == 1){
 			display_player_info(p1);
 			receive_command(&code);
-			if (code == 10) game_over = true;
+			do_command(code,&p1);
 			turn = 2;
 		} else {
 			display_player_info(p2);
 			receive_command(&code);
-			if (code == 10) game_over = true;
+			do_command(code,&p2);
 			turn = 1;
 		}
 	} while (!game_over);
