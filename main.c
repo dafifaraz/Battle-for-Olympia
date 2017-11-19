@@ -179,3 +179,97 @@ int main(){
 	} while (!game_over);
 
 }
+
+
+/* ARSIP 
+
+void call_MOVE(){
+	printf("TEST\n");
+}
+void call_UNDO(){}
+void call_CHANGE_UNIT(){}
+void call_RECRUIT(){}
+void call_ATTACK(){}
+void call_MAP(){}
+void call_INFO(){}
+void call_END_turn(){}
+void call_SAVE(peta *M, int turn) //incomplete
+{
+	FILE *fp;
+	fp = fopen("save_game.txt", "w");
+	if (fp == NULL)
+	{
+		printf("Save game failed, please try again later\n");
+		break;
+	} else
+	{
+		fprintf("%d %d", NBrsEff(M), NKolEff(M)); // Besar Map
+		fprintf("%d", turn);					  // Turn siapa
+
+		/*masukkan state menggunakan fprintf() ke file external
+	}
+
+	/* NOTE: Hal2 yg perlu disimpen
+			Besar map
+			Turn siapa
+			State petak
+			State Player 1 dan 2 (gold, income, upkeep, warna)
+			State semua unit
+		// Kalo ada yang perlu ditambahin ketik disini yaa!!
+	
+
+	long time_end = time(NULL);
+	JAM tstart = DetikToJAM(time_start);
+	JAM tend = DetikToJAM(time_end);
+	long durasi = Durasi(tstart, tend);
+	printf("Your game have been saved, you have played for %ld minutes this session\n", durasi);
+
+}
+
+void call_EXIT() //incomplete
+{
+    char savegame = 'x';
+    while (savegame != 'n' || savegame != 'y')
+    {
+        printf("Would you like to save the game? (Y/N)\n");
+        scanf("%c",savegame);
+        if (savegame == 'y')
+        {
+            call_SAVE();
+			break;
+        } else if (savegame == 'n')
+        {
+            break;
+        } else
+        {
+            printf("Input tidak valid, silakan coba lagi");
+        }
+    }
+	printf("Exiting the game...");
+	exit(0);
+}
+
+
+		/*LOAD FILE EXTERNAL DAN ASSIGN KE VARIABEL
+		/*PANGGIL SEMUA PROSEDUR UNTUK INIT STATE DARI FILE EXT
+		
+		FILE *fp;
+		int input_nbaris, input_nkolom;
+		fp = fopen("save_game.txt", "r");
+		if (fp == NULL)
+		{
+			printf("Load game failed\n");
+			//break;
+		} else {
+			
+			fscanf(fp, "%d", &input_nbaris);
+			fscanf(fp, "%d", &input_nkolom);
+			fscanf(fp, "%d", &turn);
+			//incomplete
+		}
+		
+		/* INFO ISI FILE EKSTERNAL: 
+		baris 1: ukuran peta
+		baris 2: 
+		*/
+	
