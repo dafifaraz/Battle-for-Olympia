@@ -31,11 +31,11 @@ void bangun_kerajaan(peta *M, player *p1, player *p2){
 	unit king_p2 = unit_petak(petak(*M,Absis(lokasi_p2),Ordinat(lokasi_p2)));
 	
 	assign_unit(&king_p1, 'K', 1);					//unit yang ada di tower p1 diisi properti king
-	InsVFirst_listunit(&list_unit(*p1),king_p1);	//king p1 ditambahkan ke dalam list_unit p1
-	
+	king_player(*p1) = king_p1;
+
 	assign_unit(&king_p2, 'K', 2);
-	InsVFirst_listunit(&list_unit(*p2),king_p2);	
-	
+	king_player(*p2) = king_p2;
+
 	assign_petak(&(petak(*M,Absis(lokasi_p1),Ordinat(lokasi_p1))), 'T', 1, king_p1);
 	petak_khusus(*p1,0) = petak(*M,Absis(lokasi_p1),Ordinat(lokasi_p1));
 	

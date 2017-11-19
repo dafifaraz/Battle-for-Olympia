@@ -187,6 +187,7 @@ typedef struct {
 	unit selected;
 	// berguna buat recruit karena nggak bisa akses peta dari player
 	petak petak_khusus[6]; //petak[0] simpan tower, 4 lagi simpan castle 
+	unit king_player; //berguna buat nyimpan info king
 } player;
 
 #define gold(P) (P).gold
@@ -198,8 +199,11 @@ typedef struct {
 #define simbol_player(P) (P).simbol
 #define selected(P) (P).selected
 #define petak_khusus(P,i) (P).petak_khusus[i]
+#define king_player(P) (P).king_player
 
 void init_player(player *p, char wrn, char smb);
 
 void change_unit(player *p);
+
+void display_player_info(player p);
 #endif

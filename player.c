@@ -462,3 +462,18 @@ void change_unit(player *P){
 	tulis_point(lokasi_unit(Info_unit(CU)));	
 	printf("\n");
 }
+
+void display_player_info(player p){
+	int x = Absis(lokasi_unit(king_player(p)));
+	int y = Ordinat(lokasi_unit(king_player(p)));
+	int m = move_point(king_player(p));
+	printf("\n");
+	printf("*** Player %c turn ***\n",simbol_player(p));
+	printf(">> King (%d,%d) | Movement Points %d | Can attack : ",x,y,m);
+	if (kesempatan_serang(king_player(p))){
+		printf("Yes\n");
+	} else {
+		printf("No\n");
+	}
+
+}
