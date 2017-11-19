@@ -59,7 +59,6 @@ typedef struct{
 unit empty_unit(POINT lokasi_u);
 //Mengembalikan unit yang tipe dan kepemilikannya belum terdefinisi di lokasi_u
 
-
 void assign_unit(unit *u, char tipe_unit, int pemilik_unit); 
 //Mengisi unit *u dengan properti sesuai tipe dan pemiliknya.
 
