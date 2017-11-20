@@ -163,7 +163,7 @@ void do_command(int code, player *p, peta *M, int turn, long time_start){
 		case 5 :  break;
 		case 6 :  break;
 		case 7 :  break;
-		case 8 :  break;
+		case 8 :  NextTurnQueue(&Q); break;
 		case 9 :  call_SAVE(M, turn, time_start); break;
 		case 10 :  break;
 		case 11 : display_command(); break;
@@ -174,12 +174,32 @@ void do_command(int code, player *p, peta *M, int turn, long time_start){
 	}
 }
 
+void CreateTurnQueue12(Queue *Q)
+{
+    CreateEmpty(Q,2);
+    Add(Q,1);
+    Add(Q,2);
+}
 
+void CreateTurnQueue21(Queue *Q)
+{
+    CreateEmpty(Q,2);
+    Add(Q,2);
+    Add(Q,1);
+}
+
+void NextTurnQueue(Queue *Q)
+{
+    int A;
+    Del(Q,&A);
+    Add(Q,A);
+}
 
 
 int main(){
 	peta main_peta;
 	player p1,p2;
+	Queue Q;
 	int turn; //Giliran
 
 	boolean new_game;
@@ -190,13 +210,27 @@ int main(){
 	if (new_game){
 		do_new_game(&main_peta,&p1,&p2);
 
-		turn = 1; //Pemain 1 mulai pertama
+		CreateTurnQueue12(&Q); //Pemain 1 mulai pertama
 	} else {
 	}
 
 	display_command();
 	int code;
 	boolean game_over = false;
+	do{
+        turn = InfoHead(Q)
+		if (turn == 1){
+			display_player_info(p1);
+			receive_command(&code);
+			do_command(code,&p1,&main_peta, turn, time_start);
+		} else {
+			display_player_info(p2);
+			receive_command(&code);
+			do_command(code,&p1,&main_peta, turn, time_start);
+		}
+	} while (!game_over);
+}
+	/* Ini kenapa if code !=9 nextturn?
 	do{	
 		if (turn == 1){
 			display_player_info(p1);
@@ -216,7 +250,7 @@ int main(){
 			} else turn = 2;
 		}
 	} while (!game_over);
-
+	
 }
 
 
