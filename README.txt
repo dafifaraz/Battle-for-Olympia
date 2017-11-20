@@ -14,7 +14,7 @@ Dafi	: Command 10 (exit)
 Dion	: Buat ADT Unit, revisi peta
 Mol	: Mekanisme bertarung
 Rifo	: Buat ADT Peta, revisi peta
-Seldi	: Buat Village
+Seldi	: Buat Village, Turn
 
 Pembagian Tugas
 1. Dion : Menu utama, unit, command (3,4)
