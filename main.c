@@ -150,11 +150,41 @@ void call_SAVE(peta *M, int TURN, long time_start) //incomplete
 	JAM tstart = DetikToJAM(time_start);
 	JAM tend = DetikToJAM(time_end);
 	long durasi = Durasi(tstart, tend);
-	printf("Your game have been saved, you have played for %ld minutes this session\n", (durasi/60));
+	if (durasi <= 60)
+	{
+		printf("Your game have been saved, you have played for %ld seconds this session\n", (durasi));
+	} else
+	{
+		printf("Your game have been saved, you have played for %ld minutes this session\n", (durasi/60));
+	}
 
 }
 
-void do_command(int code, player *p, peta *M, int turn, long time_start){
+void call_EXIT(peta *M, int TURN, long time_start, boolean game_over)
+{
+	/*
+    char savegame = 'x';
+    while (savegame != 'n' || savegame != 'y')
+    {
+        printf("Would you like to save the game? (Y/N)\n");
+        scanf("%c",savegame);
+        if (savegame == 'y')
+        {
+            call_SAVE(M, TURN, time_start);
+			break;
+        } else if (savegame == 'n')
+        {
+            break;
+        } else
+        {
+            printf("Input tidak valid, silakan coba lagi");
+        }
+    } */
+	printf("Exiting the game...\n");
+	game_over = true;
+}
+
+void do_command(int code, player *p, peta *M, int turn, long time_start, boolean game_over){
 	switch (code) {
 		case 1 :  break;
 		case 2 :  break;
@@ -165,7 +195,7 @@ void do_command(int code, player *p, peta *M, int turn, long time_start){
 		case 7 :  break;
 		case 8 :  break;
 		case 9 :  call_SAVE(M, turn, time_start); break;
-		case 10 :  break;
+		case 10 :  call_EXIT(M, turn, time_start, game_over); break;
 		case 11 : display_command(); break;
 		default : 
 			printf("ERROR\n"); 
@@ -201,22 +231,21 @@ int main(){
 		if (turn == 1){
 			display_player_info(p1);
 			receive_command(&code);
-			do_command(code,&p1,&main_peta, turn, time_start);
-			if(code != 9)
+			do_command(code,&p1,&main_peta, turn, time_start, game_over);
+			if(code != 9 && code != 0)
 			{
 				turn = 2;
 			} else turn = 1;
 		} else {
 			display_player_info(p2);
 			receive_command(&code);
-			do_command(code,&p2,&main_peta, turn, time_start);
-			if(code != 9)
+			do_command(code,&p2,&main_peta, turn, time_start, game_over);
+			if(code != 9 && code != 0)
 			{
 				turn = 1;
 			} else turn = 2;
 		}
 	} while (!game_over);
-
 }
 
 
