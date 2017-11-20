@@ -3,7 +3,7 @@
 
 #include "boolean.h"
 
-int strlen(char* str);
+int len(char* str);
 
 boolean isequal_str(char* str1, char* str2);
 

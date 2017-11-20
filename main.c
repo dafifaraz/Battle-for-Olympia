@@ -6,19 +6,17 @@
 #include "peta.h"
 #include "player.h"
 #include "kata.h"
-//#include "jam.h"
+#include "jam.h"
 
 //konstanta game
 #define MAX_BARIS_peta 100
 #define MAX_KOLOM_peta 100
 #define PANJANG_PAGAR 70
 
-
 void start_game(boolean *new_game){
 	printf("\n");
 	printf("WELCOME TO THE BATTLE FOR OLYMPIA\n"); 
 	printf("\n");
-
 	printf("START\n");
 	printf("1. New Game\n");
 	printf("2. Load Game\n");
@@ -124,7 +122,39 @@ void receive_command(int *code){
 	} while (*code == 0);
 }
 
-void do_command(int code, player *p){
+void call_SAVE(peta *M, int TURN, long time_start) //incomplete
+{
+	FILE *fp;
+	fp = fopen("save_game.txt", "w");
+	if (fp == NULL)
+	{
+		printf("Save game failed, please try again later\n");
+	} else
+	{
+		fprintf(fp,"%d %d", NBrsEff(*M), NKolEff(*M)); // Besar Map
+		fprintf(fp,"%d", TURN);					  // Turn siapa
+
+		/*masukkan state menggunakan fprintf() ke file external*/
+	}
+
+	/* NOTE: Hal2 yg perlu disimpen
+			Besar map
+			Turn siapa
+			State petak
+			State Player 1 dan 2 (gold, income, upkeep, warna)
+			State semua unit
+		// Kalo ada yang perlu ditambahin ketik disini yaa!!
+	*/
+
+	long time_end = time(NULL);
+	JAM tstart = DetikToJAM(time_start);
+	JAM tend = DetikToJAM(time_end);
+	long durasi = Durasi(tstart, tend);
+	printf("Your game have been saved, you have played for %ld minutes this session\n", (durasi/60));
+
+}
+
+void do_command(int code, player *p, peta *M, int turn, long time_start){
 	switch (code) {
 		case 1 :  break;
 		case 2 :  break;
@@ -134,7 +164,7 @@ void do_command(int code, player *p){
 		case 6 :  break;
 		case 7 :  break;
 		case 8 :  break;
-		case 9 :  break;
+		case 9 :  call_SAVE(M, turn, time_start); break;
 		case 10 :  break;
 		case 11 : display_command(); break;
 		default : 
@@ -144,13 +174,16 @@ void do_command(int code, player *p){
 	}
 }
 
+
+
+
 int main(){
 	peta main_peta;
 	player p1,p2;
 	int turn; //Giliran
 
 	boolean new_game;
-	//time_t start_time = time(NULL);
+	time_t time_start = time(NULL);
 	start_game(&new_game);
 
 	// Aksi ketika new game
@@ -168,13 +201,19 @@ int main(){
 		if (turn == 1){
 			display_player_info(p1);
 			receive_command(&code);
-			do_command(code,&p1);
-			turn = 2;
+			do_command(code,&p1,&main_peta, turn, time_start);
+			if(code != 9)
+			{
+				turn = 2;
+			} else turn = 1;
 		} else {
 			display_player_info(p2);
 			receive_command(&code);
-			do_command(code,&p2);
-			turn = 1;
+			do_command(code,&p2,&main_peta, turn, time_start);
+			if(code != 9)
+			{
+				turn = 1;
+			} else turn = 2;
 		}
 	} while (!game_over);
 
@@ -193,61 +232,10 @@ void call_ATTACK(){}
 void call_MAP(){}
 void call_INFO(){}
 void call_END_turn(){}
-void call_SAVE(peta *M, int turn) //incomplete
-{
-	FILE *fp;
-	fp = fopen("save_game.txt", "w");
-	if (fp == NULL)
-	{
-		printf("Save game failed, please try again later\n");
-		break;
-	} else
-	{
-		fprintf("%d %d", NBrsEff(M), NKolEff(M)); // Besar Map
-		fprintf("%d", turn);					  // Turn siapa
 
-		/*masukkan state menggunakan fprintf() ke file external
-	}
-
-	/* NOTE: Hal2 yg perlu disimpen
-			Besar map
-			Turn siapa
-			State petak
-			State Player 1 dan 2 (gold, income, upkeep, warna)
-			State semua unit
-		// Kalo ada yang perlu ditambahin ketik disini yaa!!
-	
-
-	long time_end = time(NULL);
-	JAM tstart = DetikToJAM(time_start);
-	JAM tend = DetikToJAM(time_end);
-	long durasi = Durasi(tstart, tend);
-	printf("Your game have been saved, you have played for %ld minutes this session\n", durasi);
-
-}
 
 void call_EXIT() //incomplete
-{
-    char savegame = 'x';
-    while (savegame != 'n' || savegame != 'y')
-    {
-        printf("Would you like to save the game? (Y/N)\n");
-        scanf("%c",savegame);
-        if (savegame == 'y')
-        {
-            call_SAVE();
-			break;
-        } else if (savegame == 'n')
-        {
-            break;
-        } else
-        {
-            printf("Input tidak valid, silakan coba lagi");
-        }
-    }
-	printf("Exiting the game...");
-	exit(0);
-}
+
 
 
 		/*LOAD FILE EXTERNAL DAN ASSIGN KE VARIABEL
