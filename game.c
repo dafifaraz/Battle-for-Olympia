@@ -22,6 +22,7 @@ void start_game(boolean *new_game){
 	char start_option;
 	for (;;)
 	{
+		printf("Your input:");
 		scanf("%c",&start_option);
 		if (start_option == '1')
 		{

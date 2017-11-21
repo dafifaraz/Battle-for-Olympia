@@ -6,6 +6,7 @@
 #include "boolean.h"
 #include <time.h>
 #include <math.h>
+#include "pcolor.h"
 //#include "stackt.h"
 
 void empty_peta(peta *M, int NB, int NK){
@@ -116,13 +117,21 @@ void display_peta(peta M){
 								if (isequal_petak(petak(M,i,k),empty_petak(MakePOINT(i,k)))){
 									printf(" ");
 								} else {
-									printf("%c",jenis_petak(petak(M,i,k)));
+									if (milik_petak(petak(M,i,k)) == 1){
+										print_red(jenis_petak(petak(M,i,k)));	
+									} else {
+										print_blue(jenis_petak(petak(M,i,k)));
+									}
 								}
 							} else if (j==2){
 								if (isequal_unit(unit_petak(petak(M,i,k)),empty_unit(MakePOINT(i,k)))){
 									printf(" ");
 								} else {
-									printf("%c",simbol(unit_petak(petak(M,i,k))));
+									if (milik_petak(petak(M,i,k)) == 1){
+										print_red(simbol(unit_petak(petak(M,i,k))));	
+									} else {
+										print_blue(simbol(unit_petak(petak(M,i,k))));
+									}
 								}
 							} else {
 								printf(" ");
