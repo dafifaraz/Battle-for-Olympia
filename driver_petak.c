@@ -6,7 +6,7 @@
 int main(){
 
 	unit u1 = empty_unit(MakePOINT(1,1));
-	assign_unit(&u1,'K');
+	assign_unit(&u1,'W',2);
 
 	petak p1 = empty_petak(MakePOINT(1,1));
 	

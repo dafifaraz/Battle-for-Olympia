@@ -3,11 +3,13 @@
 #include "petak.h"
 #include "player.h"
 #include "unit.h"
+#include "boolean.h"
 #include <time.h>
 #include <math.h>
+#include "pcolor.h"
+//#include "stackt.h"
 
-void empty_peta(peta *M, int NB, int NK, player *p1, player *p2){
-//Terbentuk peta yang kosong yang diisi oleh 2 player yang kosong
+void empty_peta(peta *M, int NB, int NK){
 	NBrsEff(*M) = NB;
 	NKolEff(*M) = NK;
 	for (int i=0; i<NB; i++){
@@ -15,73 +17,88 @@ void empty_peta(peta *M, int NB, int NK, player *p1, player *p2){
 			petak(*M,i,j) = empty_petak(MakePOINT(i,j));
 		}
 	}
-	init_player(p1,'R','1'); //'R' = red, '1' = P1
-	init_player(p2,'B','2'); //'B' = blue, '2' = P2
 }
 
-void bangun_kerajaan(peta *M, player *p1, player *p2){
-//Terbentuk kondisi awal permainan, peta dibangun kerajaan, unit yang ada disimpan ke listunit player
-//p1 dan p2 merupakan player kosong
+void bangun_kerajaan(peta *M)
+{	
+	//menentukan letak tower p1 dan p2
 	POINT lokasi_p1 = MakePOINT(NBrsEff(*M) - 2, 1);
 	POINT lokasi_p2 = MakePOINT(1, NKolEff(*M) - 2);
+	//membuat unit kosong untuk diisikan ke tower
+	unit dummy_unit_p1 = empty_unit(lokasi_p1);
+	unit dummy_unit_p2 = empty_unit(lokasi_p2);
+	//absis dan ordinat tower p1 dan p2
+	int xt1 = Absis(lokasi_p1), yt1 = Ordinat(lokasi_p1);
+	int xt2 = Absis(lokasi_p2), yt2 = Ordinat(lokasi_p2);
+	//mengisikan T dan dummy unit di petak tower
+	assign_petak(&(petak(*M,xt1,yt1)),'T',1,dummy_unit_p1);
+	assign_petak(&(petak(*M,xt2,yt2)),'T',2,dummy_unit_p2);	
+	
+	//membangun castle kiri tower p1
+	int xcl1 = Absis(left(lokasi_p1)), ycl1 = Ordinat(left(lokasi_p1));
+	unit dummy_xcl1 = empty_unit(left(lokasi_p1));
+	assign_petak(&(petak(*M,xcl1,ycl1)),'C',1,dummy_xcl1);
+	//membangun castle kanan tower p1
+	int xcr1 = Absis(right(lokasi_p1)), ycr1 = Ordinat(right(lokasi_p1));
+	unit dummy_xcr1 = empty_unit(right(lokasi_p1));
+	assign_petak(&(petak(*M,xcr1,ycr1)),'C',1,dummy_xcr1);
+	//membangun castle atas tower p1
+	int xcu1 = Absis(up(lokasi_p1)), ycu1 = Ordinat(up(lokasi_p1));
+	unit dummy_xcu1 = empty_unit(up(lokasi_p1));
+	assign_petak(&(petak(*M,xcu1,ycu1)),'C',1,dummy_xcu1);
+	//membangun castle bawah tower p1
+	int xcd1 = Absis(down(lokasi_p1)), ycd1 = Ordinat(down(lokasi_p1));
+	unit dummy_xcd1 = empty_unit(down(lokasi_p1));
+	assign_petak(&(petak(*M,xcd1,ycd1)),'C',1,dummy_xcd1);
 
-	unit king_p1 = unit_petak(petak(*M,Absis(lokasi_p1),Ordinat(lokasi_p1)));
-	unit king_p2 = unit_petak(petak(*M,Absis(lokasi_p2),Ordinat(lokasi_p2)));
-	
-	assign_unit(&king_p1, 'K', 1);					//unit yang ada di tower p1 diisi properti king
-	InsVFirst_listunit(&list_unit(*p1),king_p1);	//king p1 ditambahkan ke dalam list_unit p1
-	
-	assign_unit(&king_p2, 'K', 2);
-	InsVFirst_listunit(&list_unit(*p2),king_p2);	
-	
-	assign_petak(&(petak(*M,Absis(lokasi_p1),Ordinat(lokasi_p1))), 'T', 1, king_p1);
-	petak_khusus(*p1,0) = petak(*M,Absis(lokasi_p1),Ordinat(lokasi_p1));
-	
-	assign_petak(&(petak(*M,Absis(lokasi_p2),Ordinat(lokasi_p2))), 'T', 2, king_p2);
-	petak_khusus(*p2,0) = petak(*M,Absis(lokasi_p2),Ordinat(lokasi_p2));	
-	
-	POINT lokasi_CL_P1 = MakePOINT(Absis(lokasi_p1),Ordinat(lokasi_p1) - 1);
-	POINT lokasi_CU_P1 = MakePOINT(Absis(lokasi_p1) - 1,Ordinat(lokasi_p1));
-	POINT lokasi_CR_P1 = MakePOINT(Absis(lokasi_p1),Ordinat(lokasi_p1) + 1);
-	POINT lokasi_CD_P1 = MakePOINT(Absis(lokasi_p1) + 1,Ordinat(lokasi_p1));
-	
-	POINT lokasi_CL_P2 = MakePOINT(Absis(lokasi_p2),Ordinat(lokasi_p2) - 1);
-	POINT lokasi_CU_P2 = MakePOINT(Absis(lokasi_p2) - 1,Ordinat(lokasi_p2));
-	POINT lokasi_CR_P2 = MakePOINT(Absis(lokasi_p2),Ordinat(lokasi_p2) + 1);
-	POINT lokasi_CD_P2 = MakePOINT(Absis(lokasi_p2) + 1,Ordinat(lokasi_p2));
-	
-	assign_petak(&(petak(*M,Absis(lokasi_CL_P1),Ordinat(lokasi_CL_P1))), 'C', 1, empty_unit(lokasi_CL_P1));		
-	petak_khusus(*p1,1) = petak(*M,Absis(lokasi_CL_P1),Ordinat(lokasi_CL_P1));
-	
-	assign_petak(&(petak(*M,Absis(lokasi_CU_P1),Ordinat(lokasi_CU_P1))), 'C', 1, empty_unit(lokasi_CU_P1));
-	petak_khusus(*p1,2) = petak(*M,Absis(lokasi_CU_P1),Ordinat(lokasi_CU_P1));
-	
-	assign_petak(&(petak(*M,Absis(lokasi_CR_P1),Ordinat(lokasi_CR_P1))), 'C', 1, empty_unit(lokasi_CR_P1));
-	petak_khusus(*p1,3) = petak(*M,Absis(lokasi_CR_P1),Ordinat(lokasi_CR_P1));
-	
-	assign_petak(&(petak(*M,Absis(lokasi_CD_P1),Ordinat(lokasi_CD_P1))), 'C', 1, empty_unit(lokasi_CD_P1));
-	petak_khusus(*p1,4) = petak(*M,Absis(lokasi_CD_P1),Ordinat(lokasi_CD_P1));
-	
-	assign_petak(&(petak(*M,Absis(lokasi_CL_P2),Ordinat(lokasi_CL_P2))), 'C', 1, empty_unit(lokasi_CL_P2));
-	petak_khusus(*p2,1) = petak(*M,Absis(lokasi_CL_P2),Ordinat(lokasi_CL_P2));
-	
-	assign_petak(&(petak(*M,Absis(lokasi_CU_P2),Ordinat(lokasi_CU_P2))), 'C', 1, empty_unit(lokasi_CU_P2));
-	petak_khusus(*p2,2) = petak(*M,Absis(lokasi_CU_P2),Ordinat(lokasi_CU_P2));
-	
-	assign_petak(&(petak(*M,Absis(lokasi_CR_P2),Ordinat(lokasi_CR_P2))), 'C', 1, empty_unit(lokasi_CR_P2));
-	petak_khusus(*p2,3) = petak(*M,Absis(lokasi_CR_P2),Ordinat(lokasi_CR_P2));
-	
-	assign_petak(&(petak(*M,Absis(lokasi_CD_P2),Ordinat(lokasi_CD_P2))), 'C', 1, empty_unit(lokasi_CD_P2));
-	petak_khusus(*p2,4) = petak(*M,Absis(lokasi_CD_P2),Ordinat(lokasi_CD_P2));
+	//membangun castle kiri tower p2
+	int xcl2 = Absis(left(lokasi_p2)), ycl2 = Ordinat(left(lokasi_p2));
+	unit dummy_xcl2 = empty_unit(left(lokasi_p2));
+	assign_petak(&(petak(*M,xcl2,ycl2)),'C',2,dummy_xcl2);
+	//membangun castle kanan tower p2
+	int xcr2 = Absis(right(lokasi_p2)), ycr2 = Ordinat(right(lokasi_p2));
+	unit dummy_xcr2 = empty_unit(right(lokasi_p2));
+	assign_petak(&(petak(*M,xcr2,ycr2)),'C',2,dummy_xcr2);
+	//membangun castle atas tower p2
+	int xcu2 = Absis(up(lokasi_p2)), ycu2 = Ordinat(up(lokasi_p2));
+	unit dummy_xcu2 = empty_unit(up(lokasi_p2));
+	assign_petak(&(petak(*M,xcu2,ycu2)),'C',2,dummy_xcu2);
+	//membangun castle bawah tower p2
+	int xcd2 = Absis(down(lokasi_p2)), ycd2 = Ordinat(down(lokasi_p2));
+	unit dummy_xcd2 = empty_unit(down(lokasi_p2));
+	assign_petak(&(petak(*M,xcd2,ycd2)),'C',2,dummy_xcd2);
 }
 
-void init_peta(peta *M, int NBrsEff, int NKolEff){
+void taruh_king(peta *M, player *p1, player *p2){
+	POINT lokasi_p1 = MakePOINT(NBrsEff(*M) - 2, 1);
+	POINT lokasi_p2 = MakePOINT(1, NKolEff(*M) - 2);
+	
+	int xk1 = Absis(lokasi_p1), yk1 = Ordinat(lokasi_p1);
+	int xk2 = Absis(lokasi_p2), yk2 = Ordinat(lokasi_p2);
+	//claim posisi untuk king
+	unit king_p1 = unit_petak(petak(*M,xk1,yk1));
+	unit king_p2 = unit_petak(petak(*M,xk2,yk2));
+	//memberi unit di petak dengan properti king
+	assign_unit(&king_p1,'K',1);
+	assign_unit(&king_p2,'K',2);
+	//menambahkan ke list player
+	InsVFirst_listunit(&list_unit(*p1),king_p1);
+	InsVFirst_listunit(&list_unit(*p2),king_p2);
+	//menambahkan ke peta
+	assign_petak(&(petak(*M,xk1,yk1)),'T',1,king_p1);
+	assign_petak(&(petak(*M,xk2,yk2)),'T',2,king_p2);
+}
+
+void init_peta(peta *M, int NBrsEff, int NKolEff, player *p1, player *p2){
 	empty_peta(M, NBrsEff, NKolEff);
+	init_player(p1,'R',1);
+	init_player(p2,'C',2);
 	bangun_kerajaan(M);
+	taruh_king(M,p1,p2);
 	PasangDesa(NBrsEff*NKolEff/20, M);
 }
 
-void display_peta(peta M){
+void display_peta(peta M, player p){
 	printf("\n");
 	for (int i=0; i<NBrsEff(M); i++){
 		for (int j=0; j<4*NKolEff(M)+1; j++){
@@ -95,19 +112,33 @@ void display_peta(peta M){
 							printf("*");
 						} else if (l == 2){
 							if (j == 0){
-								printf("");
+								
 							} else if (j==1){
 								if (isequal_petak(petak(M,i,k),empty_petak(MakePOINT(i,k)))){
 									printf(" ");
 								} else {
-									printf("%c",jenis_petak(petak(M,i,k)));
+									if (milik_petak(petak(M,i,k)) == 1){
+										print_red(jenis_petak(petak(M,i,k)));	
+									} else if (milik_petak(petak(M,i,k)) == 2) {
+										print_cyan(jenis_petak(petak(M,i,k)));
+									} else {
+										printf("%c",jenis_petak(petak(M,i,k)));
+									}
 								}
 							} else if (j==2){
 								if (isequal_unit(unit_petak(petak(M,i,k)),empty_unit(MakePOINT(i,k)))){
 									printf(" ");
 								} else {
-									printf("%c",simbol(unit_petak(petak(M,i,k))));
-								}
+									if (isequal_unit(unit_petak(petak(M,i,k)),selected(p))){
+										print_green(simbol(unit_petak(petak(M,i,k))));
+									} else if (pemilik(unit_petak(petak(M,i,k))) == 1){
+										print_red(simbol(unit_petak(petak(M,i,k))));	
+									} else if (pemilik(unit_petak(petak(M,i,k))) == 2){
+										print_cyan(simbol(unit_petak(petak(M,i,k))));
+									} else {
+										printf("ERROR\n");
+									}
+								} 
 							} else {
 								printf(" ");
 							}
@@ -172,11 +203,57 @@ int manhattan_dist(POINT x1, POINT x2){
 	return abs(Absis(x1) - Absis(x2)) + abs(Ordinat(x1) - Ordinat(x2));
 }
 
+boolean isAdaMusuh(POINT P1, POINT P2, peta M){
+	int a;
+	//Cek Horizontalnya (doang)
+	if (Ordinat(P1) == Ordinat(P2)){
+		if (Absis(P1) > Absis(P2)){
+			Absis(P2) += 1;
+			while (Absis(P1) != Absis(P2)){
+				if((pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 2) && (pemilik(unit_petak(petak(M,Absis(P1),Ordinat(P1)))) == 1) || (pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 1) && (pemilik(unit_petak(petak(M,Absis(P1),Ordinat(P1)))) == 2))
+					return true;
+				Absis(P2) += 1;
+			}
+		}
+		else if (Absis(P1) < Absis(P2)){
+			Absis(P1) += 1;
+			while (Absis(P1) != Absis(P2)){
+				if((pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 2) && (pemilik(unit_petak(petak(M,Absis(P1),Ordinat(P1)))) == 1) || (pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 1) && (pemilik(unit_petak(petak(M,Absis(P1),Ordinat(P1)))) == 2))
+					return true;
+				Absis(P1) += 1;
+			}
+		}
+	}
+
+	//Cek Vertikalnya (doang)
+	if (Absis(P1) == Absis(P2)){
+		if (Ordinat(P1) > Ordinat(P2)){
+			Ordinat(P2) += 1;
+			while (Ordinat(P1) != Ordinat(P2)){
+				if((pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 2) && (pemilik(unit_petak(petak(M,Absis(P1),Ordinat(P1)))) == 1) || (pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 1) && (pemilik(unit_petak(petak(M,Absis(P1),Ordinat(P1)))) == 2))
+					return true;
+				Ordinat(P2) += 1;
+			}
+		}
+		else if (Ordinat(P1) < Ordinat(P2)){
+			Ordinat(P1) += 1;
+			while (Ordinat(P1) != Ordinat(P2)){
+				if((pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 2) && (pemilik(unit_petak(petak(M,Absis(P1),Ordinat(P1)))) == 1) || (pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 1) && (pemilik(unit_petak(petak(M,Absis(P1),Ordinat(P1)))) == 2))
+					return true;
+				Ordinat(P1) += 1;
+			}
+		}
+	}
+
+	//Cek Diagonalnya
+	
+}
+
 void MOVE(player P, peta *M){
 	POINT loc = P.selected.lokasi;
 	unit slc = unit_petak(petak(*M,Absis(loc), Ordinat(loc))); //unit yang sedang dipilih
 
-	add_unit address_slc_in_list = Search_listunit(list_unit(P),slc); //search unit slc di listunit player p;
+	add_unit address_slc_in_list = Search_listunit(list_unit(P),slc); //search unit slc di listunit player p
 
 	//Tampilkan Peta dan koordinat petak yang dapat dijangkau
 	printf("\n");
@@ -186,13 +263,14 @@ void MOVE(player P, peta *M){
 		}
 		for (int j=0; j<4; j++){
 			for (int k=0; k<NKolEff(*M); k++){
+				POINT Current = MakePOINT(i,k);
 				for (int l=0; l<4; l++){
 					if (j!=0){
 						if (l == 0){
 							printf("*");
 						} else if (l == 2){
 							if (j == 0){
-								printf("");
+								
 							} else if (j==1){
 								if (isequal_petak(petak(*M,i,k),empty_petak(MakePOINT(i,k)))){
 									printf(" ");
@@ -202,7 +280,7 @@ void MOVE(player P, peta *M){
 							} else if (j==2){
 
 								//BELUM DICEK KALAU ADA UNIT PLAYER LAIN DIANTARANYA
-								if (isequal_unit(unit_petak(petak(*M,i,k)),empty_unit(MakePOINT(i,k))) && (manhattan_dist(MakePOINT(i,k), loc) <= max_move_point(slc))){
+								if (isequal_unit(unit_petak(petak(*M,i,k)),empty_unit(MakePOINT(i,k))) && (manhattan_dist(Current, loc) <= max_move_point(slc))){
 									printf("#");
 								} 
 								else if (isequal_unit(unit_petak(petak(*M,i,k)),empty_unit(MakePOINT(i,k)))){
@@ -228,18 +306,18 @@ void MOVE(player P, peta *M){
 	}
 	for (int i=0; i<4*NKolEff(*M)+1; i++) printf("*");
 	printf("\n");
-
+	
+	int x,y; 
 	do{
 		printf(">> Please enter cell's coordinate x y : \n");
 		printf("<< \n");
-		int x,y; 
 		scanf("%d %d",&x,&y);
 		//invalid jika jarak lebih dari max_move_point atau ada unit lain disana 
-		//BALUM DICEK KALAU ADA UNIT PLAYER LAIN DIANTARANYA
-		if (manhattan_dist(MakePOINT(x,y),loc) > max_move_point(slc) || !isequal_unit(unit_petak(petak(*M,x,y)),empty_petak(MakePOINT(x,y)))) {
+		//BELUM DICEK KALAU ADA UNIT PLAYER LAIN DIANTARANYA
+		if (manhattan_dist(MakePOINT(x,y),loc) > max_move_point(slc) || !isequal_unit(unit_petak(petak(*M,x,y)),empty_unit(MakePOINT(x,y)))) {
 			printf(">> Sorry. You can't move there\n");
 		} else {
-			unit_petak(petak(*M,x,y)) = 
+			swap_unit(&unit_petak(petak(*M,x,y)), &unit_petak(petak(*M,Absis(loc), Ordinat(loc))));
 			printf(">> Your selected unit has been moved to (%d,%d)\n",x,y);
 		}
 	} while (manhattan_dist(MakePOINT(x,y),loc) > max_move_point(slc));

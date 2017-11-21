@@ -383,7 +383,7 @@ void DelAfter_listpetak (listpetak *L, add_petak *Pdel, add_petak Prec)
 
 #define INIT_GOLD 100
 
-void init_player(player *p, char wrn, char smb){
+void init_player(player *p, char wrn, int smb){
 // setting awal player
 	gold(*p) = INIT_GOLD;
 	CreateEmpty_listunit(&list_unit(*p));
@@ -393,13 +393,13 @@ void init_player(player *p, char wrn, char smb){
 }
 
 void change_unit(player *P){
-
 	// tampilkan seluruh unit
-	printf(">> List of Units \n");
+	printf("List of Units \n");
+	//cetak info king
 	add_unit CU = First_unit(list_unit(*P));
 	int cnt = 1;
-	while (add_unit != Nil){
-		printf(">> %d. ", cnt);
+	while (CU != Nil){
+		printf("%d. ", cnt);
 		switch (simbol(Info_unit(CU))){
 			case 'K' : printf("King "); break;
 			case 'A' : printf("Archer "); break;
@@ -408,112 +408,65 @@ void change_unit(player *P){
 			default  : printf("No unit found");
 		}
 		tulis_point(lokasi_unit(Info_unit(CU)));
-		printf(" | Health ");
-		printf("%d",health(Info_unit(CU)));
-		printf(" | ATK ");
-		printf("%d",attack(Info_unit(CU)));
-		printf(" | Move_pts ");
-		printf("%d",move_point(Info_unit(CU)));
-		printf(" | ATK_type ");
+		printf(" | Health: %d | ATK: %d | Move_pts: %d | ATK_type: ",health(Info_unit(CU)),attack(Info_unit(CU)),move_point(Info_unit(CU)));
 		switch (tipe_serang(Info_unit(CU))){
-			case 'M' : printf("Melee "); break;
-			case 'R' : printf("Range "); break;
+			case 'M' : printf("Melee"); break;
+			case 'R' : printf("Range"); break;
 			default  : printf("No unit found");
 		}
-		printf(" | ATK_chance ");
+		printf(" | ATK_chance: ");
 		if(kesempatan_serang(Info_unit(CU))){
 			printf("Yes ");
 		} else {
 			printf("No ");
 		}
-		printf(" | Price ");
-		printf("%d",harga(Info_unit(CU)));
+		printf(" | Price: %d\n",harga(Info_unit(CU)));
+		printf("\n");
 		CU = Next_unit(CU);
 		cnt++;
 	}
 
-	printf(">> Enter the number of unit you want to select : \n");
-	printf("<< \n");
+	printf("Enter the number of unit you want to select : ");
 	int num_slc;
 	do {
 		scanf("%d",&num_slc);
 		if (num_slc < 1 || num_slc >= cnt){
-			printf(">> Invalid input. Try again\n");
+			printf("Invalid input. Try again\n");
 		}
 	} while (num_slc < 1 || num_slc >= cnt);
 
 	// searching unit bernomor num_slc
-	CU = First_unit(list_unit(*P));
+	add_unit CUU = First_unit(list_unit(*P));
 	int cnt1 = 1;
-	while (cnt1 < cnt){
-		CU = Next_unit(CU);
-		cnt1++;
+	while (cnt1 < num_slc){
+		CUU = Next_unit(CUU);
+		cnt1 = cnt1 + 1;
 	}
-	
 	// mengganti unit yang dipilih P menjadi CU
-	selected(*P) = CU;
-	printf(">> You have select ");
-	switch (simbol(Info_unit(CU))){
-		case 'K' : printf("King "); break;
+	selected(*P) = Info_unit(CUU);
+	printf("You have select ");
+	switch (simbol(Info_unit(CUU))){
+		case 'K' : printf("King ");
 		case 'A' : printf("Archer "); break;
 		case 'S' : printf("Swordsman "); break;
 		case 'W' : printf("White Mage "); break;
 		default  : printf("No unit found");
 	}
-	tulis_point(lokasi_unit(Info_unit(CU)));	
+	tulis_point(lokasi_unit(Info_unit(CUU)));	
 	printf("\n");
 }
 
-void display_recruitable(player *P){															
-}
-
-void recruit(player *P){
-	int id_p = (int)simbol_player(*P) - 48; 
-	if (simbol(unit_petak(petak_tower(*P))) == 'K' && pemilik(unit_petak(petak_tower(*P))) == id_p){
-	
-		boolean b1 = simbol(unit_petak(petak_c1(*P))) == ' ';
-		boolean b2 = simbol(unit_petak(petak_c2(*P))) == ' ';
-		boolean b3 = simbol(unit_petak(petak_c3(*P))) == ' ';
-		boolean b4 = simbol(unit_petak(petak_c4(*P))) == ' ';
-
-		if (b1 || b2 || b3 || b4){
-			int x = Absis(lokasi_petak(petak_tower(*P)));
-			int y = Ordinat(lokasi_petak(petak_tower(*P)));
-			do{
-				printf(">> Enter coordinat x y of your castle\n");
-				printf("<< \n");
-				int x1, y1;
-				scanf("%d %d",&x1,&y1);
-				if (abs(x-x1) + abs(y-y1) != 1){
-					printf(">> This cell is not your castle\n");
-				} else {
-					POINT slc = MakePOINT(x1,y1);
-					boolean b5 = 	isequal_point(lokasi_petak(petak_c1(*P)), slc) && b1 ||
-									isequal_point(lokasi_petak(petak_c2(*P)), slc) && b2 ||
-									isequal_point(lokasi_petak(petak_c3(*P)), slc) && b3 ||
-									isequal_point(lokasi_petak(petak_c4(*P)), slc) && b4 ;
-					if (b5){
-						int cnt = 1;
-						if (gold(*P) >= H_ARCHER){
-							printf(">> %d. Archer | Health %d | ATK %d | ATK_type %c | Price %dG\n", cnt,MH_ARCHER,ATK_ARCHER,TS_ARCHER,H_ARCHER);
-							cnt++;
-						} else if (gold(*P) >= H_SWORDSMAN){
-							printf(">> %d. Archer | Health %d | ATK %d | ATK_type %c | Price %dG\n", cnt,MH_SWORDSMAN,ATK_SWORDSMAN,TS_SWORDSMAN,H_SWORDSMAN);
-							cnt++;
-						} else { // gold(P) >= H_WHITEMAGE
-							printf(">> %d. Archer | Health %d | ATK %d | ATK_type %c | Price %dG\n", cnt,MH_WHITEMAGE,ATK_WHITEMAGE,TS_WHITEMAGE,H_WHITEMAGE);
-							cnt++;
-						}
-						
-					} else {
-						printf(">> Your selected castle is occupied\n");
-					}	
-				}				
-			}
-		} else {
-			printf(">> Recruit failed. Your castles are full\n");
-		}
+void display_player_info(player p){
+	unit king = Info_unit(First_unit(list_unit(p)));
+	int x = Absis(lokasi_unit(king));
+	int y = Ordinat(lokasi_unit(king));
+	int m = move_point(king);
+	printf("Player %d turn\n",simbol_player(p));
+	printf("King (%d,%d) | Movement Points: %d | Can attack: ",x,y,m);
+	if (kesempatan_serang(king)){
+		printf("Yes\n");
 	} else {
-		printf(">> Recruit failed. Your king is not in tower\n");
+		printf("No\n");
 	}
+	printf("\n");
 }

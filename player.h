@@ -183,23 +183,29 @@ typedef struct {
 	int income;
 	int upkeep;
 	char warna;
-	char simbol;
+	int simbol;
 	unit selected;
 	// berguna buat recruit karena nggak bisa akses peta dari player
 	petak petak_khusus[6]; //petak[0] simpan tower, 4 lagi simpan castle 
+	unit king_player; //berguna buat nyimpan info king
 } player;
 
-#define gold(P) (P).gold;
-#define list_unit(P) (P).list_unit;
-#define list_villages(P) (P).list_villages;
-#define income(P) (P).income;
-#define upkeep(P) (P).upkeep;
-#define warna(P) (P).warna;
-#define simbol_player(P) (P).simbol;
-#define selected(P) (P).selected;
-#define petak_khusus(P,i) (P).petak_khusus[i]; 
+#define gold(P) (P).gold
+#define list_unit(P) (P).list_unit
+#define list_petak(P) (P).list_petak
+#define income(P) (P).income
+#define upkeep(P) (P).upkeep
+#define warna(P) (P).warna
+#define simbol_player(P) (P).simbol
+#define selected(P) (P).selected
+#define petak_khusus(P,i) (P).petak_khusus[i]
+#define king_player(P) (P).king_player
 
-void init_player(player *p, char wrn, char smb);
+void init_player(player *p, char wrn, int smb);
+/*I.S. : Sembarang 
+  F.S. : player p diinisiasi dengan warna wrn dan simbol smb */
 
 void change_unit(player *p);
+
+void display_player_info(player p);
 #endif

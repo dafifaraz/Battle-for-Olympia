@@ -1,4 +1,4 @@
-Battle for Olympia
+ Battle for Olympia
 
 Dibuat untuk memenuhi tugas besar mata kuliah Algoritma dan Struktur Data
 
@@ -10,11 +10,11 @@ Dibuat oleh :
 - Seldi Kurnia Trihardja  
 
 Done 
-Dafi	:
+Dafi	: Command 10 (exit), revisi start_game
 Dion	: Buat ADT Unit, revisi peta
 Mol	: Mekanisme bertarung
 Rifo	: Buat ADT Peta, revisi peta
-Seldi	: Buat Village
+Seldi	: Buat Village, Turn
 
 Pembagian Tugas
 1. Dion : Menu utama, unit, command (3,4)
