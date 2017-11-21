@@ -1,13 +1,14 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <time.h>
 #include "boolean.h"
-#include "point.h"
-#include "unit.h"
-#include "petak.h"
-#include "player.h"
+#include "pcolor.h"
 #include "peta.h"
+#include "player.h"
 #include "kata.h"
+#include "jam.h"
+#include "game.h"
 
 #define MAX_BARIS_peta 100
 #define MAX_KOLOM_peta 100
@@ -34,8 +35,9 @@ void receive_command (int *code);
 /*I.S.  : Sembarang
   Proses: Meminta user memasukkan command dan divalidasi hingga valid.
   F.S. 	: code merupakan command_code dari command valid oleh user */
-
-void do_command(int code, player *p, int turn, long time_start, boolean game_over);
+void call_SAVE(peta *M, int TURN, long time_start); //incomplete
+void call_EXIT(peta *M, int TURN, long time_start, boolean game_over);
+void do_command(int code, player *P, peta *M, int turn, long time_start, boolean game_over);
 /*I.S. : parameter terdefinisi
   F.S. : menjalankan command yang bersesuaian dengan code */
 

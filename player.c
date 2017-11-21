@@ -396,40 +396,31 @@ void change_unit(player *P){
 	// tampilkan seluruh unit
 	printf("List of Units \n");
 	//cetak info king
-	printf("1. King ");
-	tulis_point(lokasi_unit(king_player(*P)));
-	printf(" | Health %d | ATK %d | Move_pts %d | ATK_type Melee | ATK_chance ",health(king_player(*P)),attack(king_player(*P)),move_point(king_player(*P)));
-	if(kesempatan_serang(king_player(*P))){
-		printf("Yes ");
-	} else {
-		printf("No ");
-	}
-	printf(" | Price -\n");
-	
 	add_unit CU = First_unit(list_unit(*P));
-	int cnt = 2;
+	int cnt = 1;
 	while (CU != Nil){
 		printf("%d. ", cnt);
 		switch (simbol(Info_unit(CU))){
+			case 'K' : printf("King "); break;
 			case 'A' : printf("Archer "); break;
 			case 'S' : printf("Swordsman "); break;
 			case 'W' : printf("White Mage "); break;
 			default  : printf("No unit found");
 		}
 		tulis_point(lokasi_unit(Info_unit(CU)));
-		printf(" | Health %d | ATK %d | Move_pts %d | ATK_type ",health(Info_unit(CU)),attack(Info_unit(CU)),move_point(Info_unit(CU)));
+		printf(" | Health: %d | ATK: %d | Move_pts: %d | ATK_type: ",health(Info_unit(CU)),attack(Info_unit(CU)),move_point(Info_unit(CU)));
 		switch (tipe_serang(Info_unit(CU))){
-			case 'M' : printf("Melee "); break;
-			case 'R' : printf("Range "); break;
+			case 'M' : printf("Melee"); break;
+			case 'R' : printf("Range"); break;
 			default  : printf("No unit found");
 		}
-		printf(" | ATK_chance ");
+		printf(" | ATK_chance: ");
 		if(kesempatan_serang(Info_unit(CU))){
 			printf("Yes ");
 		} else {
 			printf("No ");
 		}
-		printf(" | Price %d\n",harga(Info_unit(CU)));
+		printf(" | Price: %d\n",harga(Info_unit(CU)));
 		printf("\n");
 		CU = Next_unit(CU);
 		cnt++;
@@ -473,10 +464,11 @@ void change_unit(player *P){
 }
 
 void display_player_info(player p){
-	int x = Absis(lokasi_unit(king_player(p)));
-	int y = Ordinat(lokasi_unit(king_player(p)));
-	int m = move_point(king_player(p));
-	printf("Player %c turn\n",simbol_player(p));
+	unit king = Info_unit(First_unit(list_unit(p)));
+	int x = Absis(lokasi_unit(king));
+	int y = Ordinat(lokasi_unit(king));
+	int m = move_point(king);
+	printf("Player %d turn\n",simbol_player(p));
 	printf("King (%d,%d) | Movement Points %d | Can attack : ",x,y,m);
 	if (kesempatan_serang(king_player(p))){
 		printf("Yes\n");

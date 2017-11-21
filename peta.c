@@ -66,7 +66,6 @@ void bangun_kerajaan(peta *M)
 	int xcd2 = Absis(down(lokasi_p2)), ycd2 = Ordinat(down(lokasi_p2));
 	unit dummy_xcd2 = empty_unit(down(lokasi_p2));
 	assign_petak(&(petak(*M,xcd2,ycd2)),'C',2,dummy_xcd2);
-
 }
 
 void taruh_king(peta *M, player *p1, player *p2){
@@ -84,6 +83,9 @@ void taruh_king(peta *M, player *p1, player *p2){
 	//menambahkan ke list player
 	InsVFirst_listunit(&list_unit(*p1),king_p1);
 	InsVFirst_listunit(&list_unit(*p2),king_p2);
+	//menambahkan ke peta
+	assign_petak(&(petak(*M,xk1,yk1)),'T',1,king_p1);
+	assign_petak(&(petak(*M,xk2,yk2)),'T',2,king_p2);
 }
 
 void init_peta(peta *M, int NBrsEff, int NKolEff, player *p1, player *p2){

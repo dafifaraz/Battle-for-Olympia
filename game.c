@@ -5,7 +5,11 @@
 #include "player.h"
 #include "peta.h"
 #include "kata.h"
+#include "jam.h"
 #include "game.h"
+#include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 void start_game(boolean *new_game){
 	printf("\n");
@@ -109,6 +113,90 @@ void receive_command(int *code){
 	} while (*code == 0);
 }
 
+void call_SAVE(peta *M, int TURN, long time_start) //incomplete
+{
+	FILE *fp;
+	fp = fopen("save_game.txt", "w");
+	if (fp == NULL)
+	{
+		printf("Save game failed, please try again later\n");
+	} else
+	{
+		fprintf(fp,"%d %d", NBrsEff(*M), NKolEff(*M)); // Besar Map
+		fprintf(fp,"%d", TURN);					  // Turn siapa
+
+		/*masukkan state menggunakan fprintf() ke file external*/
+	}
+
+	/* NOTE: Hal2 yg perlu disimpen
+			Besar map
+			Turn siapa
+			State petak
+			State Player 1 dan 2 (gold, income, upkeep, warna)
+			State semua unit
+		// Kalo ada yang perlu ditambahin ketik disini yaa!!
+	*/
+
+	long time_end = time(NULL);
+	JAM tstart = DetikToJAM(time_start);
+	JAM tend = DetikToJAM(time_end);
+	long durasi = Durasi(tstart, tend);
+	if (durasi <= 60)
+	{
+		printf("Your game have been saved, you have played for %ld seconds this session\n", (durasi));
+	} else
+	{
+		printf("Your game have been saved, you have played for %ld minutes this session\n", (durasi/60));
+	}
+
+}
+
+void call_EXIT(peta *M, int TURN, long time_start, boolean game_over)
+{
+	/*
+    char savegame = 'x';
+    while (savegame != 'n' || savegame != 'y')
+    {
+        printf("Would you like to save the game? (Y/N)\n");
+        scanf("%c",savegame);
+        if (savegame == 'y')
+        {
+            call_SAVE(M, TURN, time_start);
+			break;
+        } else if (savegame == 'n')
+        {
+            break;
+        } else
+        {
+            printf("Input tidak valid, silakan coba lagi");
+        }
+    } */
+	printf("Exiting the game...\n");
+	game_over = true;
+}
+
+/*
+void CreateTurnQueue12(Queue *Q)
+{
+    CreateEmpty(Q,2);
+    Add(Q,1);
+    Add(Q,2);
+}
+
+void CreateTurnQueue21(Queue *Q)
+{
+    CreateEmpty(Q,2);
+    Add(Q,2);
+    Add(Q,1);
+}
+
+void NextTurnQueue(Queue *Q)
+{
+    int A;
+    Del(Q,&A);
+    Add(Q,A);
+} */
+
 void do_command(int code, player *p, peta *M, int turn, long time_start, boolean game_over){
 	switch (code) {
 		case 1 :  break;
@@ -116,9 +204,9 @@ void do_command(int code, player *p, peta *M, int turn, long time_start, boolean
 		case 3 :  change_unit(p); break;
 		case 4 :  break;
 		case 5 :  break;
-		case 6 :  break;
+		case 6 :  display_peta(*M); break;
 		case 7 :  break;
-		case 8 :  NextTurnQueue(&Q); break;
+		case 8 :  /*NextTurnQueue(&Q);*/ break;
 		case 9 :  call_SAVE(M, turn, time_start); break;
 		case 10 : call_EXIT(M, turn, time_start, game_over); break;
 		case 11 : display_command(); break;
@@ -128,3 +216,4 @@ void do_command(int code, player *p, peta *M, int turn, long time_start, boolean
 			break;
 	}
 }
+
