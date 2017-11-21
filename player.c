@@ -431,28 +431,28 @@ void change_unit(player *P){
 	do {
 		scanf("%d",&num_slc);
 		if (num_slc < 1 || num_slc >= cnt){
-			printf(">> Invalid input. Try again\n");
+			printf("Invalid input. Try again\n");
 		}
 	} while (num_slc < 1 || num_slc >= cnt);
 
 	// searching unit bernomor num_slc
-	CU = First_unit(list_unit(*P));
+	add_unit CUU = First_unit(list_unit(*P));
 	int cnt1 = 1;
-	while (cnt1 < cnt){
-		CU = Next_unit(CU);
-		cnt1++;
+	while (cnt1 < num_slc){
+		CUU = Next_unit(CUU);
+		cnt1 = cnt1 + 1;
 	}
 	// mengganti unit yang dipilih P menjadi CU
-	selected(*P) = Info_unit(CU);
+	selected(*P) = Info_unit(CUU);
 	printf("You have select ");
-	switch (simbol(Info_unit(CU))){
+	switch (simbol(Info_unit(CUU))){
 		case 'K' : printf("King ");
 		case 'A' : printf("Archer "); break;
 		case 'S' : printf("Swordsman "); break;
 		case 'W' : printf("White Mage "); break;
 		default  : printf("No unit found");
 	}
-	tulis_point(lokasi_unit(Info_unit(CU)));	
+	tulis_point(lokasi_unit(Info_unit(CUU)));	
 	printf("\n");
 }
 
@@ -462,8 +462,8 @@ void display_player_info(player p){
 	int y = Ordinat(lokasi_unit(king));
 	int m = move_point(king);
 	printf("Player %d turn\n",simbol_player(p));
-	printf("King (%d,%d) | Movement Points %d | Can attack : ",x,y,m);
-	if (kesempatan_serang(king_player(p))){
+	printf("King (%d,%d) | Movement Points: %d | Can attack: ",x,y,m);
+	if (kesempatan_serang(king)){
 		printf("Yes\n");
 	} else {
 		printf("No\n");

@@ -196,23 +196,24 @@ void NextTurnQueue(Queue *Q)
 } */
 
 void do_recruit(player *P, POINT loc_new, peta *M){
-	printf(">> List of recruits\n");
+	printf("List of recruits\n");
 	int cnt = 1;
 	if (gold(*P) >= H_ARCHER){
-		printf(">> %d. Archer | Health %d | ATK %d | ATK_type %c | Price %dG\n", cnt,MH_ARCHER,ATK_ARCHER,TS_ARCHER,H_ARCHER);
+		printf("%d. Archer | Health: %d | ATK: %d | ATK_type: %c | Price: %dG\n", cnt,MH_ARCHER,ATK_ARCHER,TS_ARCHER,H_ARCHER);
 		cnt++;
-	} else if (gold(*P) >= H_SWORDSMAN){
-		printf(">> %d. Archer | Health %d | ATK %d | ATK_type %c | Price %dG\n", cnt,MH_SWORDSMAN,ATK_SWORDSMAN,TS_SWORDSMAN,H_SWORDSMAN);
+	} 
+	if (gold(*P) >= H_SWORDSMAN){
+		printf("%d. Swordsman | Health: %d | ATK: %d | ATK_type: %c | Price: %dG\n", cnt,MH_SWORDSMAN,ATK_SWORDSMAN,TS_SWORDSMAN,H_SWORDSMAN);
 		cnt++;
-	} else { // gold(P) >= H_WHITEMAGE
-		printf(">> %d. Archer | Health %d | ATK %d | ATK_type %c | Price %dG\n", cnt,MH_WHITEMAGE,ATK_WHITEMAGE,TS_WHITEMAGE,H_WHITEMAGE);
+	} 
+	if (gold(*P) >= H_WHITEMAGE) { // gold(P) >= H_WHITEMAGE
+		printf("%d. Whitemage | Health: %d | ATK: %d | ATK_type: %c | Price: %dG\n", cnt,MH_WHITEMAGE,ATK_WHITEMAGE,TS_WHITEMAGE,H_WHITEMAGE);
 		cnt++;
 	}
 	
 	int no_rec;
 	do {
-		printf(">> Enter no unit you want to recruit\n");
-		printf("<< ");
+		printf("Enter no unit you want to recruit\n");
 		scanf("%d",&no_rec);
 		if (no_rec < 1 || no_rec > 3){
 			printf("Invalid input\n");
@@ -223,21 +224,22 @@ void do_recruit(player *P, POINT loc_new, peta *M){
 	if (no_rec == 1){
 		gold(*P) = gold(*P) - H_ARCHER;
 		new_u = unit_petak(petak(*M,Absis(loc_new),Ordinat(loc_new)));
-		assign_unit(&new_u,'A',((int)simbol(*P) - 48));
-		printf(">> You have recruit an archer\n");
+		assign_unit(&new_u,'A',simbol_player(*P));
+		printf("You have recruit an archer\n");
 	} else if (no_rec == 2){
 		gold(*P) = gold(*P) - H_SWORDSMAN;
 		new_u = unit_petak(petak(*M,Absis(loc_new),Ordinat(loc_new)));
-		assign_unit(&new_u,'S',((int)simbol(*P) - 48));
-		(">> You have recruit a swordsman\n");
+		assign_unit(&new_u,'S',simbol_player(*P));
+		printf("You have recruit a swordsman\n");
 	} else {
 		gold(*P) = gold(*P) - H_WHITEMAGE;
 		new_u = unit_petak(petak(*M,Absis(loc_new),Ordinat(loc_new)));
-		assign_unit(&new_u,'W',((int)simbol(*P) - 48));
-		(">> You have recruit a whitemage\n");
+		assign_unit(&new_u,'W',simbol_player(*P));
+		printf("You have recruit a whitemage\n");
 	}		
 	InsVLast_listunit(&list_unit(*P),new_u);
-}
+	assign_petak(&(petak(*M,Absis(loc_new),Ordinat(loc_new))),'C',simbol_player(*P),new_u);
+}	
 
 void recruit(player *P, peta *M){
 	int id_p = simbol_player(*P);
