@@ -19,19 +19,18 @@ void start_game(boolean *new_game){
 	printf("1. New Game\n");
 	printf("2. Load Game\n");
 	printf("\n");
-	int start_option;
-	do {
-		printf("Your Input : "); scanf("%d",&start_option); 
-		printf("\n");
-		if (start_option == 1){
-			*new_game = true;
-		} else if (start_option == 2){
-			*new_game = false;
-		} else {
-			printf("Invalid input. Try again\n");
-			printf("\n");
-		}
-	} while (start_option != 1 && start_option != 2);
+	char start_option;
+	scanf("%c",&start_option);
+	while(start_option!='1' && start_option != '2'){
+		printf("Invalid input. Try again.\n");
+		scanf("%c",&start_option);
+	}
+
+	if (start_option == '1'){
+		*new_game = true;
+	} else {
+		*new_game = false;
+	}
 }
 
 void do_new_game(peta *M, player *p1, player *p2){
