@@ -1,31 +1,20 @@
-
+#include <stdio.h>
+#include "bertarung.h"
 
 void printUnitName(Unit U){
-    if(Tipe(U) == 'A'){
-        printf("Archer ");
+    if(simbol(U) == 'A'){
+        printf("Archer");
     }else
-    if(Tipe(U) == 'K'){
-        printf("King ");
+    if(simbol(U) == 'K'){
+        printf("King");
     }else
-    if(Tipe(U) == 'S'){
-        printf("Swordsman ");
+    if(simbol(U) == 'S'){
+        printf("Swordsman");
     }else
-    if(Tipe(U) == 'W'){
-        printf("White Mage ");
+    if(simbol(U) == 'W'){
+        printf("White Mage");
     }
 }
-
-/*void printPetakName(PETAK P){
-    if(Jenis(P) == 'C'){
-        printf("Castle ");
-    }else
-    if(Jenis(P) == 'V'){
-        printf("Village ");
-    }else
-    if(Jenis(P) == 'N'){
-        printf("Normal ");
-    }
-}*/
 
 void COMAND_ATTACK(player one, player two){
     TabAddress canAttack;
@@ -34,16 +23,17 @@ void COMAND_ATTACK(player one, player two){
     add_unit P = First_unit(list_unit(two));
     int cntUnit=0;
     while (P != Nil){
-        if(canSerang(selected(one), Info_unit(P))){
-            printUnitName(Info_unit(P))
-            printf("(%d,%d) | Health ",Lokasi(Info_unit(P)).X, Lokasi(Info_unit(P)).Y);
-            printf("%d/%d", Health(Info_unit(P)), MaxHealth(Info_unit(P)));
-            if(((TipeSerangan(selected(one)) == TipeSerangan(Info_unit(P))) || (Tipe(Info_unit(P))=='K')) && (Attack(ONE.currentUnit)<Health(Info(P)))){
+        if(MEC_canAttack(selected(one), Info_unit(P))){
+            printf("%d. ",++cntUnit);
+            printUnitName(Info_unit(P));
+            printf(" (%d,%d) | Health ", lokasi_unit(Info_unit(P)).X, lokasi_unit(Info_unit(P)).Y);
+            printf("%d/%d", health(Info_unit(P)), max_health(Info_unit(P)));
+            if(((tipe_serangan(selected(one)) == tipe_serangan(Info_unit(P))) || (simbol(Info_unit(P))=='K')) && (MEC_attack(selected(one))<health(Info_unit(P)))){
                 printf(" (Retaliates)\n");
             }else{
                 printf("\n");
             }
-            Elmt(canAttack,cntUnit++) = P;
+            Elmt(canAttack,cntUnit) = P;
             Neff(canAttack)++;
         }
         P = Next_unit(P);
@@ -53,28 +43,32 @@ void COMAND_ATTACK(player one, player two){
     int unitYangAkanDiserang;
     scanf("%d", &unitYangAkanDiserang);
 
-    Serang(&selected(one), &Info_unit(Elmt(canAttack,unitYangAkanDiserang)));
+    MEC_attack(&selected(one), &Info_unit(Elmt(canAttack,unitYangAkanDiserang)));
+    int xxx = lokasi_unit(Info_unit(Elmt(canAttack,unitYangAkanDiserang))).X;
+    int yyy = lokasi_unit(Info_unit(Elmt(canAttack,unitYangAkanDiserang))).Y;
+    assign_petak(&petak(M,xxx,yyy), simbol(Info_unit(Elmt(canAttack, unitYangAkanDiserang))), pemilik(Info_unit(Elmt(canAttack,unitYangAkanDiserang))), Info_unit(Elmt(canAttack,unitYangAkanDiserang)));
+    
     printf("Enemy\'s ");
     printUnitName(Info_unit(Elmt(canAttack,unitYangAkanDiserang)));
-    printf("is damaged by %d.\n",Attack(selected(one)));
+    printf("is damaged by %d.\n",attack(selected(one)));
     
-    if(Health(Info_unit(Elmt(canAttack,unitYangAkanDiserang)))<=0){
+    if(health(Info_unit(Elmt(canAttack,unitYangAkanDiserang)))<=0){
         printf("Enemy\'s ");
         printUnitName(Info_unit(Elmt(canAttack,unitYangAkanDiserang)));
         printf("is dead.\n");
     }
 
-    if(((TipeSerangan(selected(one)) == TipeSerangan(Info_unit(P))) || (Tipe(Info(P))=='K')) && Health(Elmt(canAttack,unitYangAkanDiserang))>0){
+    if(((tipe_serang(selected(one)) == tipe_serang(Info_unit(Elmt(canAttack,unitYangAkanDiserang)))) || (simbol(Info_unit(Elmt(canAttack,unitYangAkanDiserang)))=='K')) && health(Info_unit(Elmt(canAttack,unitYangAkanDiserang)))>0){
         printf("Enemy\'s ");
-        printUnitName(Info(Elmt(canAttack,unitYangAkanDiserang)));
+        printUnitName(Info_unit(Elmt(canAttack,unitYangAkanDiserang)));
         printf("retaliates.\n");
 
         printf("Your's ");
-        printUnitName(Info(P));
-        printf("is damaged by %d.\n", Attack(Info(Elmt(canAttack,unitYangAkanDiserang))));
-        if(Health(ONE.currentUnit)<=0){
+        printUnitName(selected(one));
+        printf("is damaged by %d.\n", attack(Info_unit(Elmt(canAttack,unitYangAkanDiserang))));
+        if(health(selected(one))<=0){
             printf("Your's ");
-            printUnitName(Info(P));
+            printUnitName(selected(one));
             printf("is dead :(\n");
         }
     }
