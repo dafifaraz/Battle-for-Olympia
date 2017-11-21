@@ -309,7 +309,7 @@ void do_command(int code, player *p, peta *M, int turn, long time_start, boolean
 		case 3 :  change_unit(p); break;
 		case 4 :  recruit(p,M); break;
 		case 5 :  break;
-		case 6 :  display_peta(*M); break;
+		case 6 :  display_peta(*M,*p); break;
 		case 7 :  break;
 		case 8 :  /*NextTurnQueue(&Q);*/ break;
 		case 9 :  call_SAVE(M, turn, time_start); break;

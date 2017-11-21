@@ -119,7 +119,7 @@ void display_peta(peta M, player p){
 								} else {
 									if (milik_petak(petak(M,i,k)) == 1){
 										print_red(jenis_petak(petak(M,i,k)));	
-									} else if (milik_petak(petak(M,i,k) == 2)) {
+									} else if (milik_petak(petak(M,i,k)) == 2) {
 										print_cyan(jenis_petak(petak(M,i,k)));
 									} else {
 										printf("%c",jenis_petak(petak(M,i,k)));
@@ -136,7 +136,7 @@ void display_peta(peta M, player p){
 									} else if (pemilik(unit_petak(petak(M,i,k))) == 2){
 										print_cyan(simbol(unit_petak(petak(M,i,k))));
 									} else {
-										printf("ERROR\n";)
+										printf("ERROR\n");
 									}
 								} 
 							} else {

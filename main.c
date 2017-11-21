@@ -40,7 +40,7 @@ int main(){
 		} else {
 			display_player_info(p2);
 			receive_command(&code);
-			do_command(code,&p1,&main_peta, turn, time_start,game_over);
+			do_command(code,&p2,&main_peta, turn, time_start,game_over);
 		}
 	} while (!game_over);
 }

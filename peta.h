@@ -36,7 +36,7 @@ void init_peta(peta *M, int NBrsEff, int NKolEff, player *p1, player *p2);
 //Menginisiasi state awal peta pada awal permainan.
 //Proses : Membuat peta kosong sebesar NBRsEff * NKolEff, 
 
-void display_peta(peta M);
+void display_peta(peta M, player P);
 //Menampilkan peta
 
 int RNGbatas(int min, int maks);
