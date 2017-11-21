@@ -20,16 +20,20 @@ void start_game(boolean *new_game){
 	printf("2. Load Game\n");
 	printf("\n");
 	char start_option;
-	scanf("%c",&start_option);
-	while(start_option!='1' && start_option != '2'){
+	for (;;)
+	{
+		scanf("%c",&start_option);
+		if (start_option == '1')
+		{
+			*new_game = true;
+			break;
+		} else if (start_option == '2')
+		{
+			*new_game = false;
+			break;
+		}
 		printf("Invalid input. Try again.\n");
 		scanf("%c",&start_option);
-	}
-
-	if (start_option == '1'){
-		*new_game = true;
-	} else {
-		*new_game = false;
 	}
 }
 
