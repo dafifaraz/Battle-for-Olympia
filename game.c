@@ -122,16 +122,16 @@ void call_SAVE(peta *M, int TURN, long time_start) //incomplete
 		printf("Save game failed, please try again later\n");
 	} else
 	{
-		fprintf(fp,"%d %d", NBrsEff(*M), NKolEff(*M)); // Besar Map
-		fprintf(fp,"%d", TURN);					  // Turn siapa
-
+		fprintf(fp,"%d %d\n", NBrsEff(*M), NKolEff(*M)); // Besar Map
+		fprintf(fp,"%d\n", TURN);					  // Turn siapa
+		
 		/*masukkan state menggunakan fprintf() ke file external*/
 	}
 
 	/* NOTE: Hal2 yg perlu disimpen
-			Besar map
-			Turn siapa
-			State petak
+			Besar map !!DONE!!
+			Turn siapa !!DONE!!
+			State petak (ingat bahwa letak village perlu disave karena random)
 			State Player 1 dan 2 (gold, income, upkeep, warna)
 			State semua unit
 		// Kalo ada yang perlu ditambahin ketik disini yaa!!
