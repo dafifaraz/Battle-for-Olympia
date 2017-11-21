@@ -46,7 +46,11 @@ void COMAND_ATTACK(player one, player two){
     MEC_attack(&selected(one), &Info_unit(Elmt(canAttack,unitYangAkanDiserang)));
     int xxx = lokasi_unit(Info_unit(Elmt(canAttack,unitYangAkanDiserang))).X;
     int yyy = lokasi_unit(Info_unit(Elmt(canAttack,unitYangAkanDiserang))).Y;
+    int xxx2 = lokasi_unit(selected(one)).X;
+    int yyy2 = lokasi_unit(selected(one)).Y;
     assign_petak(&petak(M,xxx,yyy), simbol(Info_unit(Elmt(canAttack, unitYangAkanDiserang))), pemilik(Info_unit(Elmt(canAttack,unitYangAkanDiserang))), Info_unit(Elmt(canAttack,unitYangAkanDiserang)));
+    assign_petak(&petak(M,xxx2,yyy2), simbol(selected(one)), pemilik(selected(one)), selected(one));
+    
     
     printf("Enemy\'s ");
     printUnitName(Info_unit(Elmt(canAttack,unitYangAkanDiserang)));
