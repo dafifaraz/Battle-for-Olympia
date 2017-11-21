@@ -383,7 +383,7 @@ void DelAfter_listpetak (listpetak *L, add_petak *Pdel, add_petak Prec)
 
 #define INIT_GOLD 100
 
-void init_player(player *p, char wrn, char smb){
+void init_player(player *p, char wrn, int smb){
 // setting awal player
 	gold(*p) = INIT_GOLD;
 	CreateEmpty_listunit(&list_unit(*p));

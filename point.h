@@ -33,6 +33,21 @@ void BacaPOINT (POINT * P);
 /* F.S. P terdefinisi */
 
 boolean isequal_point(POINT P1, POINT P2);
+/* true jika P1 dan P2 point yang sama */
 
 void tulis_point(POINT X);
+/* Menuliskan point X */
+
+POINT left(POINT P);
+/* Mengembalikan point yang berada di sebelah kiri point p dalam representasi peta game */
+
+POINT right(POINT P);
+/* Mengembalikan point yang berada di sebelah kiri point p dalam representasi peta game */
+
+POINT up(POINT P);
+/* Mengembalikan point yang berada di sebelah kiri point p dalam representasi peta game */
+
+POINT down(POINT P);
+/* Mengembalikan point yang berada di sebelah kiri point p dalam representasi peta game */
+
 #endif

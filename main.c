@@ -195,7 +195,7 @@ void do_command(int code, player *p, peta *M, int turn, long time_start, boolean
 		case 7 :  break;
 		case 8 :  NextTurnQueue(&Q); break;
 		case 9 :  call_SAVE(M, turn, time_start); break;
-		case 10 :  call_EXIT(M, turn, time_start, game_over); break;
+		case 10 : call_EXIT(M, turn, time_start, game_over); break;
 		case 11 : display_command(); break;
 		default : 
 			printf("ERROR\n"); 

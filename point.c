@@ -1,25 +1,14 @@
-//file : point.c
-
 #include <stdio.h>
 #include "point.h"
 #include <math.h>
 #include "boolean.h"
 
-#define epsilon 1e-6
-#define PI 	3.14159265
-#define rad(X) X*PI/180.0
-
-/* *** DEFINISI PROTOTakb fortune cookieIPE PRIMITIF *** */
-/* *** Konstruktor membentuk POINT *** */
 POINT MakePOINT (int X, int Y){
 	POINT P;
 	Absis(P) = X;
 	Ordinat(P) = Y;
 	return P;
 }
-/* Membentuk sebuah POINT dari komponen-komponennya */
-
-/* *** KELOMPOK Interaksi dengan I/O device, BACA/TULIS  *** */                                                 
 
 void BacaPOINT (POINT * P){
 	int x,y;
@@ -33,4 +22,24 @@ boolean isequal_point(POINT P1, POINT P2){
 
 void tulis_point (POINT X){
 	printf("(%d,%d)",Absis(X),Ordinat(X));
+}
+
+POINT left(POINT P){
+	int xp = Absis(P), yp = Ordinat(P);
+	return MakePOINT(xp,yp-1);
+}
+
+POINT right(POINT P){
+	int xp = Absis(P), yp = Ordinat(P);
+	return MakePOINT(xp,yp+1);
+}
+
+POINT up(POINT P){
+	int xp = Absis(P), yp = Ordinat(P);
+	return MakePOINT(xp-1,yp);
+}
+
+POINT down(POINT P){
+	int xp = Absis(P), yp = Ordinat(P);
+	return MakePOINT(xp+1,yp);
 }
