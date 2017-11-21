@@ -70,4 +70,9 @@ void swap_unit(unit *u1, unit *u2){
 	unit temp = *u1;
 	*u1 = *u2;
 	*u2 = temp;
+
+	/* SAD */
+	lokasi_unit(temp) = lokasi_unit(*u2);
+	lokasi_unit(*u2) = lokasi_unit(*u1);
+	lokasi_unit(*u1) = lokasi_unit(temp);
 }

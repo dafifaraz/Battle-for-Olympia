@@ -136,7 +136,7 @@ void display_peta(peta M, player p){
 									} else if (pemilik(unit_petak(petak(M,i,k))) == 2){
 										print_cyan(simbol(unit_petak(petak(M,i,k))));
 									} else {
-										printf("ERROR\n");
+										printf("ERROR"); //Error
 									}
 								} 
 							} else {
@@ -203,59 +203,56 @@ int manhattan_dist(POINT x1, POINT x2){
 	return abs(Absis(x1) - Absis(x2)) + abs(Ordinat(x1) - Ordinat(x2));
 }
 
-boolean isAdaMusuh(POINT P1, POINT P2, peta M){
-	int a;
+boolean isAdaMusuh(POINT P_Select, POINT P2, peta M){
+	//P_Select adalah lokasi unit saat ini, dan P2 adalah lokasi yang akan dituju
 	//Cek Horizontalnya (doang)
-	if (Ordinat(P1) == Ordinat(P2)){
-		if (Absis(P1) > Absis(P2)){
+	if (Ordinat(P_Select) == Ordinat(P2)){
+		if (Absis(P_Select) > Absis(P2)){
 			Absis(P2) += 1;
-			while (Absis(P1) != Absis(P2)){
-				if((pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 2) && (pemilik(unit_petak(petak(M,Absis(P1),Ordinat(P1)))) == 1) || (pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 1) && (pemilik(unit_petak(petak(M,Absis(P1),Ordinat(P1)))) == 2))
-					return true;
+			while (Absis(P_Select) != Absis(P2)){
+					if((pemilik(unit_petak(petak(M,Absis(P_Select),Ordinat(P_Select)))) == 1 && pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 2) || (pemilik(unit_petak(petak(M,Absis(P_Select),Ordinat(P_Select)))) == 2 && pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 1))
+						return true;
 				Absis(P2) += 1;
 			}
 		}
-		else if (Absis(P1) < Absis(P2)){
-			Absis(P1) += 1;
-			while (Absis(P1) != Absis(P2)){
-				if((pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 2) && (pemilik(unit_petak(petak(M,Absis(P1),Ordinat(P1)))) == 1) || (pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 1) && (pemilik(unit_petak(petak(M,Absis(P1),Ordinat(P1)))) == 2))
+		else if (Absis(P_Select) < Absis(P2)){
+			Absis(P2) -= 1;
+			while (Absis(P_Select) != Absis(P2)){
+				if((pemilik(unit_petak(petak(M,Absis(P_Select),Ordinat(P_Select)))) == 1 && pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 2) || (pemilik(unit_petak(petak(M,Absis(P_Select),Ordinat(P_Select)))) == 2 && pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 1))
 					return true;
-				Absis(P1) += 1;
+				Absis(P2) -= 1;
 			}
 		}
 	}
 
 	//Cek Vertikalnya (doang)
-	if (Absis(P1) == Absis(P2)){
-		if (Ordinat(P1) > Ordinat(P2)){
+	else if (Absis(P_Select) == Absis(P2)){
+		if (Ordinat(P_Select) > Ordinat(P2)){
 			Ordinat(P2) += 1;
-			while (Ordinat(P1) != Ordinat(P2)){
-				if((pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 2) && (pemilik(unit_petak(petak(M,Absis(P1),Ordinat(P1)))) == 1) || (pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 1) && (pemilik(unit_petak(petak(M,Absis(P1),Ordinat(P1)))) == 2))
+			while (Ordinat(P_Select) != Ordinat(P2)){
+				if((pemilik(unit_petak(petak(M,Absis(P_Select),Ordinat(P_Select)))) == 1 && pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 2) || (pemilik(unit_petak(petak(M,Absis(P_Select),Ordinat(P_Select)))) == 2 && pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 1))
 					return true;
 				Ordinat(P2) += 1;
 			}
 		}
-		else if (Ordinat(P1) < Ordinat(P2)){
-			Ordinat(P1) += 1;
-			while (Ordinat(P1) != Ordinat(P2)){
-				if((pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 2) && (pemilik(unit_petak(petak(M,Absis(P1),Ordinat(P1)))) == 1) || (pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 1) && (pemilik(unit_petak(petak(M,Absis(P1),Ordinat(P1)))) == 2))
+		else if (Ordinat(P_Select) < Ordinat(P2)){
+			Ordinat(P2) -= 1;
+			while (Ordinat(P_Select) != Ordinat(P2)){
+				if((pemilik(unit_petak(petak(M,Absis(P_Select),Ordinat(P_Select)))) == 1 && pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 2) || (pemilik(unit_petak(petak(M,Absis(P_Select),Ordinat(P_Select)))) == 2 && pemilik(unit_petak(petak(M,Absis(P2),Ordinat(P2)))) == 1))
 					return true;
-				Ordinat(P1) += 1;
+				Ordinat(P_Select) -= 1;
 			}
 		}
 	}
-
-	//Cek Diagonalnya
-	
+	return false;	
 }
 
-void MOVE(player P, peta *M){
+void MOVE(player P, peta *M){ 
 	POINT loc = P.selected.lokasi;
-	unit slc = unit_petak(petak(*M,Absis(loc), Ordinat(loc))); //unit yang sedang dipilih
-
+	unit slc = P.selected; //unit yang sedang dipilih
 	add_unit address_slc_in_list = Search_listunit(list_unit(P),slc); //search unit slc di listunit player p
-
 	//Tampilkan Peta dan koordinat petak yang dapat dijangkau
+	move_point(slc) = 5;
 	printf("\n");
 	for (int i=0; i<NBrsEff(*M); i++){
 		for (int j=0; j<4*NKolEff(*M)+1; j++){
@@ -270,24 +267,32 @@ void MOVE(player P, peta *M){
 							printf("*");
 						} else if (l == 2){
 							if (j == 0){
-								
+								printf("");
 							} else if (j==1){
-								if (isequal_petak(petak(*M,i,k),empty_petak(MakePOINT(i,k)))){
-									printf(" ");
-								} else {
-									printf("%c",jenis_petak(petak(*M,i,k)));
-								}
+								if (milik_petak(petak(*M,i,k)) == 1){
+										print_red(jenis_petak(petak(*M,i,k)));	
+									} else if (milik_petak(petak(*M,i,k)) == 2) {
+										print_cyan(jenis_petak(petak(*M,i,k)));
+									} else {
+										printf("%c",jenis_petak(petak(*M,i,k)));
+									}
 							} else if (j==2){
-
-								//BELUM DICEK KALAU ADA UNIT PLAYER LAIN DIANTARANYA
-								if (isequal_unit(unit_petak(petak(*M,i,k)),empty_unit(MakePOINT(i,k))) && (manhattan_dist(Current, loc) <= max_move_point(slc))){
+								if (isequal_unit(unit_petak(petak(*M,i,k)),empty_unit(MakePOINT(i,k))) && (manhattan_dist(Current, loc) <= move_point(slc)) && (isAdaMusuh(loc, MakePOINT(i,k), *M) == 0)){
 									printf("#");
 								} 
 								else if (isequal_unit(unit_petak(petak(*M,i,k)),empty_unit(MakePOINT(i,k)))){
 									printf(" ");
 								}
 								else {
-									printf("%c",simbol(unit_petak(petak(*M,i,k))));
+									if (isequal_unit(unit_petak(petak(*M,i,k)),selected(P))){
+										print_green(simbol(unit_petak(petak(*M,i,k))));
+									} else if (pemilik(unit_petak(petak(*M,i,k))) == 1){
+										print_red(simbol(unit_petak(petak(*M,i,k))));	
+									} else if (pemilik(unit_petak(petak(*M,i,k))) == 2){
+										print_cyan(simbol(unit_petak(petak(*M,i,k))));
+									} else {
+										printf(" "); //Error
+									}
 								}
 							} else {
 								printf(" ");
@@ -306,19 +311,18 @@ void MOVE(player P, peta *M){
 	}
 	for (int i=0; i<4*NKolEff(*M)+1; i++) printf("*");
 	printf("\n");
-	
 	int x,y; 
 	do{
 		printf(">> Please enter cell's coordinate x y : \n");
 		printf("<< \n");
 		scanf("%d %d",&x,&y);
-		//invalid jika jarak lebih dari max_move_point atau ada unit lain disana 
+		//invalid jika jarak lebih dari move_point atau ada unit lain disana 
 		//BELUM DICEK KALAU ADA UNIT PLAYER LAIN DIANTARANYA
-		if (manhattan_dist(MakePOINT(x,y),loc) > max_move_point(slc) || !isequal_unit(unit_petak(petak(*M,x,y)),empty_unit(MakePOINT(x,y)))) {
+		if (manhattan_dist(MakePOINT(x,y),loc) > move_point(slc) || !isequal_unit(unit_petak(petak(*M,x,y)),empty_unit(MakePOINT(x,y))) || isAdaMusuh(loc, MakePOINT(x,y), *M)) {
 			printf(">> Sorry. You can't move there\n");
 		} else {
 			swap_unit(&unit_petak(petak(*M,x,y)), &unit_petak(petak(*M,Absis(loc), Ordinat(loc))));
 			printf(">> Your selected unit has been moved to (%d,%d)\n",x,y);
 		}
-	} while (manhattan_dist(MakePOINT(x,y),loc) > max_move_point(slc));
+	} while (manhattan_dist(MakePOINT(x,y),loc) > move_point(slc));
 }
