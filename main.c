@@ -248,7 +248,7 @@ int main(){
 	int code;
 	boolean game_over = false;
 	do{
-        turn = InfoHead(Q)
+        turn = InfoHead(Q);
 		if (turn == 1){
 			display_player_info(p1);
 			receive_command(&code);
@@ -280,10 +280,7 @@ int main(){
 			} else turn = 2;
 		}
 	} while (!game_over);
-<<<<<<< HEAD
-=======
 	
->>>>>>> bcaf704a729d37752e72dcb2fa6f644408e463c9
 }
 
 
