@@ -197,12 +197,112 @@ void NextTurnQueue(Queue *Q)
     Add(Q,A);
 } */
 
+void do_recruit(player *P, POINT loc_new, peta *M){
+	printf(">> List of recruits\n");
+	int cnt = 1;
+	if (gold(*P) >= H_ARCHER){
+		printf(">> %d. Archer | Health %d | ATK %d | ATK_type %c | Price %dG\n", cnt,MH_ARCHER,ATK_ARCHER,TS_ARCHER,H_ARCHER);
+		cnt++;
+	} else if (gold(*P) >= H_SWORDSMAN){
+		printf(">> %d. Archer | Health %d | ATK %d | ATK_type %c | Price %dG\n", cnt,MH_SWORDSMAN,ATK_SWORDSMAN,TS_SWORDSMAN,H_SWORDSMAN);
+		cnt++;
+	} else { // gold(P) >= H_WHITEMAGE
+		printf(">> %d. Archer | Health %d | ATK %d | ATK_type %c | Price %dG\n", cnt,MH_WHITEMAGE,ATK_WHITEMAGE,TS_WHITEMAGE,H_WHITEMAGE);
+		cnt++;
+	}
+	
+	int no_rec;
+	do {
+		printf(">> Enter no unit you want to recruit\n");
+		printf("<< ");
+		scanf("%d",&no_rec);
+		if (no_rec < 1 || no_rec > 3){
+			printf("Invalid input\n");
+		}	
+	} while (no_rec < 1 || no_rec > 3);					
+		
+	unit new_u;
+	if (no_rec == 1){
+		gold(*P) = gold(*P) - H_ARCHER;
+		new_u = unit_petak(petak(*M,Absis(loc_new),Ordinat(loc_new)));
+		assign_unit(&new_u,'A',((int)simbol(*P) - 48));
+		printf(">> You have recruit an archer\n");
+	} else if (no_rec == 2){
+		gold(*P) = gold(*P) - H_SWORDSMAN;
+		new_u = unit_petak(petak(*M,Absis(loc_new),Ordinat(loc_new)));
+		assign_unit(&new_u,'S',((int)simbol(*P) - 48));
+		(">> You have recruit a swordsman\n");
+	} else {
+		gold(*P) = gold(*P) - H_WHITEMAGE;
+		new_u = unit_petak(petak(*M,Absis(loc_new),Ordinat(loc_new)));
+		assign_unit(&new_u,'W',((int)simbol(*P) - 48));
+		(">> You have recruit a whitemage\n");
+	}		
+	InsVLast_listunit(&list_unit(*P),new_u);
+}
+
+void recruit(player *P, peta *M){
+	int id_p = simbol_player(*P);
+	petak pt;
+	if (id_p == 1){
+		pt = petak(*M,NBrsEff(*M)-2,1);	
+	} else {
+		pt = petak(*M,1,NKolEff(*M)-2);	
+	}
+
+	if (simbol(unit_petak(pt)) == 'K' && pemilik(unit_petak(pt)) == id_p){
+		petak l = petak(*M,Absis(left(lokasi_petak(pt))),Ordinat(left(lokasi_petak(pt))));
+		petak r = petak(*M,Absis(right(lokasi_petak(pt))),Ordinat(right(lokasi_petak(pt))));
+		petak u = petak(*M,Absis(up(lokasi_petak(pt))),Ordinat(up(lokasi_petak(pt))));
+		petak d = petak(*M,Absis(down(lokasi_petak(pt))),Ordinat(down(lokasi_petak(pt))));
+
+		boolean b1 = simbol(unit_petak(l)) == ' ';
+		boolean b2 = simbol(unit_petak(r)) == ' ';
+		boolean b3 = simbol(unit_petak(u)) == ' ';
+		boolean b4 = simbol(unit_petak(d)) == ' ';
+
+		if (b1 || b2 || b3 || b4){
+			int x = Absis(lokasi_petak(pt));
+			int y = Ordinat(lokasi_petak(pt));
+			int x1, y1;
+			
+			do{
+				printf(">> Enter coordinat x y of your castle\n");
+				printf("<< ");
+				scanf("%d %d",&x1,&y1);
+				if (abs(x-x1) + abs(y-y1) != 1){
+					printf(">> This cell is not your castle\n");
+				} else {
+					POINT slc = MakePOINT(x1,y1);
+					if (isequal_point(lokasi_petak(l),slc) && b1){
+						do_recruit(P,slc,M);
+					} else if (isequal_point(lokasi_petak(r),slc) && b2){
+						do_recruit(P,slc,M);
+					} else if (isequal_point(lokasi_petak(u),slc) && b3){
+						do_recruit(P,slc,M);
+					} else if (isequal_point(lokasi_petak(d),slc) && b4){
+						do_recruit(P,slc,M);
+					} else {
+						printf(">> Your selected castle is occupied\n");						
+					}	
+				}				
+			} while (abs(x-x1) + abs(y-y1) != 1);
+
+		} else {
+			printf(">> Recruit failed. Your castles are full\n");
+		}
+
+	} else {
+		printf(">> Recruit failed. Your king is not in tower\n");
+	}
+}
+
 void do_command(int code, player *p, peta *M, int turn, long time_start, boolean game_over){
 	switch (code) {
 		case 1 :  break;
 		case 2 :  break;
 		case 3 :  change_unit(p); break;
-		case 4 :  break;
+		case 4 :  recruit(p,M); break;
 		case 5 :  break;
 		case 6 :  display_peta(*M); break;
 		case 7 :  break;
