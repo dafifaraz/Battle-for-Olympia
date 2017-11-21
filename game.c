@@ -31,7 +31,7 @@ void start_game(boolean *new_game){
 			printf("Invalid input. Try again\n");
 			printf("\n");
 		}
-	} while (start_option < 1 || start_option > 2);
+	} while (start_option != 1 && start_option != 2);
 }
 
 void do_new_game(peta *M, player *p1, player *p2){
