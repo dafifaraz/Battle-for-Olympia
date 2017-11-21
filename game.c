@@ -141,7 +141,7 @@ void call_SAVE(peta *M, int TURN, long time_start) //incomplete
 	JAM tstart = DetikToJAM(time_start);
 	JAM tend = DetikToJAM(time_end);
 	long durasi = Durasi(tstart, tend);
-	if (durasi <= 60)
+	if (durasi < 120)
 	{
 		printf("Your game have been saved, you have played for %ld seconds this session\n", (durasi));
 	} else
@@ -153,26 +153,25 @@ void call_SAVE(peta *M, int TURN, long time_start) //incomplete
 
 void call_EXIT(peta *M, int TURN, long time_start, boolean game_over)
 {
-	/*
-    char savegame = 'x';
-    while (savegame != 'n' || savegame != 'y')
+	char savegame;
+	printf("Would you like to save the game? (y/n)");
+	scanf("%c",&savegame);
+	do {
+		scanf("%c",&savegame);
+		if (savegame != 'y' && savegame != 'n'){
+			printf("Tidak valid");
+		}
+	} while (savegame != 'y' && savegame != 'n');
+
+    if (savegame == ('y'))
     {
-        printf("Would you like to save the game? (Y/N)\n");
-        scanf("%c",savegame);
-        if (savegame == 'y')
-        {
-            call_SAVE(M, TURN, time_start);
-			break;
-        } else if (savegame == 'n')
-        {
-            break;
-        } else
-        {
-            printf("Input tidak valid, silakan coba lagi");
-        }
-    } */
+        call_SAVE(M, TURN, time_start);
+    } else if (savegame == ('n'))
+    {
+    }
 	printf("Exiting the game...\n");
 	game_over = true;
+	exit('\n');
 }
 
 /*
