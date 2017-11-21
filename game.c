@@ -154,7 +154,7 @@ void call_SAVE(peta *M, int TURN, long time_start) //incomplete
 void call_EXIT(peta *M, int TURN, long time_start, boolean game_over)
 {
 	char savegame;
-	printf("Would you like to save the game? (y/n)");
+	printf("Would you like to save the game? (y/n)\n");
 	scanf("%c",&savegame);
 	do {
 		scanf("%c",&savegame);
