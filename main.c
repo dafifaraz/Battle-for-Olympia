@@ -44,7 +44,7 @@ int main(){
 		}
 	} while (!game_over);
 }
-	/* Ini kenapa if code !=9 nextturn?
+	/*
 	do{	
 		if (turn == 1){
 			display_player_info(p1);
