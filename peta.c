@@ -92,13 +92,13 @@ void taruh_king(peta *M, player *p1, player *p2){
 void init_peta(peta *M, int NBrsEff, int NKolEff, player *p1, player *p2){
 	empty_peta(M, NBrsEff, NKolEff);
 	init_player(p1,'R',1);
-	init_player(p2,'B',2);
+	init_player(p2,'C',2);
 	bangun_kerajaan(M);
 	taruh_king(M,p1,p2);
 	PasangDesa(NBrsEff*NKolEff/20, M);
 }
 
-void display_peta(peta M){
+void display_peta(peta M, player p){
 	printf("\n");
 	for (int i=0; i<NBrsEff(M); i++){
 		for (int j=0; j<4*NKolEff(M)+1; j++){
@@ -119,20 +119,26 @@ void display_peta(peta M){
 								} else {
 									if (milik_petak(petak(M,i,k)) == 1){
 										print_red(jenis_petak(petak(M,i,k)));	
+									} else if (milik_petak(petak(M,i,k) == 2)) {
+										print_cyan(jenis_petak(petak(M,i,k)));
 									} else {
-										print_blue(jenis_petak(petak(M,i,k)));
+										printf("%c",jenis_petak(petak(M,i,k)));
 									}
 								}
 							} else if (j==2){
 								if (isequal_unit(unit_petak(petak(M,i,k)),empty_unit(MakePOINT(i,k)))){
 									printf(" ");
 								} else {
-									if (milik_petak(petak(M,i,k)) == 1){
+									if (isequal_unit(unit_petak(petak(M,i,k)),selected(p))){
+										print_green(simbol(unit_petak(petak(M,i,k))));
+									} else if (pemilik(unit_petak(petak(M,i,k))) == 1){
 										print_red(simbol(unit_petak(petak(M,i,k))));	
+									} else if (pemilik(unit_petak(petak(M,i,k))) == 2){
+										print_cyan(simbol(unit_petak(petak(M,i,k))));
 									} else {
-										print_blue(simbol(unit_petak(petak(M,i,k))));
+										printf("ERROR\n";)
 									}
-								}
+								} 
 							} else {
 								printf(" ");
 							}
