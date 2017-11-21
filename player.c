@@ -435,31 +435,24 @@ void change_unit(player *P){
 		}
 	} while (num_slc < 1 || num_slc >= cnt);
 
-	if (num_slc == 1){
-		selected(*P) = king_player(*P);
-		printf("You have select King ");
-		tulis_point(lokasi_unit(king_player(*P)));	
-		printf("\n");
-	} else {
-		// searching unit bernomor num_slc
-		CU = First_unit(list_unit(*P));
-		int cnt1 = 1;
-		while (cnt1 < cnt){
-			CU = Next_unit(CU);
-			cnt1++;
-		}
-		// mengganti unit yang dipilih P menjadi CU
-		selected(*P) = Info_unit(CU);
-		printf("You have select ");
-		switch (simbol(Info_unit(CU))){
-			case 'A' : printf("Archer "); break;
-			case 'S' : printf("Swordsman "); break;
-			case 'W' : printf("White Mage "); break;
-			default  : printf("No unit found");
-		}
-		tulis_point(lokasi_unit(Info_unit(CU)));	
-		printf("\n");
+	// searching unit bernomor num_slc
+	CU = First_unit(list_unit(*P));
+	int cnt1 = 1;
+	while (cnt1 < cnt){
+		CU = Next_unit(CU);
+		cnt1++;
 	}
+	// mengganti unit yang dipilih P menjadi CU
+	selected(*P) = Info_unit(CU);
+	printf("You have select ");
+	switch (simbol(Info_unit(CU))){
+		case 'K' : printf("King ");
+		case 'A' : printf("Archer "); break;
+		case 'S' : printf("Swordsman "); break;
+		case 'W' : printf("White Mage "); break;
+		default  : printf("No unit found");
+	}
+	tulis_point(lokasi_unit(Info_unit(CU)));	
 	printf("\n");
 }
 
