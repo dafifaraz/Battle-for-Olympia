@@ -112,7 +112,7 @@ void display_peta(peta M){
 							printf("*");
 						} else if (l == 2){
 							if (j == 0){
-								printf("");
+								
 							} else if (j==1){
 								if (isequal_petak(petak(M,i,k),empty_petak(MakePOINT(i,k)))){
 									printf(" ");
@@ -264,7 +264,7 @@ void MOVE(player P, peta *M){
 							printf("*");
 						} else if (l == 2){
 							if (j == 0){
-								printf("");
+								
 							} else if (j==1){
 								if (isequal_petak(petak(*M,i,k),empty_petak(MakePOINT(i,k)))){
 									printf(" ");
