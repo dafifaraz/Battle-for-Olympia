@@ -10,7 +10,7 @@ Dibuat oleh :
 - Seldi Kurnia Trihardja  
 
 Done 
-Dafi	: Command 10 (exit)
+Dafi	: Command 10 (exit), revisi start_game
 Dion	: Buat ADT Unit, revisi peta
 Mol	: Mekanisme bertarung
 Rifo	: Buat ADT Peta, revisi peta
