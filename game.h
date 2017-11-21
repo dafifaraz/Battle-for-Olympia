@@ -37,6 +37,11 @@ void receive_command (int *code);
   F.S. 	: code merupakan command_code dari command valid oleh user */
 void call_SAVE(peta *M, int TURN, long time_start); //incomplete
 void call_EXIT(peta *M, int TURN, long time_start, boolean game_over);
+
+void do_recruit(player *P, POINT loc_new, peta *M);
+
+void recruit(player *P, peta *M);
+
 void do_command(int code, player *P, peta *M, int turn, long time_start, boolean game_over);
 /*I.S. : parameter terdefinisi
   F.S. : menjalankan command yang bersesuaian dengan code */
