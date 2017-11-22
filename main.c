@@ -25,13 +25,6 @@ int main(){
 
 		//CreateTurnQueue12(&Q); //Pemain 1 mulai pertama
 	} else {
-		int x, y, t;
-		FILE *fp;
-		fp = fopen("save_game.txt", "r");
-		fscanf(fp,"%d %d", &x, &y);
-		fscanf(fp,"%d", &t);
-		init_peta(&main_peta, x, y, &p1, &p2);
-		turn = t;
 	}
 
 	display_command();
