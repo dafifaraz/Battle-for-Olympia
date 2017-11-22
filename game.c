@@ -7,6 +7,7 @@
 #include "kata.h"
 #include "jam.h"
 #include "game.h"
+#include "bertarung.h"
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -438,13 +439,13 @@ void recruit(player *P, peta *M){
 	}
 }
 
-void do_command(int code, player *p, peta *M, int turn, long time_start, boolean game_over){
+void do_command(int code, player *p, player *q, peta *M, int turn, long time_start, boolean game_over){
 	switch (code) {
 		case 1 :  MOVE(p,M); break;
 		case 2 :  break;
 		case 3 :  change_unit(p); break;
 		case 4 :  recruit(p,M); break;
-		case 5 :  break;
+		case 5 :  COMMAND_ATTACK(*p,*q); break;
 		case 6 :  display_peta(*M,*p); break;
 		case 7 :  break;
 		case 8 :  /*NextTurnQueue(&Q);*/ break;
