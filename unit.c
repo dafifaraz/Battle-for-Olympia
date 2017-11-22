@@ -76,3 +76,17 @@ void swap_unit(unit *u1, unit *u2){
 	lokasi_unit(*u2) = lokasi_unit(*u1);
 	lokasi_unit(*u1) = lokasi_unit(temp);
 }
+
+void copy_unit(unit u_src, unit *u_dest){
+	max_health(*u_dest) = max_health(u_src);
+	health(*u_dest) = health(u_src);
+	attack(*u_dest) = attack(u_src);
+	max_move_point(*u_dest) = max_move_point(u_src);
+	move_point(*u_dest) = move_point(u_src);
+	tipe_serang(*u_dest) = tipe_serang(u_src);
+	kesempatan_serang(*u_dest) = kesempatan_serang(u_src);
+	lokasi_unit(*u_dest) = lokasi_unit(u_src);
+	harga(*u_dest) = harga(u_src);
+	simbol(*u_dest) = simbol(u_src);
+	pemilik(*u_dest) = pemilik(u_src);
+}

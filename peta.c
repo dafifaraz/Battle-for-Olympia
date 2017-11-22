@@ -81,6 +81,9 @@ void taruh_king(peta *M, player *p1, player *p2){
 	//memberi unit di petak dengan properti king
 	assign_unit(&king_p1,'K',1);
 	assign_unit(&king_p2,'K',2);
+	//menjadikan king sebagai selected unit
+	selected(*p1) = king_p1;
+	selected(*p2) = king_p2;
 	//menambahkan ke list player
 	InsVFirst_listunit(&list_unit(*p1),king_p1);
 	InsVFirst_listunit(&list_unit(*p2),king_p2);

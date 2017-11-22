@@ -69,4 +69,8 @@ void swap_unit(unit *u1, unit *u2);
 //I.S : u1 dan u2 terdefinisi
 //F.s : u1 menjadi u2, u2 menjadi u1
 //Prosedur ini dimanfaatkan untuk command MOVE.
+
+void copy_unit(unit u_src, unit *u_dest);
+
+
 #endif

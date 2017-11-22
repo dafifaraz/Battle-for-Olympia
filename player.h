@@ -33,7 +33,7 @@ add_unit Alokasi_listunit(unit X);
 
 void Dealokasi_listunit(add_unit *P);
 
-add_unit Search_listunit(listunit l, unit X);
+add_unit Search_listunit(listunit L, unit X);
 
 void InsVFirst_listunit (listunit *L, unit X);
 /* I.S. L mungkin kosong */
