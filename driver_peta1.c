@@ -14,10 +14,6 @@ int main(){
 	if (cc == 'c'){
 		MOVE(p1, &M);
 	}
-	swap_unit(&unit_petak(petak(M,6,1)), &unit_petak(petak(M,4,3)));
 	display_peta(M,p1);
-	printf("%d\n", pemilik(unit_petak(petak(M,6,1))));
-	// printf("%d\n", health(unit_petak(petak(M,6,3))));
-	// printf("%d\n", pemilik(unit_petak(petak(M,4,3))));
 	return 0;
 }
