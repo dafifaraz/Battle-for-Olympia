@@ -47,17 +47,4 @@ void PasangDesa(int jumlah_village, peta *M);
 //Memasang Village di Peta yang telah terdefinisi ukurannya
 //Village dipasang secara random, setengah jumlahnya dipasang di bagian kiri peta, dan sisanya di bagian kanan peta.
 
-boolean isAdaMusuh(POINT P_Select, POINT P2, peta M);
-//Memeriksa apakah terdapat musuh di antara kedua titik tersebut 
-
-void MOVE(player P, peta *M);
-//Menggerakkan unit yang sedang dipilih oleh player P ke petak yang dituju (sesuai input user)
-//Proses : Memanfaatkan swap_unit
-
-void do_recruit(player *P, POINT loc_new, peta *M);
-// sub task dari recruit
-
-void recruit(player *P, peta *M);
-// melakukan recruit unit baru
-
 #endif

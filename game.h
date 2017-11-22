@@ -35,6 +35,15 @@ void receive_command (int *code);
 /*I.S.  : Sembarang
   Proses: Meminta user memasukkan command dan divalidasi hingga valid.
   F.S. 	: code merupakan command_code dari command valid oleh user */
+
+int manhattan_dist(POINT x1, POINT x2);
+//mengembalikan jarak manhattan dari dua titik
+
+boolean isAdaMusuh(POINT P_Select, POINT P2, peta M);
+//mengembalikan true jika ada musuh antara titik select dengan titik p2 secara horizontal dan vertikal
+
+void MOVE(player P, peta *M);
+
 void call_SAVE(peta *M, int TURN, long time_start); //incomplete
 void call_EXIT(peta *M, int TURN, long time_start, boolean game_over);
 
