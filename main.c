@@ -43,11 +43,11 @@ int main(){
 		if (turn == 1){
 			display_player_info(p1);
 			receive_command(&code);
-			do_command(code,&p1,&main_peta, turn, time_start,game_over);
+			do_command(code,&p1,&p2,&main_peta, turn, time_start,game_over);
 		} else {
 			display_player_info(p2);
 			receive_command(&code);
-			do_command(code,&p2,&main_peta, turn, time_start,game_over);
+			do_command(code,&p2,&p1,&main_peta, turn, time_start,game_over);
 		}
 	} while (!game_over);
 }

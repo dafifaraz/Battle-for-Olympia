@@ -40,6 +40,7 @@ int manhattan_dist(POINT x1, POINT x2);
 //mengembalikan jarak manhattan dari dua titik
 
 boolean is_tercapai(POINT slc, POINT tujuan, peta m, int max_move);
+
 void MOVE(player *P, peta *M);
 
 void call_SAVE(peta *M, int TURN, long time_start); //incomplete
@@ -50,7 +51,7 @@ void do_recruit(player *P, POINT loc_new, peta *M);
 
 void recruit(player *P, peta *M);
 
-void do_command(int code, player *P, peta *M, int turn, long time_start, boolean game_over);
+void do_command(int code, player *p, player *q, peta *M, int turn, long time_start, boolean game_over);
 /*I.S. : parameter terdefinisi
   F.S. : menjalankan command yang bersesuaian dengan code */
 
