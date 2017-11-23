@@ -41,7 +41,7 @@ void printUnitName(Unit U){
     }
 }
 
-void COMAND_ATTACK(player one, player two){
+void COMMAND_ATTACK(player one, player two){
     add_unit canAttack[5];
     int neff = 0;
     printf("Please select enemy you want to attack:\n");

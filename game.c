@@ -174,7 +174,7 @@ void MOVE(player *P, peta *M){
 							printf("*");
 						} else if (l == 2){
 							if (j == 0){
-								printf("");
+								
 							} else if (j==1){
 								if (milik_petak(petak(*M,i,k)) == 1){
 										print_red(jenis_petak(petak(*M,i,k)));	
