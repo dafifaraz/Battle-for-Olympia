@@ -53,7 +53,7 @@ void COMMAND_ATTACK(player one, player two){
             printUnitName(Info_unit(P));
             printf(" (%d,%d) | Health ", lokasi_unit(Info_unit(P)).X, lokasi_unit(Info_unit(P)).Y);
             printf("%d/%d", health(Info_unit(P)), max_health(Info_unit(P)));
-            if(((tipe_serangan(selected(one)) == tipe_serangan(Info_unit(P))) || (simbol(Info_unit(P))=='K')) && (MEC_attack(selected(one))<health(Info_unit(P)))){
+            if(((tipe_serang(selected(one)) == tipe_serang(Info_unit(P))) || (simbol(Info_unit(P))=='K')) && (MEC_attack(selected(one))<health(Info_unit(P)))){
                 printf(" (Retaliates)\n");
             }else{
                 printf("\n");
