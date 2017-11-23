@@ -9,13 +9,13 @@
 #include <math.h>
 
 
-boolean MEC_canAttack(unit B, unit B);
+boolean MEC_canAttack(unit A, unit B);
 
 boolean MEC_canRetaliates(unit X, unit Y);
 
-void MEC_attack(Unit *X, unit *Y);
+void MEC_attack(unit *X, unit *Y);
 
 void printUnitName(unit U);
 
-void COMAND_ATTACK(player one, player two);
+void COMMAND_ATTACK(player one, player two);
 #endif
