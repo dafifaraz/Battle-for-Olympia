@@ -47,4 +47,6 @@ void PasangDesa(int jumlah_village, peta *M);
 //Memasang Village di Peta yang telah terdefinisi ukurannya
 //Village dipasang secara random, setengah jumlahnya dipasang di bagian kiri peta, dan sisanya di bagian kanan peta.
 
+int manhattan_dist(POINT x1, POINT x2);
+
 #endif

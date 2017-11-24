@@ -202,3 +202,7 @@ void PasangDesa(int jumlah_village, peta *M){
     }
 }
 
+
+int manhattan_dist(POINT x1, POINT x2){
+	return (abs(Absis(x1) - Absis(x2)) + abs(Ordinat(x1) - Ordinat(x2)));
+}

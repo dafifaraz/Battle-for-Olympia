@@ -9,6 +9,7 @@
 #include "kata.h"
 #include "jam.h"
 #include "game.h"
+#include "bertarung.h"
 
 #define MAX_BARIS_peta 100
 #define MAX_KOLOM_peta 100
@@ -35,9 +36,6 @@ void receive_command (int *code);
 /*I.S.  : Sembarang
   Proses: Meminta user memasukkan command dan divalidasi hingga valid.
   F.S. 	: code merupakan command_code dari command valid oleh user */
-
-int manhattan_dist(POINT x1, POINT x2);
-//mengembalikan jarak manhattan dari dua titik
 
 boolean is_tercapai(POINT slc, POINT tujuan, peta m, int max_move);
 

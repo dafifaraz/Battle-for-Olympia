@@ -7,6 +7,7 @@
 
 #include "boolean.h"
 #include "point.h"
+#include <math.h>
 
 typedef struct { 
 	int X; /* absis   */

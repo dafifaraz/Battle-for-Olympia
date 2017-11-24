@@ -44,10 +44,12 @@ int main(){
 			display_player_info(p1);
 			receive_command(&code);
 			do_command(code,&p1,&p2,&main_peta, turn, time_start,game_over);
+			turn = 2;
 		} else {
 			display_player_info(p2);
 			receive_command(&code);
 			do_command(code,&p2,&p1,&main_peta, turn, time_start,game_over);
+			turn = 1;
 		}
 	} while (!game_over);
 }

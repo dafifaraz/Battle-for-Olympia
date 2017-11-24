@@ -43,3 +43,4 @@ POINT down(POINT P){
 	int xp = Absis(P), yp = Ordinat(P);
 	return MakePOINT(xp+1,yp);
 }
+

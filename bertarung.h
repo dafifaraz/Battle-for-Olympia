@@ -1,21 +1,22 @@
 #ifndef BERTARUNG_H
 #define BERTARUNG_H
 
+#include "bertarung.h"
 #include "boolean.h"
 #include "unit.h"
 #include "player.h"
-#include "peta.h"
 #include "petak.h"
+#include "peta.h"
 #include <math.h>
+#include "stdio.h"
 
+boolean MEC_canAttack(unit A, unit B);
 
-boolean MEC_canAttack(Unit B, Unit B);
+boolean MEC_canRetaliates(unit X, unit Y);
 
-boolean MEC_canRetaliates(Unit X, Unit Y);
+void MEC_attack(unit *X, unit *Y);
 
-void MEC_attack(Unit *X, Unit *Y);
+void printUnitName(unit U);
 
-void printUnitName(Unit U);
-
-void COMAND_ATTACK(player one, player two);
+void COMMAND_ATTACK(player *one, player *two, peta *m);
 #endif

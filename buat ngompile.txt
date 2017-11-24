@@ -1,1 +1,1 @@
-gcc -lm -o main main.c peta.c player.c petak.c unit.c point.c kata.c jam.c game.c pcolor.c
+gcc -lm -o main main.c peta.c player.c petak.c unit.c point.c kata.c jam.c game.c pcolor.c bertarung.c
