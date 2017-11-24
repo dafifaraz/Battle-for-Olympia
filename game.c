@@ -508,7 +508,7 @@ void do_command(int code, player *p, player *q, peta *M, int turn, long time_sta
 		case 5 :  COMMAND_ATTACK(p,q,M); break;
 		case 6 :  display_peta(*M,*p); break;
 		case 7 :  infopetak(*M); break;
-		case 8 :  NextTurnQueue(Q); break;
+		case 8 :  NextTurnQueue(Q,p); break;
 		case 9 :  call_SAVE(M, turn, time_start); break;
 		case 10 : call_EXIT(M, turn, time_start, game_over); break;
 		case 11 : display_command(); break;
