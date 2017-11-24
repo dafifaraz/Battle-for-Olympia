@@ -435,6 +435,70 @@ void recruit(player *P, peta *M){
 	}
 }
 
+void infopetak(peta M)
+{
+    int X, Y;
+    petak p;
+    unit u;
+
+    printf("Enter the coordinate of the cell: ");scanf(" %d %d",&X,&Y);
+    while (!(0<=X && X<=NBrsEff(M)-1 && 0<=Y && Y<=NKolEff(M)-1)){
+    	printf("Your coordinate is out of bounds\n");
+	    printf("Enter the coordinate of the cell: ");scanf(" %d %d",&X,&Y);
+    }
+    p=petak(M,X,Y);
+    printf("== Cell Info ==\n");
+    if(jenis_petak(p)=='V')
+    {
+        printf("Village\n");
+    }
+    else if(jenis_petak(p)=='C')
+    {
+        printf("Castle\n");
+    }
+    else if(jenis_petak(p)=='T')
+    {
+        printf("Tower\n");
+    }
+    else
+    {
+        printf("Empty Land\n");
+    }
+    if (jenis_petak(p)!=' '){
+    printf("Owned by Player %d\n", milik_petak(p));
+    printf("\n");}
+
+    printf("== Unit Info ==\n");
+    u=unit_petak(p);
+
+
+    if(simbol(u)=='K')
+    {
+        printf("King\n");
+    }
+    else if(simbol(u)=='A')
+    {
+        printf("Archer\n");
+    }
+    else if(simbol(u)=='S')
+    {
+        printf("Swordsman\n");
+    }
+    else if(simbol(u)==' ')
+    {
+        printf("No Unit\n");
+    }
+    else
+    {
+        printf("White Mage\n");
+    }
+
+    if(simbol(u)!=' '){
+    	printf("Owned by Player %d\n", pemilik(u));
+    	printf("Health %d/%d | ATK %d | DEF %c\n",health(u),max_health(u),attack(u),tipe_serang(u));
+    }
+}
+
 void do_command(int code, player *p, player *q, peta *M, int turn, long time_start, boolean game_over,Queue *Q){
 	switch (code) {
 		case 1 :  MOVE(p,M); break;
@@ -443,7 +507,7 @@ void do_command(int code, player *p, player *q, peta *M, int turn, long time_sta
 		case 4 :  recruit(p,M); break;
 		case 5 :  COMMAND_ATTACK(p,q,M); break;
 		case 6 :  display_peta(*M,*p); break;
-		case 7 :  break;
+		case 7 :  infopetak(*M); break;
 		case 8 :  NextTurnQueue(Q); break;
 		case 9 :  call_SAVE(M, turn, time_start); break;
 		case 10 : call_EXIT(M, turn, time_start, game_over); break;

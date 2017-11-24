@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include "peta.h"
 
-
 void infopetak(peta M)
 {
     int X, Y;
@@ -35,7 +34,7 @@ void infopetak(peta M)
     u=unit_petak(p);
 
 
-    if(simbol(u))=='K')
+    if(simbol(u)=='K')
     {
         printf("King\n");
     }

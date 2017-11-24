@@ -49,6 +49,8 @@ void do_recruit(player *P, POINT loc_new, peta *M);
 
 void recruit(player *P, peta *M);
 
+void infopetak(peta M);
+
 void do_command(int code, player *p, player *q, peta *M, int turn, long time_start, boolean game_over, Queue *Q);
 /*I.S. : parameter terdefinisi
   F.S. : menjalankan command yang bersesuaian dengan code */
