@@ -23,12 +23,7 @@ void start_game(boolean *new_game){
 	char start_option;
 	for (;;)
 	{
-<<<<<<< HEAD
 		printf("Your input: ");
-=======
-		printf("\n");
-		printf("Your input:");
->>>>>>> 519e8f7a9204bf8febe88e7ecb1236c066b8a6f6
 		scanf("%c",&start_option);
 		if (start_option == '1')
 		{
