@@ -14,6 +14,9 @@
 #define MAX_BARIS_peta 100
 #define MAX_KOLOM_peta 100
 
+#define UP_KEEP_DEC 5
+#define INCOME_INC 5
+
 void start_game(boolean *new_game);
 /*I.S. 	: Sembarang
   Proses: Ditampilkan di layar pesan pembuka, user diminta memilih new game atau load game

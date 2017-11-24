@@ -9,7 +9,6 @@
 #include <stdio.h>
 
 /***********************	LIST OF UNIT 	**************************/
-
 #define Nil NULL
 
 typedef struct t_unitlist *add_unit;

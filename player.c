@@ -386,6 +386,8 @@ void DelAfter_listpetak (listpetak *L, add_petak *Pdel, add_petak Prec)
 void init_player(player *p, char wrn, int smb){
 // setting awal player
 	gold(*p) = INIT_GOLD;
+	income(*p) = 0;
+	upkeep(*p) = 0;
 	CreateEmpty_listunit(&list_unit(*p));
 	CreateEmpty_listpetak(&list_petak(*p));
 	warna(*p) = wrn;
