@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-gcc -lm -o main main.c peta.c player.c petak.c unit.c point.c kata.c jam.c game.c pcolor.c bertarung.c
-=======
-gcc -lm -o main main.c peta.c player.c petak.c unit.c point.c kata.c jam.c game.c pcolor.c bertarung.c
->>>>>>> 519e8f7a9204bf8febe88e7ecb1236c066b8a6f6
+gcc -lm -o main main.c peta.c player.c petak.c unit.c point.c kata.c jam.c game.c pcolor.c bertarung.c playerTurn.c queue.c
