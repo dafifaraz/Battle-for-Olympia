@@ -1,14 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "queue.h"
+#include "PlayerTurn.h"
 
 /*pakai dengan menggunakan & ex.NextTurnQueue(&Q)*/
 
-void CreateTurnQueue(Queue *Q)
+void CreateTurnQueue12(Queue *Q)
 {
     CreateEmpty(Q,2);
     Add(Q,1);
     Add(Q,2);
+}
+
+
+void CreateTurnQueue21(Queue *Q)
+{
+    CreateEmpty(Q,2);
+    Add(Q,2);
+    Add(Q,1);
 }
 
 void NextTurnQueue(Queue *Q)

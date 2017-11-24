@@ -12,18 +12,17 @@
 int main(){
 	peta main_peta;
 	player p1,p2;
-	//Queue Q;
-	int turn; //Giliran
+	Queue Q;
 
 	boolean new_game;
 	time_t time_start = time(NULL);
 	start_game(&new_game);
+	int turn;
 
 	// Aksi ketika new game
 	if (new_game){
 		do_new_game(&main_peta,&p1,&p2);
-
-		//CreateTurnQueue12(&Q); //Pemain 1 mulai pertama
+		CreateTurnQueue12(&Q); //Pemain 1 mulai pertama
 	} else {
 		int x, y, t;
 		FILE *fp;
@@ -37,19 +36,15 @@ int main(){
 	display_command();
 	int code;
 	boolean game_over = false;
-	turn = 1;
 	do{
-        //turn = InfoHead(Q);
-		if (turn == 1){
+		if (InfoHead(Q) == 1){
 			display_player_info(p1);
 			receive_command(&code);
-			do_command(code,&p1,&p2,&main_peta, turn, time_start,game_over);
-			turn = 2;
+			do_command(code,&p1,&p2,&main_peta, turn, time_start,game_over,&Q);
 		} else {
 			display_player_info(p2);
 			receive_command(&code);
-			do_command(code,&p2,&p1,&main_peta, turn, time_start,game_over);
-			turn = 1;
+			do_command(code,&p2,&p1,&main_peta, turn, time_start,game_over,&Q);
 		}
 	} while (!game_over);
 }

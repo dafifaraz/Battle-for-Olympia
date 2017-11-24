@@ -435,7 +435,7 @@ void recruit(player *P, peta *M){
 	}
 }
 
-void do_command(int code, player *p, player *q, peta *M, int turn, long time_start, boolean game_over){
+void do_command(int code, player *p, player *q, peta *M, int turn, long time_start, boolean game_over,Queue *Q){
 	switch (code) {
 		case 1 :  MOVE(p,M); break;
 		case 2 :  break;
@@ -444,7 +444,7 @@ void do_command(int code, player *p, player *q, peta *M, int turn, long time_sta
 		case 5 :  COMMAND_ATTACK(p,q,M); break;
 		case 6 :  display_peta(*M,*p); break;
 		case 7 :  break;
-		case 8 :  /*NextTurnQueue(&Q);*/ break;
+		case 8 :  NextTurnQueue(Q); break;
 		case 9 :  call_SAVE(M, turn, time_start); break;
 		case 10 : call_EXIT(M, turn, time_start, game_over); break;
 		case 11 : display_command(); break;
