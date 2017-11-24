@@ -457,13 +457,20 @@ void change_unit(player *P){
 }
 
 void display_player_info(player p){
-	unit king = Info_unit(First_unit(list_unit(p)));
-	int x = Absis(lokasi_unit(king));
-	int y = Ordinat(lokasi_unit(king));
-	int m = move_point(king);
+	int x = Absis(lokasi_unit(selected(p)));
+	int y = Ordinat(lokasi_unit(selected(p)));
+	int m = move_point(selected(p));
 	printf("Player %d turn\n",simbol_player(p));
-	printf("King (%d,%d) | Movement Points: %d | Can attack: ",x,y,m);
-	if (kesempatan_serang(king)){
+	printf("Cash: %dG| Income: %dG| Upkeep: %dG\n", gold(p),income(p),upkeep(p));
+	switch(simbol(selected(p))){
+		case 'K' : printf("King"); break;
+		case 'A' : printf("Archer"); break;
+		case 'S' : printf("Swordsman"); break;
+		case 'W' : printf("White Mage"); break;
+		default : printf("ERROR"); break;
+	}
+	printf(" (%d,%d) | Movement Points: %d | Can attack: ",x,y,m);
+	if (kesempatan_serang(selected(p))){
 		printf("Yes\n");
 	} else {
 		printf("No\n");

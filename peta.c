@@ -149,7 +149,7 @@ void display_peta(peta M, player p){
 									printf(" ");
 								} else {
 									if (isequal_unit(unit_petak(petak(M,i,k)),selected(p))){
-										print_yellow(simbol(unit_petak(petak(M,i,k))));
+										print_green(simbol(unit_petak(petak(M,i,k))));
 									} else if (pemilik(unit_petak(petak(M,i,k))) == 1){
 										print_red(simbol(unit_petak(petak(M,i,k))));	
 									} else if (pemilik(unit_petak(petak(M,i,k))) == 2){
