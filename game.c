@@ -152,23 +152,26 @@ boolean isAdaMusuh(POINT P_Select, POINT P2, peta M){
 	return ada;	
 }
 
-void MOVE(player *P, peta *M){ 
+void MOVE(player *P, peta *M, player *q){ 
 	POINT loc = (*P).selected.lokasi;
 	unit slc = (*P).selected; //unit yang sedang dipilih
-	//tulis angka horizontal
+	/***************************	TULIS PETA 	*****************************/
 	printf("\n");
-	for (int i=0; i<NBrsEff(*M); i++){
+	printf("  ");
+	for (int i=0; i<NKolEff(*M); i++){
 		for (int j=0; j<4; j++){
-			if (j==3){
+			if (i<10 && j==1){
+				printf("%d",i);
+			} else if (i>=10 && j == 1){
 				printf("%d",i);
 			} else {
 				printf(" ");
 			}
 		}				
-	}	
+	}
 	printf("\n");
 	for (int i=0; i<NBrsEff(*M); i++){
-		printf(" ");
+		printf("  ");
 		for (int j=0; j<4*NKolEff(*M); j++){
 			printf("*");
 		}
@@ -176,8 +179,11 @@ void MOVE(player *P, peta *M){
 		for (int j=0; j<4; j++){
 			if (j==2){
 				printf("%d",i);
+				if (i<10){
+					printf(" ");
+				}
 			} else {
-				printf(" ");
+				printf("  ");
 			}
 			for (int k=0; k<NKolEff(*M); k++){
 				POINT Current = MakePOINT(i,k);
@@ -195,7 +201,7 @@ void MOVE(player *P, peta *M){
 										printf("%c",jenis_petak(petak(*M,i,k)));
 									}
 							} else if (j==2){
-								if (isequal_unit(unit_petak(petak(*M,i,k)),empty_unit(MakePOINT(i,k))) && (manhattan_dist(Current, loc) <= max_move_point(slc)) && 
+								if (isequal_unit(unit_petak(petak(*M,i,k)),empty_unit(MakePOINT(i,k))) && (manhattan_dist(Current, loc) <= move_point(slc)) && 
 									(isAdaMusuh(loc, MakePOINT(i,k), *M) == 0) && (Absis(loc) == i || Ordinat(loc) == k)){
 									printf("#");
 								} 
@@ -230,10 +236,10 @@ void MOVE(player *P, peta *M){
 			printf("\n");
 		}
 	}
-	printf(" ");
+	printf("  ");
 	for (int i=0; i<4*NKolEff(*M)+1; i++) printf("*");
 	printf("\n");
-
+/******************************************	AKHIR TULIS PETA ***************************/
 	int x,y; 
 	boolean moved = false;
 	if (move_point(slc) <= 0){
@@ -248,9 +254,22 @@ void MOVE(player *P, peta *M){
 			} else {
 				unit temp = selected(*P);
 				swap_unit(&unit_petak(petak(*M,x,y)), &unit_petak(petak(*M,Absis(loc), Ordinat(loc))));
+				
+				if (jenis_petak(petak(*M,x,y)) == 'V'){
+					move_point(selected(*P)) = 0;
+					if (milik_petak(petak(*M,x,y)) == simbol_player(*q)){
+						DelP_listpetak (&list_petak(*q), petak(*M,x,y));
+						milik_petak(petak(*M,x,y)) = simbol_player(*P);
+						income(*q) -= INCOME_INC;
+					}
+					InsVFirst_listpetak (&list_petak(*P), petak(*M,x,y));
+					income(*P) += INCOME_INC;			
+				} else {
+					move_point(unit_petak(petak(*M,x,y))) -= manhattan_dist(loc,MakePOINT(x,y));				
+				}
+
 				printf("Your selected unit has been moved to (%d,%d)\n",x,y);
 				//serching unit di list
-				move_point(unit_petak(petak(*M,x,y))) -= manhattan_dist(loc,MakePOINT(x,y));
 				selected(*P) = unit_petak(petak(*M,x,y));
 				add_unit slc_in_list = Search_listunit(list_unit(*P),temp);
 				Info_unit(slc_in_list) = selected(*P);
@@ -524,14 +543,14 @@ void infopetak(peta M)
 
 void do_command(int code, player *p, player *q, peta *M, int turn, long time_start, boolean game_over,Queue *Q){
 	switch (code) {
-		case 1 :  MOVE(p,M); break;
+		case 1 :  MOVE(p,M,q); break;
 		case 2 :  break;
 		case 3 :  change_unit(p); break;
 		case 4 :  recruit(p,M); break;
 		case 5 :  COMMAND_ATTACK(p,q,M); break;
 		case 6 :  display_peta(*M,*p); break;
 		case 7 :  infopetak(*M); break;
-		case 8 :  NextTurnQueue(Q,p); break;
+		case 8 :  NextTurnQueue(Q,p,M); break;
 		case 9 :  call_SAVE(M, turn, time_start); break;
 		case 10 : call_EXIT(M, turn, time_start, game_over); break;
 		case 11 : display_command(); break;

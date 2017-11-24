@@ -42,7 +42,7 @@ void receive_command (int *code);
 
 boolean is_tercapai(POINT slc, POINT tujuan, peta m, int max_move);
 
-void MOVE(player *P, peta *M);
+void MOVE(player *P, peta *M, player *q);
 
 void call_SAVE(peta *M, int TURN, long time_start); //incomplete
 

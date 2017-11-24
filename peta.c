@@ -104,18 +104,27 @@ void init_peta(peta *M, int NBrsEff, int NKolEff, player *p1, player *p2){
 void display_peta(peta M, player p){
 	//tulis angka horizontal
 	printf("\n");
-	for (int i=0; i<NBrsEff(M); i++){
+	printf("  ");
+	for (int i=0; i<NKolEff(M); i++){
 		for (int j=0; j<4; j++){
-			if (j==3){
-				printf("%d",i);
+			if (i<10){
+				if (j==2){
+					printf("%d",i);						
+				} else {
+					printf(" ");
+				}
 			} else {
-				printf(" ");
+				if (j==2){
+					printf("%d",i);
+				} else if (j<3){
+					printf(" ");
+				}
 			}
 		}				
 	}
 	printf("\n");
 	for (int i=0; i<NBrsEff(M); i++){
-		printf(" ");
+		printf("  ");
 		for (int j=0; j<4*NKolEff(M); j++){
 			printf("*");
 		}
@@ -123,8 +132,11 @@ void display_peta(peta M, player p){
 		for (int j=0; j<4; j++){
 			if (j==2){
 				printf("%d",i);
+				if (i<10){
+					printf(" ");
+				}
 			} else {
-				printf(" ");
+				printf("  ");
 			}
 			for (int k=0; k<NKolEff(M); k++){
 				for (int l=0; l<4; l++){
@@ -175,7 +187,7 @@ void display_peta(peta M, player p){
 			printf("\n");
 		}
 	}
-	printf(" ");
+	printf("  ");
 	for (int i=0; i<4*NKolEff(M)+1; i++) printf("*");
 	printf("\n");
 }
