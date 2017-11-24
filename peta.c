@@ -102,28 +102,44 @@ void init_peta(peta *M, int NBrsEff, int NKolEff, player *p1, player *p2){
 }
 
 void display_peta(peta M, player p){
+	//tulis angka horizontal
 	printf("\n");
 	for (int i=0; i<NBrsEff(M); i++){
-		for (int j=0; j<4*NKolEff(M)+1; j++){
+		for (int j=0; j<4; j++){
+			if (j==3){
+				printf("%d",i);
+			} else {
+				printf(" ");
+			}
+		}				
+	}
+	printf("\n");
+	for (int i=0; i<NBrsEff(M); i++){
+		printf(" ");
+		for (int j=0; j<4*NKolEff(M); j++){
 			printf("*");
 		}
+		printf("*");
 		for (int j=0; j<4; j++){
+			if (j==2){
+				printf("%d",i);
+			} else {
+				printf(" ");
+			}
 			for (int k=0; k<NKolEff(M); k++){
 				for (int l=0; l<4; l++){
 					if (j!=0){
 						if (l == 0){
 							printf("*");
 						} else if (l == 2){
-							if (j == 0){
-								
-							} else if (j==1){
+							if (j==1){
 								if (isequal_petak(petak(M,i,k),empty_petak(MakePOINT(i,k)))){
 									printf(" ");
 								} else {
 									if (milik_petak(petak(M,i,k)) == 1){
 										print_red(jenis_petak(petak(M,i,k)));	
 									} else if (milik_petak(petak(M,i,k)) == 2) {
-										print_cyan(jenis_petak(petak(M,i,k)));
+										print_blue(jenis_petak(petak(M,i,k)));
 									} else {
 										printf("%c",jenis_petak(petak(M,i,k)));
 									}
@@ -133,11 +149,11 @@ void display_peta(peta M, player p){
 									printf(" ");
 								} else {
 									if (isequal_unit(unit_petak(petak(M,i,k)),selected(p))){
-										print_green(simbol(unit_petak(petak(M,i,k))));
+										print_yellow(simbol(unit_petak(petak(M,i,k))));
 									} else if (pemilik(unit_petak(petak(M,i,k))) == 1){
 										print_red(simbol(unit_petak(petak(M,i,k))));	
 									} else if (pemilik(unit_petak(petak(M,i,k))) == 2){
-										print_cyan(simbol(unit_petak(petak(M,i,k))));
+										print_blue(simbol(unit_petak(petak(M,i,k))));
 									} else {
 										printf("ERROR"); //Error
 									}
@@ -148,6 +164,8 @@ void display_peta(peta M, player p){
 						} else {
 							printf(" ");
 						}
+					} else {
+						printf(" ");
 					}
 				}	
 				if (k == NKolEff(M) - 1 && j!=0){
@@ -157,6 +175,7 @@ void display_peta(peta M, player p){
 			printf("\n");
 		}
 	}
+	printf(" ");
 	for (int i=0; i<4*NKolEff(M)+1; i++) printf("*");
 	printf("\n");
 }
