@@ -63,6 +63,7 @@ void COMMAND_ATTACK(player *one, player *two, peta *m){
 
     printf("Enemy you can attack:\n");
     if (MEC_canAttack(selected(*one),l)){
+        //printf("health %d",health(l));
         printf("%d. ",++cntUnit);
         uAttack[cntUnit] = l;
         printUnitName(l);
@@ -71,6 +72,7 @@ void COMMAND_ATTACK(player *one, player *two, peta *m){
     }
 
     if (MEC_canAttack(selected(*one),r)){
+        //printf("health %d",health(r));
         printf("%d. ",++cntUnit);
         uAttack[cntUnit] = r;
         printUnitName(r);
@@ -79,6 +81,7 @@ void COMMAND_ATTACK(player *one, player *two, peta *m){
     }
 
     if (MEC_canAttack(selected(*one),u)){
+        //printf("health %d",health(u));
         printf("%d. ",++cntUnit);
         uAttack[cntUnit] = u;
         printUnitName(u);
@@ -87,6 +90,7 @@ void COMMAND_ATTACK(player *one, player *two, peta *m){
     }
 
     if (MEC_canAttack(selected(*one),d)){
+        //printf("health %d",health(d));
         printf("%d. ",++cntUnit);
         uAttack[cntUnit] = d;
         printUnitName(d);
@@ -98,13 +102,16 @@ void COMMAND_ATTACK(player *one, player *two, peta *m){
     int unitYangAkanDiserang;
     scanf("%d", &unitYangAkanDiserang);
 
-    unit serang = uAttack[unitYangAkanDiserang-1];
+    //printf("123456%d", unitYangAkanDiserang);
+    unit serang = uAttack[unitYangAkanDiserang];
     
     unit temp1 = selected(*one);
     unit temp2 = serang;
 
+    //printf("%d", health(serang));
     MEC_attack(&selected(*one), &serang);
-    
+   //printf("%d",health(serang));
+
     int xxx = lokasi_unit(serang).X;
     int yyy = lokasi_unit(serang).Y;
     int xxx2 = lokasi_unit(selected(*one)).X;
@@ -115,26 +122,26 @@ void COMMAND_ATTACK(player *one, player *two, peta *m){
     
     printf("Enemy\'s ");
     printUnitName(serang);
-    printf("is damaged by %d.\n",attack(selected(*one)));
+    printf(" is damaged by %d.\n",attack(selected(*one)));
     
     if(health(serang)<=0){
         printf("Enemy\'s ");
         printUnitName(serang);
-        printf("is dead.\n");
+        printf(" is dead.\n");
     }
 
     if (((tipe_serang(selected(*one)) == tipe_serang(serang) || (simbol(serang)=='K')) && health(serang) > 0)){
         printf("Enemy\'s ");
         printUnitName(serang);
-        printf("retaliates.\n");
+        printf(" retaliates.\n");
         printf("Your's ");
         printUnitName(selected(*one));
-        printf("is damaged by %d.\n", attack(serang));
+        printf(" is damaged by %d.\n", attack(serang));
         
         if(health(selected(*one)) <=0 ){
             printf("Your's ");
             printUnitName(selected(*one));
-            printf("is dead :(\n");
+            printf(" is dead :(\n");
         }
     }
 
