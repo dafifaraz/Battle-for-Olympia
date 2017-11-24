@@ -8,4 +8,4 @@ void CreateTurnQueue12(Queue *Q);
 
 void CreateTurnQueue21(Queue *Q);
 
-void NextTurnQueue(Queue *Q);
+void NextTurnQueue(Queue *Q, player *p);
