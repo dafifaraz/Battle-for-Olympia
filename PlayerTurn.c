@@ -19,11 +19,12 @@ void CreateTurnQueue21(Queue *Q)
     Add(Q,1);
 }
 
-void NextTurnQueue(Queue *Q)
+void NextTurnQueue(Queue *Q, player *p)
 {
     int A;
     Del(Q,&A);
     Add(Q,A);
+    gold(*p)=gold(*p)+income(*p)-upkeep(*p);
 }
 
 /*while (Not Game Over || Not Exit){
