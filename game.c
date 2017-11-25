@@ -152,9 +152,11 @@ boolean isAdaMusuh(POINT P_Select, POINT P2, peta M){
 	return ada;	
 }
 
-void MOVE(player *P, peta *M, player *q){ 
+void MOVE(player *P, peta *M, player *q, Stack *S){ 
 	POINT loc = (*P).selected.lokasi;
 	unit slc = (*P).selected; //unit yang sedang dipilih
+	state X;
+	PrevPos(X) = loc; 
 	/***************************	TULIS PETA 	*****************************/
 	printf("\n");
 	printf("  ");
@@ -269,11 +271,13 @@ void MOVE(player *P, peta *M, player *q){
 				}
 
 				printf("Your selected unit has been moved to (%d,%d)\n",x,y);
-				//serching unit di list
+				// Searching unit di list
+				NextPos(X) = MakePOINT(x,y);
 				selected(*P) = unit_petak(petak(*M,x,y));
 				add_unit slc_in_list = Search_listunit(list_unit(*P),temp);
 				Info_unit(slc_in_list) = selected(*P);
 				moved = true;
+				Push(S, X); // Push ke stack of state setiap unit bergerak;
 			}
 	} while (moved == false);		
 	}
@@ -541,9 +545,9 @@ void infopetak(peta M)
     }
 }
 
-void do_command(int code, player *p, player *q, peta *M, int turn, long time_start, boolean game_over,Queue *Q){
+void do_command(int code, player *p, player *q, peta *M, int turn, long time_start, boolean game_over,Queue *Q, Stack *S){
 	switch (code) {
-		case 1 :  MOVE(p,M,q); break;
+		case 1 :  MOVE(p,M,q,S); break;
 		case 2 :  break;
 		case 3 :  change_unit(p); break;
 		case 4 :  recruit(p,M); break;

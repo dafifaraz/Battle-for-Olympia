@@ -8,11 +8,13 @@
 #include "kata.h"
 #include "jam.h"
 #include "game.h"
+#include "stackt.h"
 
 int main(){
 	peta main_peta;
 	player p1,p2;
 	Queue Q;
+	Stack S; //dimanfaatkan untuk command undo
 
 	boolean new_game;
 	time_t time_start = time(NULL);
@@ -40,11 +42,11 @@ int main(){
 		if (InfoHead(Q) == 1){
 			display_player_info(p1);
 			receive_command(&code);
-			do_command(code,&p1,&p2,&main_peta, turn, time_start,game_over,&Q);
+			do_command(code,&p1,&p2,&main_peta, turn, time_start,game_over,&Q,&S);
 		} else {
 			display_player_info(p2);
 			receive_command(&code);
-			do_command(code,&p2,&p1,&main_peta, turn, time_start,game_over,&Q);
+			do_command(code,&p2,&p1,&main_peta, turn, time_start,game_over,&Q,&S);
 		}
 	} while (!game_over);
 }

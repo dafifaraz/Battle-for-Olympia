@@ -10,6 +10,7 @@
 #include "jam.h"
 #include "bertarung.h"
 #include "PlayerTurn.h"
+#include "stackt.h"
 
 #define MAX_BARIS_peta 100
 #define MAX_KOLOM_peta 100
@@ -42,7 +43,7 @@ void receive_command (int *code);
 
 boolean is_tercapai(POINT slc, POINT tujuan, peta m, int max_move);
 
-void MOVE(player *P, peta *M, player *q);
+void MOVE(player *P, peta *M, player *q, Stack *S);
 
 void call_SAVE(peta *M, int TURN, long time_start); //incomplete
 
@@ -54,7 +55,7 @@ void recruit(player *P, peta *M);
 
 void infopetak(peta M);
 
-void do_command(int code, player *p, player *q, peta *M, int turn, long time_start, boolean game_over, Queue *Q);
+void do_command(int code, player *p, player *q, peta *M, int turn, long time_start, boolean game_over, Queue *Q, Stack *S);
 /*I.S. : parameter terdefinisi
   F.S. : menjalankan command yang bersesuaian dengan code */
 
