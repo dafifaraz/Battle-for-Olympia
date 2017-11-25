@@ -8,6 +8,7 @@
 #include "jam.h"
 #include "game.h"
 #include "bertarung.h"
+#include "stackt.h"
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -256,17 +257,22 @@ void MOVE(player *P, peta *M, player *q, Stack *S){
 			} else {
 				unit temp = selected(*P);
 				swap_unit(&unit_petak(petak(*M,x,y)), &unit_petak(petak(*M,Absis(loc), Ordinat(loc))));
-				
 				if (jenis_petak(petak(*M,x,y)) == 'V'){
-					move_point(selected(*P)) = 0;
+					MP(X) = move_point(unit_petak(petak(*M,x,y))); // Buat Undo
+					move_point(unit_petak(petak(*M,x,y))) = 0;
+					Take(X) = false;
 					if (milik_petak(petak(*M,x,y)) == simbol_player(*q)){
 						DelP_listpetak (&list_petak(*q), petak(*M,x,y));
-						milik_petak(petak(*M,x,y)) = simbol_player(*P);
 						income(*q) -= INCOME_INC;
+						InsVFirst_listpetak (&list_petak(*P), petak(*M,x,y));
+						Take(X) = true;
 					}
-					InsVFirst_listpetak (&list_petak(*P), petak(*M,x,y));
+					printf("This village has been seized.\n");
+					milik_petak(petak(*M,x,y)) = simbol_player(*P);
 					income(*P) += INCOME_INC;			
 				} else {
+					Take(X) = false;
+					MP(X) = move_point(unit_petak(petak(*M,x,y))); // Menyimpan Movement point sebelumnya
 					move_point(unit_petak(petak(*M,x,y))) -= manhattan_dist(loc,MakePOINT(x,y));				
 				}
 
@@ -276,6 +282,7 @@ void MOVE(player *P, peta *M, player *q, Stack *S){
 				selected(*P) = unit_petak(petak(*M,x,y));
 				add_unit slc_in_list = Search_listunit(list_unit(*P),temp);
 				Info_unit(slc_in_list) = selected(*P);
+				WSelect(X) = slc_in_list;
 				moved = true;
 				Push(S, X); // Push ke stack of state setiap unit bergerak;
 			}
@@ -548,13 +555,13 @@ void infopetak(peta M)
 void do_command(int code, player *p, player *q, peta *M, int turn, long time_start, boolean game_over,Queue *Q, Stack *S){
 	switch (code) {
 		case 1 :  MOVE(p,M,q,S); break;
-		case 2 :  break;
+		case 2 :  UNDO(p,M,q,S); break;
 		case 3 :  change_unit(p); break;
 		case 4 :  recruit(p,M); break;
 		case 5 :  COMMAND_ATTACK(p,q,M); break;
 		case 6 :  display_peta(*M,*p); break;
 		case 7 :  infopetak(*M); break;
-		case 8 :  NextTurnQueue(Q,p,M); break;
+		case 8 :  NextTurnQueue(Q,p,M,S); break;
 		case 9 :  call_SAVE(M, turn, time_start); break;
 		case 10 : call_EXIT(M, turn, time_start, game_over); break;
 		case 11 : display_command(); break;
@@ -565,3 +572,29 @@ void do_command(int code, player *p, player *q, peta *M, int turn, long time_sta
 	}
 }
 
+void UNDO(player *P, peta *M, player *q, Stack *S){
+	state X;
+
+	if (IsEmptyStack(*S)){
+		printf("You cannot UNDO anymore, you haven't done anything.\n");
+	}
+	else {
+		Pop(S,&X);
+		swap_unit(&unit_petak(petak(*M,Absis(PrevPos(X)),Ordinat(PrevPos(X)))), &unit_petak(petak(*M,Absis(NextPos(X)), Ordinat(NextPos(X)))));
+		if (jenis_petak(petak(*M, Absis(NextPos(X)),Ordinat(NextPos(X)))) == 'V'){
+			DelP_listpetak (&list_petak(*P), petak(*M,Absis(NextPos(X)),Ordinat(NextPos(X))));
+			if (Take(X) == true){
+				milik_petak(petak(*M,Absis(NextPos(X)),Ordinat(NextPos(X)))) = simbol_player(*q);
+				income(*q) += INCOME_INC;
+				InsVFirst_listpetak (&list_petak(*q), petak(*M,Absis(NextPos(X)),Ordinat(NextPos(X))));
+			} else {
+				milik_petak(petak(*M,Absis(NextPos(X)),Ordinat(NextPos(X)))) = 0;
+			}
+			income(*P) -= INCOME_INC;
+		}
+		move_point(unit_petak(petak(*M,Absis(PrevPos(X)),Ordinat(PrevPos(X))))) = MP(X);				
+		Info_unit(WSelect(X)) = unit_petak(petak(*M,Absis(PrevPos(X)),Ordinat(PrevPos(X))));
+		selected(*P) = Info_unit(WSelect(X));
+		printf("Your last move has been canceled.\n");
+	}
+}

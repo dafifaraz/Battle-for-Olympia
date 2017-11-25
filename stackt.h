@@ -7,6 +7,7 @@
 
 #include "boolean.h"
 #include "point.h"
+#include "player.h"
 
 /* Nil adalah stack dengan elemen kosong . */
 /* Karena indeks dalam bhs C dimulai 0 maka tabel dg indeks 0 tidak dipakai */
@@ -14,6 +15,9 @@
 typedef struct {
 	POINT PrevPos;
 	POINT NextPos;
+	int LastMP; // Movement Point sebelumnya
+	boolean take; // Bernilai True apabila player merebut village lawan
+	add_unit wselect; // Unit yang sebelumnya digerakkan
 } state;
 typedef int address;   /* indeks tabel */
 
@@ -34,6 +38,9 @@ typedef struct {
 #define InfoTop(S) (S).T[(S).TOP]
 #define PrevPos(X) (X).PrevPos
 #define NextPos(X) (X).NextPos
+#define MP(X) (X).LastMP
+#define Take(X) (X).take
+#define WSelect(X) (X).wselect
 /* ************ Prototype ************ */
 /* *** Konstruktor/Kreator *** */
 void CreateEmptyStack (Stack *S);
