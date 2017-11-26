@@ -403,7 +403,7 @@ void do_recruit(player *P, POINT loc_new, peta *M){
 	
 	int no_rec;
 	do {
-		printf("Enter no unit you want to recruit\n");
+		printf("Enter no. of unit that you want to recruit\n");
 		scanf("%d",&no_rec);
 		if (no_rec < 1 || no_rec > 3){
 			printf("Invalid input\n");
@@ -415,18 +415,22 @@ void do_recruit(player *P, POINT loc_new, peta *M){
 		gold(*P) = gold(*P) - H_ARCHER;
 		new_u = unit_petak(petak(*M,Absis(loc_new),Ordinat(loc_new)));
 		assign_unit(&new_u,'A',simbol_player(*P));
-		printf("You have recruit an archer\n");
+
+		printf("You have recruited an archer\n");
 	} else if (no_rec == 2){
 		gold(*P) = gold(*P) - H_SWORDSMAN;
 		new_u = unit_petak(petak(*M,Absis(loc_new),Ordinat(loc_new)));
 		assign_unit(&new_u,'S',simbol_player(*P));
-		printf("You have recruit a swordsman\n");
+		printf("You have recruited a swordsman\n");
 	} else {
 		gold(*P) = gold(*P) - H_WHITEMAGE;
 		new_u = unit_petak(petak(*M,Absis(loc_new),Ordinat(loc_new)));
 		assign_unit(&new_u,'W',simbol_player(*P));
-		printf("You have recruit a whitemage\n");
+
+		printf("You have recruited a whitemage\n");
 	}		
+	move_point(new_u) = 0;
+	kesempatan_serang(new_u) = false;
 	InsVLast_listunit(&list_unit(*P),new_u);
 	assign_petak(&(petak(*M,Absis(loc_new),Ordinat(loc_new))),'C',simbol_player(*P),new_u);
 	upkeep(*P) += UP_KEEP_DEC;
@@ -458,7 +462,7 @@ void recruit(player *P, peta *M){
 			int x1, y1;
 			
 			do{
-				printf(">> Enter coordinat x y of your castle\n");
+				printf(">> Enter coordinate x y of your castle\n");
 				printf("<< ");
 				scanf("%d %d",&x1,&y1);
 				if (abs(x-x1) + abs(y-y1) != 1){
