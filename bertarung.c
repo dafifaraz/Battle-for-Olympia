@@ -150,7 +150,6 @@ void COMMAND_ATTACK(player *one, player *two, peta *m){
 
     add_unit slc_in_list_2 = Search_listunit(list_unit(*two),temp2);
     Info_unit(slc_in_list_1) = serang;
-    
 }
 
 /*void COMAND_INFO(){

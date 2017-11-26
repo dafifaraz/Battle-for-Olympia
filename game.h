@@ -51,7 +51,7 @@ void call_EXIT(peta *M, int TURN, long time_start, boolean game_over);
 
 void do_recruit(player *P, POINT loc_new, peta *M);
 
-void recruit(player *P, peta *M);
+void recruit(player *P, peta *M, Stack *S);
 
 void infopetak(peta M);
 

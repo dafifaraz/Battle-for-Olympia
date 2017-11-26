@@ -430,13 +430,12 @@ void do_recruit(player *P, POINT loc_new, peta *M){
 		printf("You have recruited a whitemage\n");
 	}		
 	move_point(new_u) = 0;
-	kesempatan_serang(new_u) = false;
 	InsVLast_listunit(&list_unit(*P),new_u);
 	assign_petak(&(petak(*M,Absis(loc_new),Ordinat(loc_new))),'C',simbol_player(*P),new_u);
 	upkeep(*P) += UP_KEEP_DEC;
 }	
 
-void recruit(player *P, peta *M){
+void recruit(player *P, peta *M, Stack *S){
 	int id_p = simbol_player(*P);
 	petak pt;
 	if (id_p == 1){
@@ -480,6 +479,7 @@ void recruit(player *P, peta *M){
 					} else {
 						printf(">> Your selected castle is occupied\n");						
 					}	
+					CreateEmptyStack(S);
 				}				
 			} while (abs(x-x1) + abs(y-y1) != 1);
 
@@ -560,9 +560,9 @@ void do_command(int code, player *p, player *q, peta *M, int turn, long time_sta
 	switch (code) {
 		case 1 :  MOVE(p,M,q,S); break;
 		case 2 :  UNDO(p,M,q,S); break;
-		case 3 :  change_unit(p); break;
-		case 4 :  recruit(p,M); break;
-		case 5 :  COMMAND_ATTACK(p,q,M); break;
+		case 3 :  change_unit(p); CreateEmptyStack(S); break;
+		case 4 :  recruit(p,M,S); break;
+		case 5 :  COMMAND_ATTACK(p,q,M); CreateEmptyStack(S); break;
 		case 6 :  display_peta(*M,*p); break;
 		case 7 :  infopetak(*M); break;
 		case 8 :  NextTurnQueue(Q,p,M,S); break;
