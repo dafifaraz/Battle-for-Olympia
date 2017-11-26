@@ -30,6 +30,8 @@ void CreateEmpty_listunit(listunit *L);
 
 add_unit Alokasi_listunit(unit X);
 
+add_unit address_king(listunit L);
+
 void Dealokasi_listunit(add_unit *P);
 
 add_unit Search_listunit(listunit L, unit X);

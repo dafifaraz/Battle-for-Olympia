@@ -22,6 +22,7 @@ void MEC_attack(unit *X, unit *Y){
     if(MEC_canRetaliates(*X,*Y)){
         health(*X) -= attack(*Y);
     }
+    kesempatan_serang(*X) = false;
 }
 
 void printUnitName(unit U){
@@ -39,133 +40,146 @@ void printUnitName(unit U){
     }
 }
 
-void COMMAND_ATTACK(player *one, player *two, peta *m){
+void COMMAND_ATTACK(player *one, player *two, peta *m, boolean *game_over){
 
-    unit l = unit_petak(petak(*m,Absis(left(lokasi_unit(selected(*one)))),Ordinat(left(lokasi_unit(selected(*one))))));
-    unit r = unit_petak(petak(*m,Absis(right(lokasi_unit(selected(*one)))),Ordinat(right(lokasi_unit(selected(*one))))));
-    unit u = unit_petak(petak(*m,Absis(up(lokasi_unit(selected(*one)))),Ordinat(up(lokasi_unit(selected(*one))))));
-    unit d = unit_petak(petak(*m,Absis(down(lokasi_unit(selected(*one)))),Ordinat(down(lokasi_unit(selected(*one))))));
+    if (kesempatan_serang(selected(*one))){
+        unit l = unit_petak(petak(*m,Absis(left(lokasi_unit(selected(*one)))),Ordinat(left(lokasi_unit(selected(*one))))));
+        unit r = unit_petak(petak(*m,Absis(right(lokasi_unit(selected(*one)))),Ordinat(right(lokasi_unit(selected(*one))))));
+        unit u = unit_petak(petak(*m,Absis(up(lokasi_unit(selected(*one)))),Ordinat(up(lokasi_unit(selected(*one))))));
+        unit d = unit_petak(petak(*m,Absis(down(lokasi_unit(selected(*one)))),Ordinat(down(lokasi_unit(selected(*one))))));
 
-    int cntUnit = 0;
-    int cntUnit2 = 0;
+        int cntUnit = 0;
+        int cntUnit2 = 0;
 
-    if (MEC_canAttack(selected(*one),l)) cntUnit2++;
-    if (MEC_canAttack(selected(*one),r)) cntUnit2++;
-    if (MEC_canAttack(selected(*one),u)) cntUnit2++;
-    if (MEC_canAttack(selected(*one),d)) cntUnit2++;
+        if (MEC_canAttack(selected(*one),l)) cntUnit2++;
+        if (MEC_canAttack(selected(*one),r)) cntUnit2++;
+        if (MEC_canAttack(selected(*one),u)) cntUnit2++;
+        if (MEC_canAttack(selected(*one),d)) cntUnit2++;
 
-    if (cntUnit2==0){
-        printf("No unit to atttack\n");
-        return;
-    }
+        if (cntUnit2==0){
+            printf("No unit to atttack\n");
+            return;
+        }
 
-    unit uAttack[5];
+        unit uAttack[5];
 
-    printf("Enemy you can attack:\n");
-    if (MEC_canAttack(selected(*one),l)){
-        //printf("health %d",health(l));
-        printf("%d. ",++cntUnit);
-        uAttack[cntUnit] = l;
-        printUnitName(l);
-        printf(" (%d,%d) | Health ", lokasi_unit(l).X, lokasi_unit(r).Y);
-        printf("%d/%d\n", health(l), max_health(l));
-    }
+        printf("Enemy you can attack:\n");
+        if (MEC_canAttack(selected(*one),l)){
+            //printf("health %d",health(l));
+            printf("%d. ",++cntUnit);
+            uAttack[cntUnit] = l;
+            printUnitName(l);
+            printf(" (%d,%d) | Health ", lokasi_unit(l).X, lokasi_unit(l).Y);
+            printf("%d/%d\n", health(l), max_health(l));
+        }
 
-    if (MEC_canAttack(selected(*one),r)){
-        //printf("health %d",health(r));
-        printf("%d. ",++cntUnit);
-        uAttack[cntUnit] = r;
-        printUnitName(r);
-        printf(" (%d,%d) | Health ", lokasi_unit(r).X, lokasi_unit(r).Y);
-        printf("%d/%d\n", health(r), max_health(r));
-    }
+        if (MEC_canAttack(selected(*one),r)){
+            //printf("health %d",health(r));
+            printf("%d. ",++cntUnit);
+            uAttack[cntUnit] = r;
+            printUnitName(r);
+            printf(" (%d,%d) | Health ", lokasi_unit(r).X, lokasi_unit(r).Y);
+            printf("%d/%d\n", health(r), max_health(r));
+        }
 
-    if (MEC_canAttack(selected(*one),u)){
-        //printf("health %d",health(u));
-        printf("%d. ",++cntUnit);
-        uAttack[cntUnit] = u;
-        printUnitName(u);
-        printf(" (%d,%d) | Health ", lokasi_unit(u).X, lokasi_unit(u).Y);
-        printf("%d/%d\n", health(u), max_health(u));
-    }
+        if (MEC_canAttack(selected(*one),u)){
+            //printf("health %d",health(u));
+            printf("%d. ",++cntUnit);
+            uAttack[cntUnit] = u;
+            printUnitName(u);
+            printf(" (%d,%d) | Health ", lokasi_unit(u).X, lokasi_unit(u).Y);
+            printf("%d/%d\n", health(u), max_health(u));
+        }
 
-    if (MEC_canAttack(selected(*one),d)){
-        //printf("health %d",health(d));
-        printf("%d. ",++cntUnit);
-        uAttack[cntUnit] = d;
-        printUnitName(d);
-        printf(" (%d,%d) | Health ", lokasi_unit(d).X, lokasi_unit(d).Y);
-        printf("%d/%d\n", health(d), max_health(d));
-    }
+        if (MEC_canAttack(selected(*one),d)){
+            //printf("health %d",health(d));
+            printf("%d. ",++cntUnit);
+            uAttack[cntUnit] = d;
+            printUnitName(d);
+            printf(" (%d,%d) | Health ", lokasi_unit(d).X, lokasi_unit(d).Y);
+            printf("%d/%d\n", health(d), max_health(d));
+        }
 
-    printf("Select enemy you want to attack: ");
-    int unitYangAkanDiserang;
-    scanf("%d", &unitYangAkanDiserang);
+        printf("Select enemy you want to attack: ");
+        int unitYangAkanDiserang;
+        scanf("%d", &unitYangAkanDiserang);
 
-    //printf("123456%d", unitYangAkanDiserang);
-    unit serang = uAttack[unitYangAkanDiserang];
-    
-    unit temp1 = selected(*one);
-    unit temp2 = serang;
-
-    //printf("%d", health(serang));
-    MEC_attack(&selected(*one), &serang);
-   //printf("%d",health(serang));
-
-    int xxx = lokasi_unit(serang).X;
-    int yyy = lokasi_unit(serang).Y;
-    int xxx2 = lokasi_unit(selected(*one)).X;
-    int yyy2 = lokasi_unit(selected(*one)).Y;
-
-    unit_petak(petak(*m,xxx,yyy)) = selected(*one);
-    unit_petak(petak(*m,xxx2,yyy2)) = serang;
-    
-    printf("Enemy\'s ");
-    printUnitName(serang);
-    printf(" is damaged by %d.\n",attack(selected(*one)));
-    
-    if(health(serang)<=0){
-        printf("Enemy\'s ");
-        printUnitName(serang);
-        printf(" is dead.\n");
-    }
-
-    if (((tipe_serang(selected(*one)) == tipe_serang(serang) || (simbol(serang)=='K')) && health(serang) > 0)){
-        printf("Enemy\'s ");
-        printUnitName(serang);
-        printf(" retaliates.\n");
-        printf("Your's ");
-        printUnitName(selected(*one));
-        printf(" is damaged by %d.\n", attack(serang));
+        //printf("123456%d", unitYangAkanDiserang);
+        unit serang = uAttack[unitYangAkanDiserang];
         
-        if(health(selected(*one)) <=0 ){
+        unit temp1 = selected(*one);
+        unit temp2 = serang;
+       //printf("%d", health(serang));
+        MEC_attack(&selected(*one), &serang);
+       //printf("%d",health(serang));
+
+        int xxx = lokasi_unit(serang).X;
+        int yyy = lokasi_unit(serang).Y;
+        int xxx2 = lokasi_unit(selected(*one)).X;
+        int yyy2 = lokasi_unit(selected(*one)).Y;
+
+        // unit_petak(petak(*m,xxx,yyy)) = selected(*one);
+        // unit_petak(petak(*m,xxx2,yyy2)) = serang;
+        
+        printf("Enemy\'s ");
+        printUnitName(serang);
+        printf(" is damaged by %d.\n",attack(selected(*one)));
+        
+        if(health(serang)<=0){
+            printf("Enemy\'s ");
+            printUnitName(serang);
+            printf(" is dead.\n");
+            // HAPUS AKU
+
+        }
+
+        if (((tipe_serang(selected(*one)) == tipe_serang(serang) || (simbol(serang)=='K')) && health(serang) > 0)){
+            printf("Enemy\'s ");
+            printUnitName(serang);
+            printf(" retaliates.\n");
             printf("Your's ");
             printUnitName(selected(*one));
-            printf(" is dead :(\n");
+            printf(" is damaged by %d.\n", attack(serang));
+            
+            if(health(selected(*one)) <=0 ){
+                printf("Your's ");
+                printUnitName(selected(*one));
+                printf(" is dead :(\n");
+                // HAPUS AKU
+            }
         }
+
+        // Update info unit player yang menyerang.
+        add_unit slc_in_list_1 = Search_listunit(list_unit(*one),temp1);
+        if (health(selected(*one)) > 0){
+            Info_unit(slc_in_list_1) = selected(*one);
+            unit_petak(petak(*m,xxx2,yyy2)) = selected(*one);
+        }
+        else { //ded
+            DelP_listunit(&list_unit(*one), Info_unit(slc_in_list_1));
+            unit_petak(petak(*m,xxx2,yyy2)) = empty_unit(MakePOINT(xxx2,yyy2));
+        }
+        // Update info unit player yang diserang
+        add_unit slc_in_list_2 = Search_listunit(list_unit(*two),temp2);
+        // Penanganan khusus apabila yang diserang adalah King 
+        if (simbol(serang) == 'K'){
+            if (health(serang) > 0){
+                selected(*two) = serang;
+            } else { // ded
+                printf("Congratulations! Player %d has won the game!\n", simbol_player(*one));
+                *game_over = true;
+            }
+        }
+
+        if (health(serang) > 0){
+            Info_unit(slc_in_list_2) = serang;
+            unit_petak(petak(*m,xxx,yyy)) = serang;
+        }
+        else { //ded
+            DelP_listunit(&list_unit(*two), Info_unit(slc_in_list_2));
+            unit_petak(petak(*m,xxx,yyy)) = empty_unit(MakePOINT(xxx,yyy));   
+        }
+    } else {
+        printf("This unit cannot attack anymore.\n");
     }
-
-    add_unit slc_in_list_1 = Search_listunit(list_unit(*one),temp1);
-    Info_unit(slc_in_list_1) = selected(*one);
-
-    add_unit slc_in_list_2 = Search_listunit(list_unit(*two),temp2);
-    Info_unit(slc_in_list_1) = serang;
 }
-
-/*void COMAND_INFO(){
-    POINT coordinate;
-    printf("Enter the coordinate of the cell: ");
-    BacaPOINT(&coordinate);
-    printf("== Cell Info==\n");
-    printPetakName(PETA[coordinate.X][coordinate.Y]);
-    printf("\n");
-    printf("Owned by Player %d\n",Milik(PETA[coordinate.X][coordinate.Y]));
-    printf("== Unit Info==");
-    printUnitName(Unit(PETA[coordinate.X][coordinate.Y])); //selektor uniit //segera di ganti
-}
-
-
-boolean checkOcc(POINT P){
-    return peta[Absis(P)][Ordinat(P)]
-}
-*/

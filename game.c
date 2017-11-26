@@ -206,7 +206,7 @@ void MOVE(player *P, peta *M, player *q, Stack *S){
 							} else if (j==2){
 								if (isequal_unit(unit_petak(petak(*M,i,k)),empty_unit(MakePOINT(i,k))) && (manhattan_dist(Current, loc) <= move_point(slc)) && 
 									(isAdaMusuh(loc, MakePOINT(i,k), *M) == 0) && (Absis(loc) == i || Ordinat(loc) == k)){
-									printf("#");
+									print_yellow('#');
 								} 
 								else if (isequal_unit(unit_petak(petak(*M,i,k)),empty_unit(MakePOINT(i,k)))){
 									printf(" ");
@@ -556,18 +556,18 @@ void infopetak(peta M)
     }
 }
 
-void do_command(int code, player *p, player *q, peta *M, int turn, long time_start, boolean game_over,Queue *Q, Stack *S){
+void do_command(int code, player *p, player *q, peta *M, int turn, long time_start, boolean *game_over,Queue *Q, Stack *S){
 	switch (code) {
 		case 1 :  MOVE(p,M,q,S); break;
 		case 2 :  UNDO(p,M,q,S); break;
 		case 3 :  change_unit(p); CreateEmptyStack(S); break;
 		case 4 :  recruit(p,M,S); break;
-		case 5 :  COMMAND_ATTACK(p,q,M); CreateEmptyStack(S); break;
+		case 5 :  COMMAND_ATTACK(p,q,M, game_over); CreateEmptyStack(S); break;
 		case 6 :  display_peta(*M,*p); break;
 		case 7 :  infopetak(*M); break;
 		case 8 :  NextTurnQueue(Q,p,M,S); break;
 		case 9 :  call_SAVE(M, turn, time_start); break;
-		case 10 : call_EXIT(M, turn, time_start, game_over); break;
+		case 10 : call_EXIT(M, turn, time_start, *game_over); break;
 		case 11 : display_command(); break;
 		default : 
 			printf("ERROR\n"); 

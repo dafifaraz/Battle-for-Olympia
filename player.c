@@ -23,6 +23,18 @@ add_unit Alokasi_listunit(unit X){
 	return P;
 }
 
+add_unit address_king(listunit L){
+	add_unit P = First_unit(L);
+	boolean bfound = false;
+	while (P!= Nil && !bfound){
+		if(simbol(Info_unit(P)) == 'K')
+			bfound = true;
+		else
+			P = Next_unit(P);
+	}
+	return P;
+}
+
 void Dealokasi_listunit(add_unit *P){
 	free (*P);
 }

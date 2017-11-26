@@ -42,76 +42,12 @@ int main(){
 		if (InfoHead(Q) == 1){
 			display_player_info(p1);
 			receive_command(&code);
-			do_command(code,&p1,&p2,&main_peta, turn, time_start,game_over,&Q,&S);
+			do_command(code,&p1,&p2,&main_peta, turn, time_start,&game_over,&Q,&S);
 		} else {
 			display_player_info(p2);
 			receive_command(&code);
-			do_command(code,&p2,&p1,&main_peta, turn, time_start,game_over,&Q,&S);
+			do_command(code,&p2,&p1,&main_peta, turn, time_start,&game_over,&Q,&S);
 		}
 	} while (!game_over);
 }
-	/*
-	do{	
-		if (turn == 1){
-			display_player_info(p1);
-			receive_command(&code);
-			do_command(code,&p1,&main_peta, turn, time_start, game_over);
-			if(code != 9 && code != 0)
-			{
-				turn = 2;
-			} else turn = 1;
-		} else {
-			display_player_info(p2);
-			receive_command(&code);
-			do_command(code,&p2,&main_peta, turn, time_start, game_over);
-			if(code != 9 && code != 0)
-			{
-				turn = 1;
-			} else turn = 2;
-		}
-	} while (!game_over);
-	
-}
-
-
-/* ARSIP 
-
-void call_MOVE(){
-	printf("TEST\n");
-}
-void call_UNDO(){}
-void call_CHANGE_UNIT(){}
-void call_RECRUIT(){}
-void call_ATTACK(){}
-void call_MAP(){}
-void call_INFO(){}
-void call_END_turn(){}
-
-
-void call_EXIT() //incomplete
-
-
-
-		/*LOAD FILE EXTERNAL DAN ASSIGN KE VARIABEL
-		/*PANGGIL SEMUA PROSEDUR UNTUK INIT STATE DARI FILE EXT
-		
-		FILE *fp;
-		int input_nbaris, input_nkolom;
-		fp = fopen("save_game.txt", "r");
-		if (fp == NULL)
-		{
-			printf("Load game failed\n");
-			//break;
-		} else {
-			
-			fscanf(fp, "%d", &input_nbaris);
-			fscanf(fp, "%d", &input_nkolom);
-			fscanf(fp, "%d", &turn);
-			//incomplete
-		}
-		
-		/* INFO ISI FILE EKSTERNAL: 
-		baris 1: ukuran peta
-		baris 2: 
-		*/
 	

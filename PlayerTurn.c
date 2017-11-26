@@ -31,6 +31,8 @@ void NextTurnQueue(Queue *Q, player *p, peta *M, Stack *S)
     add_unit P = First_unit(list_unit(*p));
     while (P != Nil){
         move_point(Info_unit(P)) = max_move_point(Info_unit(P)); 
+        kesempatan_serang(Info_unit(P)) = true;
+        kesempatan_serang(unit_petak(petak(*M, Absis(lokasi_unit(Info_unit(P))),Ordinat(lokasi_unit(Info_unit(P)))))) = true;
         P = Next_unit(P);
     }
     for (int i=0; i<NBrsEff(*M); i++){
@@ -41,20 +43,9 @@ void NextTurnQueue(Queue *Q, player *p, peta *M, Stack *S)
         }
     }
     move_point(selected(*p)) = max_move_point(selected(*p));
-    CreateEmptyStack(S);
-}
+    selected(*p) = Info_unit(address_king(list_unit(*p)));
+    kesempatan_serang(selected(*p)) = true;
 
-/*while (Not Game Over || Not Exit){
-if(InfoHead(Q)==1)
-    {
-        printf("Giliran player 1!!!");
-        COMMAND DI TURN PLAYER 1
-        NextTurnQueue(&Q);
-    }
-else if(InfoHead(Q)==2)
-    {
-        printf("Giliran player 2!!!");
-        COMMAND DI TURN PLAYER 2
-        NextTurnQueue(&Q);
-    }
-}*/
+    CreateEmptyStack(S);
+    
+}
