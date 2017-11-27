@@ -84,10 +84,12 @@ void SalinKata()
 
 Kata BuildKata(char* str){
   Kata ans;
+  int i;
   ans.Length = len(str);
-  for (int i=0; i<len(str); i++){
-  ans.TabKata[i] = str[i];
+  for (i=0; i<len(str); i++){
+  	ans.TabKata[i] = str[i];
   }
+  ans.TabKata[i] = '\0';
   return ans;
 }
 

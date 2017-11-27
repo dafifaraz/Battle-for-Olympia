@@ -473,12 +473,14 @@ void change_unit(player *P){
 void next_unit(player *p){
 	add_unit P = First_unit(list_unit(*p));
 
-	while (P != Nil && kesempatan_serang(Info_unit(P)) != true){
+	while (P != Nil && (kesempatan_serang(Info_unit(P)) != true || move_point(Info_unit(P)) > 0)){
 		P = Next_unit(P);
 	}
 
-	if (P != Nil)
+	if (P != Nil){
+		printf("Your selected unit has been changed to %c (%d,%d)\n",simbol(Info_unit(P)), Absis(lokasi_unit(Info_unit(P))), Ordinat(lokasi_unit(Info_unit(P))));
 		selected(*p) = Info_unit(P);
+	}
 	else // HABIS
 		printf("You don't have any unit left that able to move\n");
 }

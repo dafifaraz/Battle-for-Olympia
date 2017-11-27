@@ -78,22 +78,24 @@ void display_command(){
 	printf("9.  SAVE\n");
 	printf("10. EXIT\n");
 	printf("11. DISPLAY_COMMAND\n");
+	printf("12. NEXT_UNIT\n");
 	printf("\n");
 }
 
 int command_code(Kata str){
-	Kata Kmove = BuildKata("MOVE");
-	Kata Kundo = BuildKata("UNDO");
-	Kata Kchange_unit = BuildKata("CHANGE_UNIT");
-	Kata Krecruit = BuildKata("RECRUIT");
-	Kata Kattack = BuildKata("ATTACK");
 	Kata Kmap = BuildKata("MAP");
 	Kata Kinfo = BuildKata("INFO");
-	Kata Kend_turn = BuildKata("END_TURN");
+	Kata Kmove = BuildKata("MOVE");
+	Kata Kundo = BuildKata("UNDO");
 	Kata Ksave = BuildKata("SAVE");
 	Kata Kexit = BuildKata("EXIT");
-	Kata Kdisplay_command = BuildKata("DISPLAY_COMMAND");
+	Kata Kattack = BuildKata("ATTACK");
+	Kata Krecruit = BuildKata("RECRUIT");
+	Kata Kend_turn = BuildKata("END_TURN");
 	Kata Knext_unit = BuildKata("NEXT_UNIT");
+	Kata Kchange_unit = BuildKata("CHANGE_UNIT");
+	Kata Kdisplay_command = BuildKata("DISPLAY_COMMAND");
+	
 	int code;
 	if (isSamaKata(str,Kmove)){
 		code = 1;
@@ -308,7 +310,8 @@ void MOVE(player *P, peta *M, player *q, Stack *S){
 }
 
 void receive_command(int *code){
-	char str_command[30];
+	char str_command[100];
+	for (int i=0; i<100; i++)str_command[i] = '\0';
 	do{
 		printf("Your input : "); scanf("%s",str_command);
 		Kata lucknut = BuildKata(str_command);
@@ -421,7 +424,7 @@ void do_recruit(player *P, POINT loc_new, peta *M){
 	
 	int no_rec;
 	do {
-		printf("Enter no. of unit that you want to recruit\n");
+		printf("Enter the ID of unit that you want to recruit\n");
 		scanf("%d",&no_rec);
 		if (no_rec < 1 || no_rec > 3){
 			printf("Invalid input\n");
@@ -587,6 +590,7 @@ void do_command(int code, player *p, player *q, peta *M, int turn, long time_sta
 		case 9 :  call_SAVE(M, turn, time_start); break;
 		case 10 : call_EXIT(M, turn, time_start, *game_over); break;
 		case 11 : display_command(); break;
+		case 12 : next_unit(p); break;
 		default : 
 			printf("ERROR\n"); 
 			printf("\n"); 
