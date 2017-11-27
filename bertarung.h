@@ -20,5 +20,5 @@ void MEC_attack(unit *X, unit *Y);
 
 void printUnitName(unit U);
 
-void COMMAND_ATTACK(player *one, player *two, peta *m);
+void COMMAND_ATTACK(player *one, player *two, peta *m, boolean *game_over);
 #endif

@@ -21,7 +21,6 @@ unit empty_unit(POINT lokasi_u){
 }
 
 void assign_unit(unit *u, char tipe_unit, int pemilik_unit){
-	move_point(*u) = 0;
 	kesempatan_serang(*u) = true;
 	simbol(*u) = tipe_unit;
 	pemilik(*u) = pemilik_unit;
@@ -55,6 +54,7 @@ void assign_unit(unit *u, char tipe_unit, int pemilik_unit){
 		tipe_serang(*u) = TS_WHITEMAGE;
 		harga(*u) = H_WHITEMAGE;
 	}
+	move_point(*u) = max_move_point(*u);
 }
 
 boolean isequal_unit(unit u1, unit u2){

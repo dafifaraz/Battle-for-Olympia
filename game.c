@@ -8,6 +8,7 @@
 #include "jam.h"
 #include "game.h"
 #include "bertarung.h"
+#include "stackt.h"
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -152,15 +153,41 @@ boolean isAdaMusuh(POINT P_Select, POINT P2, peta M){
 	return ada;	
 }
 
-void MOVE(player *P, peta *M){ 
+void MOVE(player *P, peta *M, player *q, Stack *S){ 
 	POINT loc = (*P).selected.lokasi;
 	unit slc = (*P).selected; //unit yang sedang dipilih
+	state X;
+	PrevPos(X) = loc; 
+	/***************************	TULIS PETA 	*****************************/
+	printf("\n");
+	printf("  ");
+	for (int i=0; i<NKolEff(*M); i++){
+		for (int j=0; j<4; j++){
+			if (i<10 && j==1){
+				printf("%d",i);
+			} else if (i>=10 && j == 1){
+				printf("%d",i);
+			} else {
+				printf(" ");
+			}
+		}				
+	}
 	printf("\n");
 	for (int i=0; i<NBrsEff(*M); i++){
-		for (int j=0; j<4*NKolEff(*M)+1; j++){
+		printf("  ");
+		for (int j=0; j<4*NKolEff(*M); j++){
 			printf("*");
 		}
+		printf("*");
 		for (int j=0; j<4; j++){
+			if (j==2){
+				printf("%d",i);
+				if (i<10){
+					printf(" ");
+				}
+			} else {
+				printf("  ");
+			}
 			for (int k=0; k<NKolEff(*M); k++){
 				POINT Current = MakePOINT(i,k);
 				for (int l=0; l<4; l++){
@@ -168,9 +195,7 @@ void MOVE(player *P, peta *M){
 						if (l == 0){
 							printf("*");
 						} else if (l == 2){
-							if (j == 0){
-								
-							} else if (j==1){
+							if (j==1){
 								if (milik_petak(petak(*M,i,k)) == 1){
 										print_red(jenis_petak(petak(*M,i,k)));	
 									} else if (milik_petak(petak(*M,i,k)) == 2) {
@@ -179,9 +204,9 @@ void MOVE(player *P, peta *M){
 										printf("%c",jenis_petak(petak(*M,i,k)));
 									}
 							} else if (j==2){
-								if (isequal_unit(unit_petak(petak(*M,i,k)),empty_unit(MakePOINT(i,k))) && (manhattan_dist(Current, loc) <= max_move_point(slc)) && 
+								if (isequal_unit(unit_petak(petak(*M,i,k)),empty_unit(MakePOINT(i,k))) && (manhattan_dist(Current, loc) <= move_point(slc)) && 
 									(isAdaMusuh(loc, MakePOINT(i,k), *M) == 0) && (Absis(loc) == i || Ordinat(loc) == k)){
-									printf("#");
+									print_yellow('#');
 								} 
 								else if (isequal_unit(unit_petak(petak(*M,i,k)),empty_unit(MakePOINT(i,k)))){
 									printf(" ");
@@ -203,6 +228,8 @@ void MOVE(player *P, peta *M){
 						} else {
 							printf(" ");
 						}
+					} else {
+						printf(" ");
 					}
 				}	
 				if (k == NKolEff(*M) - 1 && j!=0){
@@ -212,30 +239,55 @@ void MOVE(player *P, peta *M){
 			printf("\n");
 		}
 	}
+	printf("  ");
 	for (int i=0; i<4*NKolEff(*M)+1; i++) printf("*");
 	printf("\n");
-
+/******************************************	AKHIR TULIS PETA ***************************/
 	int x,y; 
 	boolean moved = false;
-	do{
-		printf("Please enter cell's coordinate x y: ");
-		scanf("%d %d",&x,&y);
-		if (manhattan_dist(MakePOINT(x,y),loc) > max_move_point(slc) || !isequal_unit(unit_petak(petak(*M,x,y)),empty_unit(MakePOINT(x,y))) || 
-			isAdaMusuh(loc, MakePOINT(x,y), *M) || !(Absis(loc) == x || Ordinat(loc) == y)) {
-			printf("Sorry. You can't move there\n");
-		} else {
-			unit temp = selected(*P);
-			swap_unit(&unit_petak(petak(*M,x,y)), &unit_petak(petak(*M,Absis(loc), Ordinat(loc))));
-			printf("Your selected unit has been moved to (%d,%d)\n",x,y);
-			//serching unit di list
-			move_point(unit_petak(petak(*M,x,y))) = manhattan_dist(loc,MakePOINT(x,y));
-			max_move_point(unit_petak(petak(*M,x,y))) -= move_point(unit_petak(petak(*M,x,y)));
-			selected(*P) = unit_petak(petak(*M,x,y));
-			add_unit slc_in_list = Search_listunit(list_unit(*P),temp);
-			Info_unit(slc_in_list) = selected(*P);
-			moved = true;
-		}
-	} while (moved == false);
+	if (move_point(slc) <= 0){
+		printf("Movement point = 0. Your selected unit can't move\n");
+	} else {
+		do{
+			printf("Please enter cell's coordinate x y: ");
+			scanf("%d %d",&x,&y);
+			if (manhattan_dist(MakePOINT(x,y),loc) > move_point(slc) || !isequal_unit(unit_petak(petak(*M,x,y)),empty_unit(MakePOINT(x,y))) || 
+				isAdaMusuh(loc, MakePOINT(x,y), *M) || !(Absis(loc) == x || Ordinat(loc) == y)) {
+				printf("Sorry. You can't move there\n");
+			} else {
+				unit temp = selected(*P);
+				swap_unit(&unit_petak(petak(*M,x,y)), &unit_petak(petak(*M,Absis(loc), Ordinat(loc))));
+				if (jenis_petak(petak(*M,x,y)) == 'V'){
+					MP(X) = move_point(unit_petak(petak(*M,x,y))); // Buat Undo
+					move_point(unit_petak(petak(*M,x,y))) = 0;
+					Take(X) = false;
+					if (milik_petak(petak(*M,x,y)) == simbol_player(*q)){
+						DelP_listpetak (&list_petak(*q), petak(*M,x,y));
+						income(*q) -= INCOME_INC;
+						InsVFirst_listpetak (&list_petak(*P), petak(*M,x,y));
+						Take(X) = true;
+					}
+					printf("This village has been seized.\n");
+					milik_petak(petak(*M,x,y)) = simbol_player(*P);
+					income(*P) += INCOME_INC;			
+				} else {
+					Take(X) = false;
+					MP(X) = move_point(unit_petak(petak(*M,x,y))); // Menyimpan Movement point sebelumnya
+					move_point(unit_petak(petak(*M,x,y))) -= manhattan_dist(loc,MakePOINT(x,y));				
+				}
+
+				printf("Your selected unit has been moved to (%d,%d)\n",x,y);
+				// Searching unit di list
+				NextPos(X) = MakePOINT(x,y);
+				selected(*P) = unit_petak(petak(*M,x,y));
+				add_unit slc_in_list = Search_listunit(list_unit(*P),temp);
+				Info_unit(slc_in_list) = selected(*P);
+				WSelect(X) = slc_in_list;
+				moved = true;
+				Push(S, X); // Push ke stack of state setiap unit bergerak;
+			}
+	} while (moved == false);		
+	}
 }
 
 void receive_command(int *code){
@@ -351,7 +403,7 @@ void do_recruit(player *P, POINT loc_new, peta *M){
 	
 	int no_rec;
 	do {
-		printf("Enter no unit you want to recruit\n");
+		printf("Enter no. of unit that you want to recruit\n");
 		scanf("%d",&no_rec);
 		if (no_rec < 1 || no_rec > 3){
 			printf("Invalid input\n");
@@ -363,23 +415,27 @@ void do_recruit(player *P, POINT loc_new, peta *M){
 		gold(*P) = gold(*P) - H_ARCHER;
 		new_u = unit_petak(petak(*M,Absis(loc_new),Ordinat(loc_new)));
 		assign_unit(&new_u,'A',simbol_player(*P));
-		printf("You have recruit an archer\n");
+
+		printf("You have recruited an archer\n");
 	} else if (no_rec == 2){
 		gold(*P) = gold(*P) - H_SWORDSMAN;
 		new_u = unit_petak(petak(*M,Absis(loc_new),Ordinat(loc_new)));
 		assign_unit(&new_u,'S',simbol_player(*P));
-		printf("You have recruit a swordsman\n");
+		printf("You have recruited a swordsman\n");
 	} else {
 		gold(*P) = gold(*P) - H_WHITEMAGE;
 		new_u = unit_petak(petak(*M,Absis(loc_new),Ordinat(loc_new)));
 		assign_unit(&new_u,'W',simbol_player(*P));
-		printf("You have recruit a whitemage\n");
+
+		printf("You have recruited a whitemage\n");
 	}		
+	move_point(new_u) = 0;
 	InsVLast_listunit(&list_unit(*P),new_u);
 	assign_petak(&(petak(*M,Absis(loc_new),Ordinat(loc_new))),'C',simbol_player(*P),new_u);
+	upkeep(*P) += UP_KEEP_DEC;
 }	
 
-void recruit(player *P, peta *M){
+void recruit(player *P, peta *M, Stack *S){
 	int id_p = simbol_player(*P);
 	petak pt;
 	if (id_p == 1){
@@ -405,7 +461,7 @@ void recruit(player *P, peta *M){
 			int x1, y1;
 			
 			do{
-				printf(">> Enter coordinat x y of your castle\n");
+				printf(">> Enter coordinate x y of your castle\n");
 				printf("<< ");
 				scanf("%d %d",&x1,&y1);
 				if (abs(x-x1) + abs(y-y1) != 1){
@@ -423,6 +479,7 @@ void recruit(player *P, peta *M){
 					} else {
 						printf(">> Your selected castle is occupied\n");						
 					}	
+					CreateEmptyStack(S);
 				}				
 			} while (abs(x-x1) + abs(y-y1) != 1);
 
@@ -499,18 +556,18 @@ void infopetak(peta M)
     }
 }
 
-void do_command(int code, player *p, player *q, peta *M, int turn, long time_start, boolean game_over,Queue *Q){
+void do_command(int code, player *p, player *q, peta *M, int turn, long time_start, boolean *game_over,Queue *Q, Stack *S){
 	switch (code) {
-		case 1 :  MOVE(p,M); break;
-		case 2 :  break;
-		case 3 :  change_unit(p); break;
-		case 4 :  recruit(p,M); break;
-		case 5 :  COMMAND_ATTACK(p,q,M); break;
+		case 1 :  MOVE(p,M,q,S); break;
+		case 2 :  UNDO(p,M,q,S); break;
+		case 3 :  change_unit(p); CreateEmptyStack(S); break;
+		case 4 :  recruit(p,M,S); break;
+		case 5 :  COMMAND_ATTACK(p,q,M, game_over); CreateEmptyStack(S); break;
 		case 6 :  display_peta(*M,*p); break;
 		case 7 :  infopetak(*M); break;
-		case 8 :  NextTurnQueue(Q); break;
+		case 8 :  NextTurnQueue(Q,p,M,S); break;
 		case 9 :  call_SAVE(M, turn, time_start); break;
-		case 10 : call_EXIT(M, turn, time_start, game_over); break;
+		case 10 : call_EXIT(M, turn, time_start, *game_over); break;
 		case 11 : display_command(); break;
 		default : 
 			printf("ERROR\n"); 
@@ -519,3 +576,29 @@ void do_command(int code, player *p, player *q, peta *M, int turn, long time_sta
 	}
 }
 
+void UNDO(player *P, peta *M, player *q, Stack *S){
+	state X;
+
+	if (IsEmptyStack(*S)){
+		printf("You cannot UNDO anymore, you haven't done anything.\n");
+	}
+	else {
+		Pop(S,&X);
+		swap_unit(&unit_petak(petak(*M,Absis(PrevPos(X)),Ordinat(PrevPos(X)))), &unit_petak(petak(*M,Absis(NextPos(X)), Ordinat(NextPos(X)))));
+		if (jenis_petak(petak(*M, Absis(NextPos(X)),Ordinat(NextPos(X)))) == 'V'){
+			DelP_listpetak (&list_petak(*P), petak(*M,Absis(NextPos(X)),Ordinat(NextPos(X))));
+			if (Take(X) == true){
+				milik_petak(petak(*M,Absis(NextPos(X)),Ordinat(NextPos(X)))) = simbol_player(*q);
+				income(*q) += INCOME_INC;
+				InsVFirst_listpetak (&list_petak(*q), petak(*M,Absis(NextPos(X)),Ordinat(NextPos(X))));
+			} else {
+				milik_petak(petak(*M,Absis(NextPos(X)),Ordinat(NextPos(X)))) = 0;
+			}
+			income(*P) -= INCOME_INC;
+		}
+		move_point(unit_petak(petak(*M,Absis(PrevPos(X)),Ordinat(PrevPos(X))))) = MP(X);				
+		Info_unit(WSelect(X)) = unit_petak(petak(*M,Absis(PrevPos(X)),Ordinat(PrevPos(X))));
+		selected(*P) = Info_unit(WSelect(X));
+		printf("Your last move has been canceled.\n");
+	}
+}

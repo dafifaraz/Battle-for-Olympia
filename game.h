@@ -10,9 +10,13 @@
 #include "jam.h"
 #include "bertarung.h"
 #include "PlayerTurn.h"
+#include "stackt.h"
 
 #define MAX_BARIS_peta 100
 #define MAX_KOLOM_peta 100
+
+#define UP_KEEP_DEC 5
+#define INCOME_INC 5
 
 void start_game(boolean *new_game);
 /*I.S. 	: Sembarang
@@ -39,7 +43,7 @@ void receive_command (int *code);
 
 boolean is_tercapai(POINT slc, POINT tujuan, peta m, int max_move);
 
-void MOVE(player *P, peta *M);
+void MOVE(player *P, peta *M, player *q, Stack *S);
 
 void call_SAVE(peta *M, int TURN, long time_start); //incomplete
 
@@ -47,12 +51,16 @@ void call_EXIT(peta *M, int TURN, long time_start, boolean game_over);
 
 void do_recruit(player *P, POINT loc_new, peta *M);
 
-void recruit(player *P, peta *M);
+void recruit(player *P, peta *M, Stack *S);
 
 void infopetak(peta M);
 
-void do_command(int code, player *p, player *q, peta *M, int turn, long time_start, boolean game_over, Queue *Q);
+void do_command(int code, player *p, player *q, peta *M, int turn, long time_start, boolean *game_over, Queue *Q, Stack *S);
 /*I.S. : parameter terdefinisi
   F.S. : menjalankan command yang bersesuaian dengan code */
+
+void UNDO(player *P, peta *M, player *q, Stack *S);
+/* I.S. : P adalah player yang saat ini mendapat giliran, q adalah musuh P, S adalah Stack of State
+	F.S. : 'Membatalkan' move sebelumnya, posisi unit yang baru saja digerakkan kembali ke posisi sebelumnya. */
 
 #endif

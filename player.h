@@ -9,7 +9,6 @@
 #include <stdio.h>
 
 /***********************	LIST OF UNIT 	**************************/
-
 #define Nil NULL
 
 typedef struct t_unitlist *add_unit;
@@ -30,6 +29,8 @@ boolean IsEmpty_listunit(listunit L);
 void CreateEmpty_listunit(listunit *L);
 
 add_unit Alokasi_listunit(unit X);
+
+add_unit address_king(listunit L);
 
 void Dealokasi_listunit(add_unit *P);
 
