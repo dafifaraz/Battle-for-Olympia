@@ -208,5 +208,7 @@ void init_player(player *p, char wrn, int smb);
 
 void change_unit(player *p);
 
+void next_unit(player *p);
+
 void display_player_info(player p);
 #endif

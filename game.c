@@ -12,6 +12,9 @@
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "mesinkata.h"
+
+
 
 void start_game(boolean *new_game){
 	printf("\n");
@@ -75,33 +78,49 @@ void display_command(){
 	printf("9.  SAVE\n");
 	printf("10. EXIT\n");
 	printf("11. DISPLAY_COMMAND\n");
+	printf("12. NEXT_UNIT\n");
 	printf("\n");
 }
 
-int command_code(char* str){
+int command_code(Kata str){
+	Kata Kmap = BuildKata("MAP");
+	Kata Kinfo = BuildKata("INFO");
+	Kata Kmove = BuildKata("MOVE");
+	Kata Kundo = BuildKata("UNDO");
+	Kata Ksave = BuildKata("SAVE");
+	Kata Kexit = BuildKata("EXIT");
+	Kata Kattack = BuildKata("ATTACK");
+	Kata Krecruit = BuildKata("RECRUIT");
+	Kata Kend_turn = BuildKata("END_TURN");
+	Kata Knext_unit = BuildKata("NEXT_UNIT");
+	Kata Kchange_unit = BuildKata("CHANGE_UNIT");
+	Kata Kdisplay_command = BuildKata("DISPLAY_COMMAND");
+	
 	int code;
-	if (isequal_str(str,"MOVE")){
+	if (isSamaKata(str,Kmove)){
 		code = 1;
-	} else if (isequal_str(str,"UNDO")){
+	} else if (isSamaKata(str,Kundo)){
 		code = 2;
-	} else if (isequal_str(str,"CHANGE_UNIT")){
+	} else if (isSamaKata(str,Kchange_unit)){
 		code = 3;
-	} else if (isequal_str(str,"RECRUIT")){
+	} else if (isSamaKata(str,Krecruit)){
 		code = 4;
-	} else if (isequal_str(str,"ATTACK")){
+	} else if (isSamaKata(str,Kattack)){
 		code = 5;
-	} else if (isequal_str(str,"MAP")){
+	} else if (isSamaKata(str,Kmap)){
 		code = 6;
-	} else if (isequal_str(str,"INFO")){
+	} else if (isSamaKata(str,Kinfo)){
 		code = 7;
-	} else if (isequal_str(str,"END_TURN")){
+	} else if (isSamaKata(str,Kend_turn)){
 		code = 8;
-	} else if (isequal_str(str,"SAVE")){
+	} else if (isSamaKata(str,Ksave)){
 		code = 9;
-	} else if (isequal_str(str,"EXIT")){
+	} else if (isSamaKata(str,Kexit)){
 		code = 10;
-	} else if (isequal_str(str,"DISPLAY_COMMAND")){
+	} else if (isSamaKata(str,Kdisplay_command)){
 		code = 11;
+	} else if (isSamaKata(str,Knext_unit)) { 
+		code = 12;
 	} else {
 		code = 0;
 	}
@@ -292,9 +311,11 @@ void MOVE(player *P, peta *M, player *q, Stack *S){
 
 void receive_command(int *code){
 	char str_command[100];
+	for (int i=0; i<100; i++)str_command[i] = '\0';
 	do{
 		printf("Your input : "); scanf("%s",str_command);
-		*code = command_code(str_command);
+		Kata lucknut = BuildKata(str_command);
+		*code = command_code(lucknut);
 		if (*code == 0){
 			printf("Command %s is not available\n",str_command);
 			printf("\n");
@@ -403,7 +424,7 @@ void do_recruit(player *P, POINT loc_new, peta *M){
 	
 	int no_rec;
 	do {
-		printf("Enter no. of unit that you want to recruit\n");
+		printf("Enter the ID of unit that you want to recruit\n");
 		scanf("%d",&no_rec);
 		if (no_rec < 1 || no_rec > 3){
 			printf("Invalid input\n");
@@ -565,10 +586,11 @@ void do_command(int code, player *p, player *q, peta *M, int turn, long time_sta
 		case 5 :  COMMAND_ATTACK(p,q,M, game_over); CreateEmptyStack(S); break;
 		case 6 :  display_peta(*M,*p); break;
 		case 7 :  infopetak(*M); break;
-		case 8 :  NextTurnQueue(Q,p,M,S); break;
+		case 8 :  NextTurnQueue(Q,p,q,M,S); break;
 		case 9 :  call_SAVE(M, turn, time_start); break;
 		case 10 : call_EXIT(M, turn, time_start, *game_over); break;
 		case 11 : display_command(); break;
+		case 12 : next_unit(p); break;
 		default : 
 			printf("ERROR\n"); 
 			printf("\n"); 
@@ -601,4 +623,83 @@ void UNDO(player *P, peta *M, player *q, Stack *S){
 		selected(*P) = Info_unit(WSelect(X));
 		printf("Your last move has been canceled.\n");
 	}
+}
+
+void white_heal(player *P, peta *M){
+	add_unit A = First_unit(list_unit(*P));
+
+	while (A != Nil){
+		if (simbol(Info_unit(A)) == 'W')
+			healing(Info_unit(A), P, M);
+		A = Next_unit(A);
+	}
+}
+
+void healing(unit W, player *P, peta *M){
+	unit l = unit_petak(petak(*M,Absis(left(lokasi_unit(W))),Ordinat(left(lokasi_unit(W)))));
+    unit r = unit_petak(petak(*M,Absis(right(lokasi_unit(W))),Ordinat(right(lokasi_unit(W)))));
+    unit u = unit_petak(petak(*M,Absis(up(lokasi_unit(W))),Ordinat(up(lokasi_unit(W)))));
+    unit d = unit_petak(petak(*M,Absis(down(lokasi_unit(W))),Ordinat(down(lokasi_unit(W)))));
+
+    boolean bl,br,bd,bu;
+
+    bl = false; br = false; bd = false; bu = false;
+
+    if (pemilik(W) == pemilik(l)) bl = true;
+    if (pemilik(W) == pemilik(r)) br = true;
+    if (pemilik(W) == pemilik(d)) bd = true;
+    if (pemilik(W) == pemilik(u)) bu = true;
+
+    if (!bl && !br && !bd && !bu)
+    	printf("No unit is adjacent to your White Mage (%d,%d), so it's not healing anyone.\n", Absis(lokasi_unit(W)), Ordinat(lokasi_unit(W)));
+
+    add_unit u_in_list;
+
+    if (bl){
+    	u_in_list = Search_listunit(list_unit(*P), l);
+    	health(l) += 10;
+    	if (health(l) > max_health(l))
+    		health(l) = max_health(l);
+    	unit_petak(petak(*M,Absis(left(lokasi_unit(W))),Ordinat(left(lokasi_unit(W))))) = l;
+    	Info_unit(u_in_list) = l;
+    	printf("Your ");
+        printUnitName(l);
+        printf("(%d,%d) health is restored by 10.\n", Absis(lokasi_unit(l)), Ordinat(lokasi_unit(l)));
+    }
+
+    if (br){
+    	u_in_list = Search_listunit(list_unit(*P), r);
+    	health(r) += 10;
+    	if (health(r) > max_health(r))
+    		health(r) = max_health(r);
+    	unit_petak(petak(*M,Absis(right(lokasi_unit(W))),Ordinat(right(lokasi_unit(W))))) = r;
+    	Info_unit(u_in_list) = r;
+    	printf("Your ");
+        printUnitName(r);
+        printf("(%d,%d) health is restored by 10.\n", Absis(lokasi_unit(r)), Ordinat(lokasi_unit(r)));
+    }
+
+    if (bd){
+    	u_in_list = Search_listunit(list_unit(*P), d);
+    	health(d) += 10;
+    	if (health(d) > max_health(d))
+    		health(d) = max_health(d);
+    	unit_petak(petak(*M,Absis(down(lokasi_unit(W))),Ordinat(down(lokasi_unit(W))))) = d;
+    	Info_unit(u_in_list) = d;
+    	printf("Your ");
+        printUnitName(d);
+        printf("(%d,%d) health is restored by 10.\n", Absis(lokasi_unit(d)), Ordinat(lokasi_unit(d)));
+    }
+
+    if (bu){
+    	u_in_list = Search_listunit(list_unit(*P), u);
+    	health(u) += 8;
+    	if (health(u) > max_health(u))
+    		health(u) = max_health(u);
+    	unit_petak(petak(*M,Absis(up(lokasi_unit(W))),Ordinat(up(lokasi_unit(W))))) = u;
+    	Info_unit(u_in_list) = u;
+    	printf("Your ");
+        printUnitName(u);
+        printf("(%d,%d) health is restored by 10.\n", Absis(lokasi_unit(u)), Ordinat(lokasi_unit(u)));
+    }
 }

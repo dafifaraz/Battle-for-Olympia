@@ -19,7 +19,6 @@ typedef struct{
 	char simbol;
 	int pemilik; //menunjukkan pemilik unit, jika bernilai 1 maka milik player 1, jika bernilai 2 maka milik player 2, jika 0 maka ia adalah "empty unit"
 } unit;
-
 #define max_health(U) (U).max_health
 #define health(U) (U).health
 #define attack(U) (U).attack

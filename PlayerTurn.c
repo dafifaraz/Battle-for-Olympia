@@ -4,6 +4,7 @@
 #include "player.h"
 #include "peta.h"
 #include "stackt.h"
+#include "game.h"
 
 /*pakai dengan menggunakan & ex.NextTurnQueue(&Q)*/
 
@@ -22,7 +23,7 @@ void CreateTurnQueue21(Queue *Q)
     Add(Q,1);
 }
 
-void NextTurnQueue(Queue *Q, player *p, peta *M, Stack *S)
+void NextTurnQueue(Queue *Q, player *p, player *q, peta *M, Stack *S)
 {
     int A;
     Del(Q,&A);
@@ -45,7 +46,6 @@ void NextTurnQueue(Queue *Q, player *p, peta *M, Stack *S)
     move_point(selected(*p)) = max_move_point(selected(*p));
     selected(*p) = Info_unit(address_king(list_unit(*p)));
     kesempatan_serang(selected(*p)) = true;
-
+    white_heal(q, M);
     CreateEmptyStack(S);
-    
 }

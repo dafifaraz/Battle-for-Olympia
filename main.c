@@ -9,8 +9,10 @@
 #include "jam.h"
 #include "game.h"
 #include "stackt.h"
+#include "mesinkata.h"
 
 int main(){
+	
 	peta main_peta;
 	player p1,p2;
 	Queue Q;
