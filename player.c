@@ -435,7 +435,6 @@ void change_unit(player *P){
 			printf("No ");
 		}
 		printf(" | Price: %d\n",harga(Info_unit(CU)));
-		printf("\n");
 		CU = Next_unit(CU);
 		cnt++;
 	}
