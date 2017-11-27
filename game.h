@@ -8,10 +8,9 @@
 #include "player.h"
 #include "kata.h"
 #include "jam.h"
-#include "bertarung.h"
-#include "PlayerTurn.h"
 #include "stackt.h"
 #include "mesinkata.h"
+#include "queue.h"
 
 #define MAX_BARIS_peta 100
 #define MAX_KOLOM_peta 100
@@ -67,4 +66,22 @@ void UNDO(player *P, peta *M, player *q, Stack *S);
 void white_heal(player *P, peta *M);
 
 void healing(unit W, player *P, peta *M);
+
+boolean MEC_canAttack(unit A, unit B);
+
+boolean MEC_canAttack(unit A, unit B);
+
+boolean MEC_canRetaliates(unit X, unit Y);
+
+void MEC_attack(unit *X, unit *Y);
+
+void printUnitName(unit U);
+
+void COMMAND_ATTACK(player *one, player *two, peta *m, boolean *game_over);
+
+void CreateTurnQueue12(Queue *Q);
+
+void CreateTurnQueue21(Queue *Q);
+
+void NextTurnQueue(Queue *Q, player *p, player *q, peta *M, Stack *S);
 #endif
