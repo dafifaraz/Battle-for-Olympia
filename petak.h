@@ -18,7 +18,7 @@ typedef struct{
 #define income_petak(p) (p).income
 
 
-boolean isequal_petak(petak p1, petak p2);
+boolean isequal_petak(petak p1, petak p2); 
 //Mengecek kesamaan petak
 
 petak empty_petak(POINT lokasi_p);
