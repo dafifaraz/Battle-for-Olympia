@@ -6,6 +6,7 @@
 
 #include "mesinkar.h"
 #include "mesinkata.h"
+#include "kata.h"
 
 boolean EndKata;
 Kata CKata;
@@ -79,5 +80,25 @@ void SalinKata()
 	}
 	CKata.Length = i;
 	IgnoreBlank();
+}
 
+Kata BuildKata(char* str){
+  Kata ans;
+  ans.Length = len(str);
+  for (int i=0; i<len(str); i++){
+  ans.TabKata[i] = str[i];
+  }
+  return ans;
+}
+
+boolean isSamaKata(Kata K1, Kata K2){
+  if (K1.Length == K2.Length){
+    int i=0;
+    while (i<K1.Length && K1.TabKata[i] == K2.TabKata[i]){
+      i++;
+    }
+    return K1.TabKata[i] == K2.TabKata[i];
+  } else {
+    return false;
+  }
 }

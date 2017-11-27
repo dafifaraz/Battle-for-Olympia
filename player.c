@@ -470,6 +470,19 @@ void change_unit(player *P){
 	printf("\n");
 }
 
+void next_unit(player *p){
+	add_unit P = First_unit(list_unit(*p));
+
+	while (P != Nil && kesempatan_serang(Info_unit(P)) != true){
+		P = Next_unit(P);
+	}
+
+	if (P != Nil)
+		selected(*p) = Info_unit(P);
+	else // HABIS
+		printf("You don't have any unit left that able to move\n");
+}
+
 void display_player_info(player p){
 	int x = Absis(lokasi_unit(selected(p)));
 	int y = Ordinat(lokasi_unit(selected(p)));

@@ -11,6 +11,7 @@
 #include "bertarung.h"
 #include "PlayerTurn.h"
 #include "stackt.h"
+#include "mesinkata.h"
 
 #define MAX_BARIS_peta 100
 #define MAX_KOLOM_peta 100
@@ -32,7 +33,7 @@ void display_command();
 /*I.S. : Sembarang 
   F.S. : Ditampilkan daftar command yang tersedia pada permainan */
 
-int command_code(char *str);
+int command_code(Kata str);
 /*str adakah string. return integer 0 jika bukan command. Jika tidak, 1 : MOVE, 2 : UNDO, 3 : CHANGE_UNIT
   4 : RECRUIT, 5 : ATTACK, 6 : MAP, 7 : INFO, 8 : END_TURN, 9 : SAVE, 10 : EXIT, 11 : DISPLAY_COMMAND */
 

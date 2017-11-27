@@ -12,6 +12,9 @@
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "mesinkata.h"
+
+
 
 void start_game(boolean *new_game){
 	printf("\n");
@@ -78,30 +81,44 @@ void display_command(){
 	printf("\n");
 }
 
-int command_code(char* str){
+int command_code(Kata str){
+	Kata Kmove = BuildKata("MOVE");
+	Kata Kundo = BuildKata("UNDO");
+	Kata Kchange_unit = BuildKata("CHANGE_UNIT");
+	Kata Krecruit = BuildKata("RECRUIT");
+	Kata Kattack = BuildKata("ATTACK");
+	Kata Kmap = BuildKata("MAP");
+	Kata Kinfo = BuildKata("INFO");
+	Kata Kend_turn = BuildKata("END_TURN");
+	Kata Ksave = BuildKata("SAVE");
+	Kata Kexit = BuildKata("EXIT");
+	Kata Kdisplay_command = BuildKata("DISPLAY_COMMAND");
+	Kata Knext_unit = BuildKata("NEXT_UNIT");
 	int code;
-	if (isequal_str(str,"MOVE")){
+	if (isSamaKata(str,Kmove)){
 		code = 1;
-	} else if (isequal_str(str,"UNDO")){
+	} else if (isSamaKata(str,Kundo)){
 		code = 2;
-	} else if (isequal_str(str,"CHANGE_UNIT")){
+	} else if (isSamaKata(str,Kchange_unit)){
 		code = 3;
-	} else if (isequal_str(str,"RECRUIT")){
+	} else if (isSamaKata(str,Krecruit)){
 		code = 4;
-	} else if (isequal_str(str,"ATTACK")){
+	} else if (isSamaKata(str,Kattack)){
 		code = 5;
-	} else if (isequal_str(str,"MAP")){
+	} else if (isSamaKata(str,Kmap)){
 		code = 6;
-	} else if (isequal_str(str,"INFO")){
+	} else if (isSamaKata(str,Kinfo)){
 		code = 7;
-	} else if (isequal_str(str,"END_TURN")){
+	} else if (isSamaKata(str,Kend_turn)){
 		code = 8;
-	} else if (isequal_str(str,"SAVE")){
+	} else if (isSamaKata(str,Ksave)){
 		code = 9;
-	} else if (isequal_str(str,"EXIT")){
+	} else if (isSamaKata(str,Kexit)){
 		code = 10;
-	} else if (isequal_str(str,"DISPLAY_COMMAND")){
+	} else if (isSamaKata(str,Kdisplay_command)){
 		code = 11;
+	} else if (isSamaKata(str,Knext_unit)) { 
+		code = 12;
 	} else {
 		code = 0;
 	}
@@ -291,10 +308,11 @@ void MOVE(player *P, peta *M, player *q, Stack *S){
 }
 
 void receive_command(int *code){
-	char str_command[100];
+	char str_command[30];
 	do{
 		printf("Your input : "); scanf("%s",str_command);
-		*code = command_code(str_command);
+		Kata lucknut = BuildKata(str_command);
+		*code = command_code(lucknut);
 		if (*code == 0){
 			printf("Command %s is not available\n",str_command);
 			printf("\n");
@@ -671,7 +689,7 @@ void healing(unit W, player *P, peta *M){
 
     if (bu){
     	u_in_list = Search_listunit(list_unit(*P), u);
-    	health(u) += 10;
+    	health(u) += 8;
     	if (health(u) > max_health(u))
     		health(u) = max_health(u);
     	unit_petak(petak(*M,Absis(up(lokasi_unit(W))),Ordinat(up(lokasi_unit(W))))) = u;
