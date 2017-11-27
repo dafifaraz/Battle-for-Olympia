@@ -565,7 +565,7 @@ void do_command(int code, player *p, player *q, peta *M, int turn, long time_sta
 		case 5 :  COMMAND_ATTACK(p,q,M, game_over); CreateEmptyStack(S); break;
 		case 6 :  display_peta(*M,*p); break;
 		case 7 :  infopetak(*M); break;
-		case 8 :  NextTurnQueue(Q,p,M,S); break;
+		case 8 :  NextTurnQueue(Q,p,q,M,S); break;
 		case 9 :  call_SAVE(M, turn, time_start); break;
 		case 10 : call_EXIT(M, turn, time_start, *game_over); break;
 		case 11 : display_command(); break;
@@ -601,4 +601,83 @@ void UNDO(player *P, peta *M, player *q, Stack *S){
 		selected(*P) = Info_unit(WSelect(X));
 		printf("Your last move has been canceled.\n");
 	}
+}
+
+void white_heal(player *P, peta *M){
+	add_unit A = First_unit(list_unit(*P));
+
+	while (A != Nil){
+		if (simbol(Info_unit(A)) == 'W')
+			healing(Info_unit(A), P, M);
+		A = Next_unit(A);
+	}
+}
+
+void healing(unit W, player *P, peta *M){
+	unit l = unit_petak(petak(*M,Absis(left(lokasi_unit(W))),Ordinat(left(lokasi_unit(W)))));
+    unit r = unit_petak(petak(*M,Absis(right(lokasi_unit(W))),Ordinat(right(lokasi_unit(W)))));
+    unit u = unit_petak(petak(*M,Absis(up(lokasi_unit(W))),Ordinat(up(lokasi_unit(W)))));
+    unit d = unit_petak(petak(*M,Absis(down(lokasi_unit(W))),Ordinat(down(lokasi_unit(W)))));
+
+    boolean bl,br,bd,bu;
+
+    bl = false; br = false; bd = false; bu = false;
+
+    if (pemilik(W) == pemilik(l)) bl = true;
+    if (pemilik(W) == pemilik(r)) br = true;
+    if (pemilik(W) == pemilik(d)) bd = true;
+    if (pemilik(W) == pemilik(u)) bu = true;
+
+    if (!bl && !br && !bd && !bu)
+    	printf("No unit is adjacent to your White Mage (%d,%d), so it's not healing anyone.\n", Absis(lokasi_unit(W)), Ordinat(lokasi_unit(W)));
+
+    add_unit u_in_list;
+
+    if (bl){
+    	u_in_list = Search_listunit(list_unit(*P), l);
+    	health(l) += 10;
+    	if (health(l) > max_health(l))
+    		health(l) = max_health(l);
+    	unit_petak(petak(*M,Absis(left(lokasi_unit(W))),Ordinat(left(lokasi_unit(W))))) = l;
+    	Info_unit(u_in_list) = l;
+    	printf("Your ");
+        printUnitName(l);
+        printf("(%d,%d) health is restored by 10.\n", Absis(lokasi_unit(l)), Ordinat(lokasi_unit(l)));
+    }
+
+    if (br){
+    	u_in_list = Search_listunit(list_unit(*P), r);
+    	health(r) += 10;
+    	if (health(r) > max_health(r))
+    		health(r) = max_health(r);
+    	unit_petak(petak(*M,Absis(right(lokasi_unit(W))),Ordinat(right(lokasi_unit(W))))) = r;
+    	Info_unit(u_in_list) = r;
+    	printf("Your ");
+        printUnitName(r);
+        printf("(%d,%d) health is restored by 10.\n", Absis(lokasi_unit(r)), Ordinat(lokasi_unit(r)));
+    }
+
+    if (bd){
+    	u_in_list = Search_listunit(list_unit(*P), d);
+    	health(d) += 10;
+    	if (health(d) > max_health(d))
+    		health(d) = max_health(d);
+    	unit_petak(petak(*M,Absis(down(lokasi_unit(W))),Ordinat(down(lokasi_unit(W))))) = d;
+    	Info_unit(u_in_list) = d;
+    	printf("Your ");
+        printUnitName(d);
+        printf("(%d,%d) health is restored by 10.\n", Absis(lokasi_unit(d)), Ordinat(lokasi_unit(d)));
+    }
+
+    if (bu){
+    	u_in_list = Search_listunit(list_unit(*P), u);
+    	health(u) += 10;
+    	if (health(u) > max_health(u))
+    		health(u) = max_health(u);
+    	unit_petak(petak(*M,Absis(up(lokasi_unit(W))),Ordinat(up(lokasi_unit(W))))) = u;
+    	Info_unit(u_in_list) = u;
+    	printf("Your ");
+        printUnitName(u);
+        printf("(%d,%d) health is restored by 10.\n", Absis(lokasi_unit(u)), Ordinat(lokasi_unit(u)));
+    }
 }

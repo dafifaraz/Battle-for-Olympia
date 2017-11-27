@@ -63,4 +63,7 @@ void UNDO(player *P, peta *M, player *q, Stack *S);
 /* I.S. : P adalah player yang saat ini mendapat giliran, q adalah musuh P, S adalah Stack of State
 	F.S. : 'Membatalkan' move sebelumnya, posisi unit yang baru saja digerakkan kembali ke posisi sebelumnya. */
 
+void white_heal(player *P, peta *M);
+
+void healing(unit W, player *P, peta *M);
 #endif

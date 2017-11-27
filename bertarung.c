@@ -137,7 +137,7 @@ void COMMAND_ATTACK(player *one, player *two, peta *m, boolean *game_over){
             printf("Enemy\'s ");
             printUnitName(serang);
             printf(" retaliates.\n");
-            printf("Your's ");
+            printf("Your ");
             printUnitName(selected(*one));
             printf(" is damaged by %d.\n", attack(serang));
             
