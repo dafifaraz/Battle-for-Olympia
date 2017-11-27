@@ -1,7 +1,13 @@
 #include "peta.h"
+#include "point.h"
+#include "petak.h"
+#include "player.h"
+#include "unit.h"
+#include "boolean.h"
 #include <time.h>
 #include <math.h>
 #include "pcolor.h"
+//#include "stackt.h"
 
 void empty_peta(peta *M, int NB, int NK){
 	NBrsEff(*M) = NB;
