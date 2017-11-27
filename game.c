@@ -325,19 +325,22 @@ void receive_command(int *code){
 	} while (*code == 0);
 }
 
-void call_SAVE(peta *M, int TURN, long time_start) //incomplete
+void call_SAVE(peta *M, int TURN, long time_start, player p1, player p2) //incomplete
 {
 	FILE *fp;
 	fp = fopen("save_game.txt", "w");
-	if (fp == NULL)
-	{
+	if (fp == NULL){
 		printf("Save game failed, please try again later\n");
-	} else
-	{
+	} else {
 		fprintf(fp,"%d %d\n", NBrsEff(*M), NKolEff(*M)); // Besar Map
-		fprintf(fp,"%d\n", TURN);					  // Turn siapa
-		
-		/*masukkan state menggunakan fprintf() ke file external*/
+		fprintf(fp,"%d\n", TURN);					  // Turn siapa		
+		//save data player p1
+		add_unit unit_p1 = First_unit(list_unit(p1));
+		int cnt = 0;
+		while (unit_p1 != Nil){
+			cnt++;
+			unit_p1 = Next_unit(unit_p1);
+		}
 	}
 
 	/* NOTE: Hal2 yg perlu disimpen
@@ -363,7 +366,7 @@ void call_SAVE(peta *M, int TURN, long time_start) //incomplete
 
 }
 
-void call_EXIT(peta *M, int TURN, long time_start, boolean game_over)
+void call_EXIT(peta *M, int TURN, long time_start, boolean game_over, player p1, player p2)
 {
 	char savegame;
 	printf("Would you like to save the game? (y/n)\n");
@@ -377,7 +380,7 @@ void call_EXIT(peta *M, int TURN, long time_start, boolean game_over)
 
     if (savegame == ('y'))
     {
-        call_SAVE(M, TURN, time_start);
+        call_SAVE(M, TURN, time_start, p1, p2);
     } else if (savegame == ('n'))
     {
     }
@@ -385,28 +388,6 @@ void call_EXIT(peta *M, int TURN, long time_start, boolean game_over)
 	game_over = true;
 	exit('\n');
 }
-
-/*
-void CreateTurnQueue12(Queue *Q)
-{
-    CreateEmpty(Q,2);
-    Add(Q,1);
-    Add(Q,2);
-}
-
-void CreateTurnQueue21(Queue *Q)
-{
-    CreateEmpty(Q,2);
-    Add(Q,2);
-    Add(Q,1);
-}
-
-void NextTurnQueue(Queue *Q)
-{
-    int A;
-    Del(Q,&A);
-    Add(Q,A);
-} */
 
 void do_recruit(player *P, POINT loc_new, peta *M){
 	printf("List of recruits\n");
@@ -589,8 +570,8 @@ void do_command(int code, player *p, player *q, peta *M, int turn, long time_sta
 		case 6 :  display_peta(*M,*p); break;
 		case 7 :  infopetak(*M); break;
 		case 8 :  NextTurnQueue(Q,p,q,M,S); break;
-		case 9 :  call_SAVE(M, turn, time_start); break;
-		case 10 : call_EXIT(M, turn, time_start, *game_over); break;
+		case 9 :  call_SAVE(M, turn, time_start,*p,*q); break;
+		case 10 : call_EXIT(M, turn, time_start, *game_over,*p,*q); break;
 		case 11 : display_command(); break;
 		case 12 : next_unit(p); break;
 		default : 

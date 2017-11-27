@@ -45,9 +45,9 @@ boolean is_tercapai(POINT slc, POINT tujuan, peta m, int max_move);
 
 void MOVE(player *P, peta *M, player *q, Stack *S);
 
-void call_SAVE(peta *M, int TURN, long time_start); //incomplete
+void call_SAVE(peta *M, int TURN, long time_start,player p1, player p2); //incomplete
 
-void call_EXIT(peta *M, int TURN, long time_start, boolean game_over);
+void call_EXIT(peta *M, int TURN, long time_start, boolean game_over,player p1, player p2);
 
 void do_recruit(player *P, POINT loc_new, peta *M);
 

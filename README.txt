@@ -1,4 +1,9 @@
- Battle for Olympia
+    ____        __  __  __        ______              ____  __                      _      
+   / __ )____ _/ /_/ /_/ /__     / ____/___  _____   / __ \/ /_  ______ ___  ____  (_)___ _
+  / __  / __ `/ __/ __/ / _ \   / /_  / __ \/ ___/  / / / / / / / / __ `__ \/ __ \/ / __ `/
+ / /_/ / /_/ / /_/ /_/ /  __/  / __/ / /_/ / /     / /_/ / / /_/ / / / / / / /_/ / / /_/ / 
+/_____/\__,_/\__/\__/_/\___/  /_/    \____/_/      \____/_/\__, /_/ /_/ /_/ .___/_/\__,_/  
+                                                          /____/         /_/               
 
 Dibuat untuk memenuhi tugas besar mata kuliah Algoritma dan Struktur Data
 
@@ -9,25 +14,4 @@ Dibuat oleh :
 - Rifo Ahmad Genadi
 - Seldi Kurnia Trihardja  
 
-Done 
-Dafi	: Command 10 (exit), revisi start_game
-Dion	: Buat ADT Unit, revisi peta
-Mol	: Mekanisme bertarung
-Rifo	: Buat ADT Peta, revisi peta
-Seldi	: Buat Village, Turn
-
-Pembagian Tugas
-1. Dion : Menu utama, unit, command (3,4)
-2. Dafi : state awal permainan, command(9,10), kondisi akhir
-3. Mol : mekanisme bertarung, command(5)
-4. Rifo : Peta, command(1,2,6)
-5. Seldi : village, command(7,8)
-
-PENTING!
-Untuk menyimpan waktu ketika save harus menggunakan ADT Jam
-Untuk menunjukkan posisi unit pada setiap waktu harus menggunakan ADT Point
-Untuk representasi peta harus menggunakan ADT Matriks
-Untuk membaca informasi dari file external, membaca command, dan membaca state dari game yang sudah disimpan harus menggunakan ADT Mesinkar dan Mesin Kata
-Untuk menentukan giliran pemain harus menggunakan ADT Queue
-Untuk command Undo harus menggunakan ADT Stack
-Untuk daftar pemain, daftar village, dan daftar unit harus menggunakan ADT List Linier (variasi apapun)
+Untuk compile: gcc -lm -o main main.c peta.c player.c petak.c unit.c point.c stackt.c kata.c jam.c game.c pcolor.c queue.c mesinkar.c mesinkata.c
